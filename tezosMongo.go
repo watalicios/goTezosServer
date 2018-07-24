@@ -83,7 +83,7 @@ func GetAllBlocks() ([]string, error){
     return blocks, errors.New("Could not get hash for block head")
   }
 
-  for i := 0; i < headLevel; i ++{
+  for i := headLevel-10; i < headLevel; i ++{
     block, err := GetBlock(i, headHash[1], headLevel)
     if (err != nil){
       return blocks, err
