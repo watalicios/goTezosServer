@@ -68,7 +68,7 @@ func SynchronizeTezosMongo(){
 
   for _, block := range blocks{
     //fmt.Println(block)
-    _, err := collection.InsertOne(context.Background(), []byte(string(block)))
+    _, err := collection.InsertOne(context.Background(), block.(*[]byte))
     if err != nil { fmt.Println("Error: " + err.Error()) }
   }
 }
