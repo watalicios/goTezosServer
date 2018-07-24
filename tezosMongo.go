@@ -167,6 +167,7 @@ func ConvertToBson(v []byte) *bson.Document {
 //fmt.Println(v)
   err := bson.Unmarshal(b, doc)
   if (err != nil){
+    fmt.Println("Error")
     fmt.Println(err)
   }
 //  fmt.Println(doc)
