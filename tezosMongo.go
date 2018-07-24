@@ -15,7 +15,7 @@ import (
   "regexp"
   "strconv"
   //"bytes"
-  "encoding/json"
+  //"encoding/json"
 )
 
 type BlockByte struct{
