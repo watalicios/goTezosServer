@@ -73,7 +73,7 @@ func SynchronizeTezosMongo(){
   }
 }
 
-func GetAllBlocks() (*[]bson.Document, error){
+func GetAllBlocks() ([]bson.Document, error){
   var blocks []bson.Document
   head, err := GetBlockHead()
   if (err != nil){
@@ -100,7 +100,7 @@ func GetAllBlocks() (*[]bson.Document, error){
   return blocks, nil
 }
 
-func GetBlock(level int, headHash string, headLevel int) (*bson.Document, error){
+func GetBlock(level int, headHash string, headLevel int) (bson.Document, error){
   diff := headLevel - level
   diffStr := strconv.Itoa(diff)
   getBlockByLevel := "chains/main/blocks/" + headHash + "~" + diffStr
@@ -110,7 +110,8 @@ func GetBlock(level int, headHash string, headLevel int) (*bson.Document, error)
   if (err != nil){
     return blockByte, err
   }
-  blockByte = ConvertToBson(s)
+  tmp := ConvertToBson(s)
+  blockByte = *tmp
   return blockByte, nil
 }
 
