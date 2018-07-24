@@ -13,7 +13,7 @@ import (
   "os/exec"
   "errors"
   "github.com/mongodb/mongo-go-driver/mongo"
-  "github.com/mongodb/mongo-go-driver/bson"
+  "github.com/mongodb/mongo-tools/common/bsonutil"
   "context"
   "regexp"
   "strconv"
@@ -73,8 +73,8 @@ func SynchronizeTezosMongo(){
   }
 }
 
-func GetAllBlocks() ([]bson.Document, error){
-  var blocks []bson.Document
+func GetAllBlocks() ([]{}interface, error){
+  var blocks []{}interface
   head, err := GetBlockHead()
   if (err != nil){
     return blocks, err
@@ -100,18 +100,18 @@ func GetAllBlocks() ([]bson.Document, error){
   return blocks, nil
 }
 
-func GetBlock(level int, headHash string, headLevel int) (bson.Document, error){
+func GetBlock(level int, headHash string, headLevel int) ({}interface, error){
   diff := headLevel - level
   diffStr := strconv.Itoa(diff)
   getBlockByLevel := "chains/main/blocks/" + headHash + "~" + diffStr
-  var blockByte bson.Document
+  var blockByte {}interface
 
   s, err := TezosRPCGet(getBlockByLevel)
   if (err != nil){
     return blockByte, err
   }
-  tmp := ConvertToBson(s)
-  blockByte = *tmp
+
+  blockByte = ConvertToBson(s)
   return blockByte, nil
 }
 
@@ -158,20 +158,12 @@ func GetBlockHead() ([]byte, error){
 Description: Takes an  array of interface (struct in our case), jsonifies it, and allows a much neater print.
 Param v (interface{}): Array of an interface
 */
-func ConvertToBson(v []byte) *bson.Document {
-  n := bytes.NewReader(v)
-  fmt.Println(n)
-  b, _ := bson.Marshal(n)
-  fmt.Println(b)
-  doc := bson.NewDocument()
-//fmt.Println(v)
-  err := bson.Unmarshal(b, doc)
-  if (err != nil){
-    fmt.Println("Error")
-    fmt.Println(err)
-  }
+func ConvertToBson(v {}interface) {}interface {
+  b, _ := json.MarshalIndent(v, "", "  ")
+  block, _ := bsonutil.ConvertJSONValueToBSON(b)
+
 //  fmt.Println(doc)
-  return doc
+  return block
 }
 
 /*
