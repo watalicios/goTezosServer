@@ -65,6 +65,7 @@ func SynchronizeTezosMongo(){
   collection := client.Database("TEZOS").Collection("blocks")
 
   for _, block := range blocks{
+    fmt.Println("Len: " + len(block.Bytes))
     _, err := collection.InsertOne(context.Background(), block.Bytes)
     if err != nil { fmt.Println(err) }
   }
