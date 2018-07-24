@@ -90,6 +90,7 @@ func GetAllBlocks() ([]string, error){
     }
     blocks = append(blocks, block)
   }
+  fmt.Println(blocks)
 
   return blocks, nil
 }
