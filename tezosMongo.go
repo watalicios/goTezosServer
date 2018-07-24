@@ -16,29 +16,28 @@ import (
   "github.com/mongodb/mongo-go-driver/mongo"
 )
 
-func SynchronizeTezosRedis(){
+func SynchronizeTezosMongo(){
   blocks, err := GetAllBlocks()
   if (err != nil){
     fmt.Println(err)
   }
 
-  client, err := mongo.NewClient("mongodb://foo:bar@localhost:27017")
+  client, err := mongo.NewClient("mongodb://admin:1234@localhost:27017")
   if err != nil {
      fmt.Println(err)
    }
   err = client.Connect(context.TODO())
   if err != nil {
-     fmt.Println(err) 
+     fmt.Println(err)
    }
 
   collection := client.Database("TEZOS").Collection("blocks")
 
   for _, block := range blocks{
-    _, err := collection.InsertOne(context.Background(), map[string]string{"hello": "world"})
-    if err != nil { log.Fatal(err) }
+    _, err := collection.InsertOne(context.Background(), block)
+    if err != nil { fmt.Println(err) }
     id := res.InsertedID
   }
-
 }
 
 func GetAllBlocks() ([]string, error){
