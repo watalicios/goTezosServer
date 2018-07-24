@@ -154,7 +154,7 @@ Param v (interface{}): Array of an interface
 func ConvertToJson(v interface{}) string {
   b, err := json.MarshalIndent(v, "", "  ")
   if err == nil {
-    fmt.Println(string(b))
+    //fmt.Println(string(b))
     return string(b)
   }
   return ""
