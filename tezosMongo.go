@@ -160,8 +160,10 @@ Param v (interface{}): Array of an interface
 func ConvertToBson(v []byte) []byte {
   var block []byte
   fmt.Println(v)
-  bson.Unmarshal(v, block)
-
+  err := bson.Unmarshal(v, block)
+  if (err != nil){
+    fmt.Println(err)
+  }
   fmt.Println(block)
   return block
 }
