@@ -9,16 +9,39 @@ License: MIT
 
 import (
   "fmt"
+  "os"
   "os/exec"
   "errors"
   "encoding/json"
   "github.com/mongodb/mongo-go-driver/mongo"
   "context"
+  "regexp"
+  "strconv"
 )
 
 var (
   reGetBlockLevelHead = regexp.MustCompile(`"level": ([0-9]+), "proto"`)
+  reGetHash = regexp.MustCompile(`"hash": "([0-9a-zA-Z]+)",`)
 )
+
+var TezosPath string
+
+/*
+Description: This library needs the TEZOSPATH enviroment variable to function
+*/
+func init() {
+  var ok bool
+  TezosPath, ok = os.LookupEnv("TEZOSPATH")
+  if !ok {
+	   fmt.Println("TEZOSPATH not set. Please 'export TEZOSPATH=<path_to_tezos>'.")
+	   os.Exit(1)
+  }
+  TezosPath = TezosPath + "tezos-client"
+  if _, err := os.Stat(TezosPath); os.IsNotExist(err) {
+    fmt.Println("Could not find tezos-client in TEZOSPATH: " + err.Error())
+    os.Exit(1)
+  }
+}
 
 func SynchronizeTezosMongo(){
   blocks, err := GetAllBlocks()
@@ -55,7 +78,7 @@ func GetAllBlocks() ([]string, error){
     return blocks, errors.New("Could not get block level for head")
   }
   headLevel, _ := strconv.Atoi(regHeadLevelResult[1]) //TODO Error Checking
-  headHash := reGetHash.FindStringSubmatch(s) //TODO Error check the regex
+  headHash := reGetHash.FindStringSubmatch(head) //TODO Error check the regex
   if (headHash == nil){
     return blocks, errors.New("Could not get hash for block head")
   }
@@ -67,6 +90,8 @@ func GetAllBlocks() ([]string, error){
     }
     blocks = append(blocks, block)
   }
+
+  return blocks, nil
 }
 
 func GetBlock(level int, headHash string, headLevel int) (string, error){
@@ -112,7 +137,7 @@ Returns (int): Returns integer representation of block level
 func GetBlockHead() (string, error){
   s, err := TezosRPCGet("chains/main/blocks/head")
   if (err != nil){
-    return 0, errors.New("Could not get block level for head: TezosRPCGet(arg string) failed: " + err.Error())
+    return "", errors.New("Could not get block level for head: TezosRPCGet(arg string) failed: " + err.Error())
   }
   return s, nil
 }
