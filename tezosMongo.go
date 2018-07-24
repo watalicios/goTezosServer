@@ -159,9 +159,12 @@ Description: Takes an  array of interface (struct in our case), jsonifies it, an
 Param v (interface{}): Array of an interface
 */
 func ConvertToBson(v interface{}) interface{} {
-  b, _ := json.MarshalIndent(v, "", "  ")
-  block, _ := bsonutil.ConvertJSONValueToBSON(b)
-
+  b, _ := json.Marshal(v)
+  fmt.Println(b)
+  block, err := bsonutil.ConvertJSONValueToBSON(b)
+  if (err != nil){
+    fmt.Println("ERROR: " + err.Error())
+  }
 //  fmt.Println(doc)
   return block
 }
