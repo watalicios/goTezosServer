@@ -19,6 +19,10 @@ import (
   "strconv"
 )
 
+type BlockByte struct{
+  Bytes []byte
+}
+
 var (
   reGetBlockLevelHead = regexp.MustCompile(`"level": ([0-9]+), "proto"`)
   reGetHash = regexp.MustCompile(`"hash": "([0-9a-zA-Z]+)",`)
@@ -61,13 +65,13 @@ func SynchronizeTezosMongo(){
   collection := client.Database("TEZOS").Collection("blocks")
 
   for _, block := range blocks{
-    _, err := collection.InsertOne(context.Background(), block)
+    _, err := collection.InsertOne(context.Background(), block.Bytes)
     if err != nil { fmt.Println(err) }
   }
 }
 
-func GetAllBlocks() ([]string, error){
-  var blocks []string
+func GetAllBlocks() ([]BlockByte, error){
+  var blocks []BlockByte
   head, err := GetBlockHead()
   if (err != nil){
     return blocks, err
@@ -89,24 +93,22 @@ func GetAllBlocks() ([]string, error){
       return blocks, err
     }
     blocks = append(blocks, block)
-    fmt.Println(block)
   }
-
-
   return blocks, nil
 }
 
-func GetBlock(level int, headHash string, headLevel int) (string, error){
+func GetBlock(level int, headHash string, headLevel int) (BlockByte, error){
   diff := headLevel - level
   diffStr := strconv.Itoa(diff)
   getBlockByLevel := "chains/main/blocks/" + headHash + "~" + diffStr
+  var blockByte BlockByte
 
   s, err := TezosRPCGet(getBlockByLevel)
   if (err != nil){
-    return s, err
+    return blockByte, err
   }
-  s = ConvertToJson(s)
-  return s, nil
+  blockByte = ConvertToJson(s)
+  return blockByte, nil
 }
 
 /*
@@ -152,13 +154,13 @@ func GetBlockHead() (string, error){
 Description: Takes an  array of interface (struct in our case), jsonifies it, and allows a much neater print.
 Param v (interface{}): Array of an interface
 */
-func ConvertToJson(v interface{}) string {
+func ConvertToJson(v interface{}) BlockByte {
+  var blockByte BlockByte
   b, err := json.MarshalIndent(v, "", "  ")
   if err == nil {
-    //fmt.Println(string(b))
-    return string(b)
+    blockByte.Bytes = b
   }
-  return ""
+  return blockByte
 }
 
 /*
