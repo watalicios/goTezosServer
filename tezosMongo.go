@@ -160,10 +160,12 @@ Returns (string): Returns the output of the executed command as a string
 */
 func MongoAddBlock(json string) (error){
   fmt.Println(json)
+  json = "[" + json "]"
   out, err := exec.Command("mongoimport", "--db", "TEZOS", "--collection", "blocks", "--type", "json", json).Output()
   if err != nil {
     return  err
   }
+
   fmt.Println(out)
 
   return nil
