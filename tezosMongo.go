@@ -68,13 +68,13 @@ func SynchronizeTezosMongo(){
     //fmt.Println(len(block.Bytes))
     fmt.Println("block")
     fmt.Println(block)
-    _, err := collection.InsertOne(context.Background(), block)
+    _, err := collection.InsertOne(context.Background(), block.Bytes)
     if err != nil { fmt.Println(err) }
   }
 }
 
-func GetAllBlocks() ([]bson.Unmarshaler, error){
-  var blocks []bson.Unmarshaler
+func GetAllBlocks() ([]BlockByte, error){
+  var blocks []BlockByte
   head, err := GetBlockHead()
   if (err != nil){
     return blocks, err
@@ -95,12 +95,12 @@ func GetAllBlocks() ([]bson.Unmarshaler, error){
     if (err != nil){
       return blocks, err
     }
-    blocks = append(blocks, block)
+    blocks = append(blocks, BlockByte{Bytes:block})
   }
   return blocks, nil
 }
 
-func GetBlock(level int, headHash string, headLevel int) (bson.Unmarshaler, error){
+func GetBlock(level int, headHash string, headLevel int) ([]byte, error){
   diff := headLevel - level
   diffStr := strconv.Itoa(diff)
   getBlockByLevel := "chains/main/blocks/" + headHash + "~" + diffStr
@@ -157,10 +157,10 @@ func GetBlockHead() ([]byte, error){
 Description: Takes an  array of interface (struct in our case), jsonifies it, and allows a much neater print.
 Param v (interface{}): Array of an interface
 */
-func ConvertToBson(v []byte) bson.Unmarshaler {
-  var blockByte bson.Unmarshaler
+func ConvertToBson(v []byte) []byte] {
+  var block []byte
   fmt.Println(v)
-  bson.Unmarshal(v, &blockByte)
+  bson.Unmarshal(v, &block)
 
   fmt.Println(blockByte)
   return blockByte
