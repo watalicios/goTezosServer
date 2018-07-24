@@ -164,6 +164,7 @@ func MongoAddBlock(json string) (error){
   fmt.Println(json)
   out, err := exec.Command("mongoimport", "--db", "TEZOS", "--collection", "blocks", "--type", "json", json).Output()
   if err != nil {
+    fmt.Println(err)
     return  err
   }
 
