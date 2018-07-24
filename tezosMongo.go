@@ -9,11 +9,15 @@ License: MIT
 
 import (
   "fmt"
-  "os"
   "os/exec"
   "errors"
   "encoding/json"
   "github.com/mongodb/mongo-go-driver/mongo"
+  "context"
+)
+
+var (
+  reGetBlockLevelHead = regexp.MustCompile(`"level": ([0-9]+), "proto"`)
 )
 
 func SynchronizeTezosMongo(){
@@ -29,14 +33,13 @@ func SynchronizeTezosMongo(){
   err = client.Connect(context.TODO())
   if err != nil {
      fmt.Println(err)
-   }
+  }
 
   collection := client.Database("TEZOS").Collection("blocks")
 
   for _, block := range blocks{
     _, err := collection.InsertOne(context.Background(), block)
     if err != nil { fmt.Println(err) }
-    id := res.InsertedID
   }
 }
 
