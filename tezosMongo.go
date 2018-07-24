@@ -73,7 +73,7 @@ func SynchronizeTezosMongo(){
   }
 }
 
-func GetAllBlocks() ([]bson.Document, error){
+func GetAllBlocks() (*[]bson.Document, error){
   var blocks []bson.Document
   head, err := GetBlockHead()
   if (err != nil){
@@ -100,7 +100,7 @@ func GetAllBlocks() ([]bson.Document, error){
   return blocks, nil
 }
 
-func GetBlock(level int, headHash string, headLevel int) (bson.Document, error){
+func GetBlock(level int, headHash string, headLevel int) (*bson.Document, error){
   diff := headLevel - level
   diffStr := strconv.Itoa(diff)
   getBlockByLevel := "chains/main/blocks/" + headHash + "~" + diffStr
@@ -157,7 +157,7 @@ func GetBlockHead() ([]byte, error){
 Description: Takes an  array of interface (struct in our case), jsonifies it, and allows a much neater print.
 Param v (interface{}): Array of an interface
 */
-func ConvertToBson(v []byte) bson.Document {
+func ConvertToBson(v []byte) *bson.Document {
   doc := bson.NewDocument()
   fmt.Println(v)
   err := bson.Unmarshal(v, doc)
