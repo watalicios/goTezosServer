@@ -12,7 +12,6 @@ import (
   "os"
   "os/exec"
   "errors"
-  "encoding/json"
   "github.com/mongodb/mongo-go-driver/mongo"
   "github.com/mongodb/mongo-go-driver/bson"
   "context"
@@ -81,12 +80,12 @@ func GetAllBlocks() ([]bson.Unmarshaler, error){
     return blocks, err
   }
 
-  regHeadLevelResult := reGetBlockLevelHead.FindStringSubmatch(head)
+  regHeadLevelResult := reGetBlockLevelHead.FindStringSubmatch(string(head[:]))
   if (regHeadLevelResult == nil){
     return blocks, errors.New("Could not get block level for head")
   }
   headLevel, _ := strconv.Atoi(regHeadLevelResult[1]) //TODO Error Checking
-  headHash := reGetHash.FindStringSubmatch(head) //TODO Error check the regex
+  headHash := reGetHash.FindStringSubmatch(string(head[:])) //TODO Error check the regex
   if (headHash == nil){
     return blocks, errors.New("Could not get hash for block head")
   }
@@ -142,7 +141,7 @@ Returns (string): A string representation of the hash for the block level querie
 Description: Will retreive the current block level as an integer
 Returns (int): Returns integer representation of block level
 */
-func GetBlockHead() (string, error){
+func GetBlockHead() ([]byte, error){
   s, err := TezosRPCGet("chains/main/blocks/head")
   if (err != nil){
     return "", errors.New("Could not get block level for head: TezosRPCGet(arg string) failed: " + err.Error())
@@ -172,13 +171,13 @@ Description: A function that executes a command to the tezos-client
 Param args ([]string): Arguments to be executed
 Returns (string): Returns the output of the executed command as a string
 */
-func TezosDo(args ...string) (string, error){
+func TezosDo(args ...string) ([]byte, error){
   out, err := exec.Command(TezosPath, args...).Output()
   if err != nil {
-    return "", err
+    return out, err
   }
 
-  return string(out[:]), nil
+  return out, nil
 }
 
 /*
@@ -186,7 +185,7 @@ Description: A function that executes an rpc get arg
 Param args ([]string): Arguments to be executed
 Returns (string): Returns the output of the executed command as a string
 */
-func TezosRPCGet(arg string) (string, error){
+func TezosRPCGet(arg string) ([]byte, error){
   output, err := TezosDo("rpc", "get", arg)
   if (err != nil){
     return output, errors.New("Could not rpc get " + arg + " : tezosDo(args ...string) failed: " + err.Error())
