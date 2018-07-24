@@ -84,7 +84,7 @@ func GetAllBlocks() ([]string, error){
   }
 
   for i := 0; i < headLevel; i ++{
-    block, err := GetBlock(i, headHash, headLevel)
+    block, err := GetBlock(i, headHash[1], headLevel)
     if (err != nil){
       return blocks, err
     }
