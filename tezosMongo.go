@@ -17,6 +17,7 @@ import (
   "context"
   "regexp"
   "strconv"
+  "bytes"
 //  "encoding/json"
 )
 
@@ -66,8 +67,6 @@ func SynchronizeTezosMongo(){
   collection := client.Database("TEZOS").Collection("blocks")
 
   for _, block := range blocks{
-    //fmt.Println(len(block.Bytes))
-    fmt.Println("block")
     fmt.Println(block)
     _, err := collection.InsertOne(context.Background(), block)
     if err != nil { fmt.Println(err) }
@@ -160,7 +159,7 @@ Description: Takes an  array of interface (struct in our case), jsonifies it, an
 Param v (interface{}): Array of an interface
 */
 func ConvertToBson(v []byte) *bson.Document {
-  b, _ := bson.Marshal(v)
+  b, _ := bson.Marshal(bytes.NewReader(v))
   fmt.Println(b)
   doc := bson.NewDocument()
 //fmt.Println(v)
