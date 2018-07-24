@@ -160,8 +160,8 @@ Description: Takes an  array of interface (struct in our case), jsonifies it, an
 Param v (interface{}): Array of an interface
 */
 func ConvertToBson(v []byte) *bson.Document {
-  b, _ := json.MarshalIndent(v, "", "  ")
-
+  b, _ := bson.Marshal(v)
+  fmt.Println(b)
   doc := bson.NewDocument()
 //fmt.Println(v)
   err := bson.Unmarshal(b, doc)
