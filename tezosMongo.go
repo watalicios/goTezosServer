@@ -55,26 +55,13 @@ func SynchronizeTezosMongo(){
     fmt.Println(err)
   }
 
-  client, err := mongo.NewClient("mongodb://127.0.0.1:27017")
-  if err != nil {
-     fmt.Println(err)
-   }
-  err = client.Connect(context.TODO())
-  if err != nil {
-     fmt.Println(err)
-  }
-
-  collection := client.Database("TEZOS").Collection("blocks")
-
   for _, block := range blocks{
-    //fmt.Println(block)
-    _, err := collection.InsertOne(context.Background(), []byte(block.(string)))
-    if err != nil { fmt.Println("Error: " + err.Error()) }
+    MongoAddBlock(block)
   }
 }
 
-func GetAllBlocks() ([]interface{}, error){
-  var blocks []interface{}
+func GetAllBlocks() ([]string, error){
+  var blocks []string
   head, err := GetBlockHead()
   if (err != nil){
     return blocks, err
@@ -100,18 +87,18 @@ func GetAllBlocks() ([]interface{}, error){
   return blocks, nil
 }
 
-func GetBlock(level int, headHash string, headLevel int) (interface{}, error){
+func GetBlock(level int, headHash string, headLevel int) (string, error){
   diff := headLevel - level
   diffStr := strconv.Itoa(diff)
   getBlockByLevel := "chains/main/blocks/" + headHash + "~" + diffStr
-  var blockByte interface{}
+  var blockByte string
 
   s, err := TezosRPCGet(getBlockByLevel)
   if (err != nil){
     return blockByte, err
   }
 
-  blockByte = ConvertToBson(s)
+  blockByte = s
   return blockByte, nil
 }
 
@@ -174,13 +161,27 @@ Description: A function that executes a command to the tezos-client
 Param args ([]string): Arguments to be executed
 Returns (string): Returns the output of the executed command as a string
 */
-func TezosDo(args ...string) ([]byte, error){
-  out, err := exec.Command(TezosPath, args...).Output()
+func MongoAddBlock(json string) (error){
+  _, err := exec.Command("mongoimport", "--db", "TEZOS", "--collection", "blocks", "--type", "json", json).Output()
   if err != nil {
-    return out, err
+    return  err
   }
 
-  return out, nil
+  return nil
+}
+
+/*
+Description: A function that executes a command to the tezos-client
+Param args ([]string): Arguments to be executed
+Returns (string): Returns the output of the executed command as a string
+*/
+func TezosDo(args ...string) (string, error){
+  out, err := exec.Command(TezosPath, args...).Output()
+  if err != nil {
+    return string(out[:]), err
+  }
+
+  return string(out[:]), nil
 }
 
 /*
@@ -188,7 +189,7 @@ Description: A function that executes an rpc get arg
 Param args ([]string): Arguments to be executed
 Returns (string): Returns the output of the executed command as a string
 */
-func TezosRPCGet(arg string) ([]byte, error){
+func TezosRPCGet(arg string) (string, error){
   output, err := TezosDo("rpc", "get", arg)
   if (err != nil){
     return output, errors.New("Could not rpc get " + arg + " : tezosDo(args ...string) failed: " + err.Error())
