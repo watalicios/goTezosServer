@@ -17,6 +17,7 @@ import (
   "context"
   "regexp"
   "strconv"
+  "encoding/json"
 )
 
 type BlockByte struct{
@@ -159,13 +160,15 @@ Description: Takes an  array of interface (struct in our case), jsonifies it, an
 Param v (interface{}): Array of an interface
 */
 func ConvertToBson(v []byte) *bson.Document {
+  b, _ := json.MarshalIndent(v, "", "  ")
+
   doc := bson.NewDocument()
-  fmt.Println(v)
-  err := bson.Unmarshal(v, doc)
+//fmt.Println(v)
+  err := bson.Unmarshal(b, doc)
   if (err != nil){
     fmt.Println(err)
   }
-  fmt.Println(doc)
+//  fmt.Println(doc)
   return doc
 }
 
