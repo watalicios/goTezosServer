@@ -73,8 +73,8 @@ func SynchronizeTezosMongo(){
   }
 }
 
-func GetAllBlocks() ([]{}interface, error){
-  var blocks []{}interface
+func GetAllBlocks() ([]interface{}, error){
+  var blocks []interface{}
   head, err := GetBlockHead()
   if (err != nil){
     return blocks, err
@@ -100,7 +100,7 @@ func GetAllBlocks() ([]{}interface, error){
   return blocks, nil
 }
 
-func GetBlock(level int, headHash string, headLevel int) ({}interface, error){
+func GetBlock(level int, headHash string, headLevel int) (interface{}, error){
   diff := headLevel - level
   diffStr := strconv.Itoa(diff)
   getBlockByLevel := "chains/main/blocks/" + headHash + "~" + diffStr
