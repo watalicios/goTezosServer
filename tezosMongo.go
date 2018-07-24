@@ -160,10 +160,9 @@ Param v (interface{}): Array of an interface
 */
 func ConvertToBson(v interface{}) bson.Unmarshaler {
   var blockByte bson.Unmarshaler
-  b, err := json.MarshalIndent(v, "", "  ")
-  if err == nil {
-     bson.Unmarshal(b, &blockByte)
-  }
+
+  bson.Unmarshal(v, &blockByte)
+
   fmt.Println(blockByte)
   return blockByte
 }
