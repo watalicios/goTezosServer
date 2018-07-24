@@ -14,6 +14,7 @@ import (
   "errors"
   "encoding/json"
   "github.com/mongodb/mongo-go-driver/mongo"
+  "github.com/mongodb/mongo-go-driver/bson"
   "context"
   "regexp"
   "strconv"
@@ -65,14 +66,14 @@ func SynchronizeTezosMongo(){
   collection := client.Database("TEZOS").Collection("blocks")
 
   for _, block := range blocks{
-    fmt.Println(len(block.Bytes))
-    _, err := collection.InsertOne(context.Background(), block.Bytes)
+    //fmt.Println(len(block.Bytes))
+    _, err := collection.InsertOne(context.Background(), block)
     if err != nil { fmt.Println(err) }
   }
 }
 
-func GetAllBlocks() ([]BlockByte, error){
-  var blocks []BlockByte
+func GetAllBlocks() ([]bson.Unmarshaler, error){
+  var blocks []bson.Unmarshaler
   head, err := GetBlockHead()
   if (err != nil){
     return blocks, err
@@ -98,11 +99,11 @@ func GetAllBlocks() ([]BlockByte, error){
   return blocks, nil
 }
 
-func GetBlock(level int, headHash string, headLevel int) (BlockByte, error){
+func GetBlock(level int, headHash string, headLevel int) (bson.Unmarshaler, error){
   diff := headLevel - level
   diffStr := strconv.Itoa(diff)
   getBlockByLevel := "chains/main/blocks/" + headHash + "~" + diffStr
-  var blockByte BlockByte
+  var blockByte bson.Unmarshaler
 
   s, err := TezosRPCGet(getBlockByLevel)
   if (err != nil){
@@ -155,11 +156,11 @@ func GetBlockHead() (string, error){
 Description: Takes an  array of interface (struct in our case), jsonifies it, and allows a much neater print.
 Param v (interface{}): Array of an interface
 */
-func ConvertToJson(v interface{}) BlockByte {
-  var blockByte BlockByte
+func ConvertToJBson(v interface{}) bson.Unmarshaler {
+  var blockByte bson.Unmarshaler
   b, err := json.MarshalIndent(v, "", "  ")
   if err == nil {
-    blockByte.Bytes = b
+    blockByte = bson.Unmarshal(b, &blockByte)
   }
   return blockByte
 }
