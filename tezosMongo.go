@@ -161,7 +161,7 @@ Param v (interface{}): Array of an interface
 func ConvertToBson(v interface{}) interface{} {
   b, _ := json.Marshal(v)
   fmt.Println(b)
-  block, err := bsonutil.ConvertJSONValueToBSON(b)
+  block, err := bsonutil.ConvertJSONValueToBSON(string(b[:]))
   if (err != nil){
     fmt.Println("ERROR: " + err.Error())
   }
