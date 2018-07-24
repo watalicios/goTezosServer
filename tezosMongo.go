@@ -89,8 +89,9 @@ func GetAllBlocks() ([]string, error){
       return blocks, err
     }
     blocks = append(blocks, block)
+    fmt.Println(block)
   }
-  fmt.Println(blocks)
+
 
   return blocks, nil
 }
