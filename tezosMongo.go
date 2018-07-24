@@ -158,7 +158,7 @@ func GetBlockHead() ([]byte, error){
 Description: Takes an  array of interface (struct in our case), jsonifies it, and allows a much neater print.
 Param v (interface{}): Array of an interface
 */
-func ConvertToBson(v {}interface) interface{} {
+func ConvertToBson(v interface{}) interface{} {
   b, _ := json.MarshalIndent(v, "", "  ")
   block, _ := bsonutil.ConvertJSONValueToBSON(b)
 
