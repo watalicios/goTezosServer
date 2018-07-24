@@ -104,7 +104,7 @@ func GetBlock(level int, headHash string, headLevel int) ([]byte, error){
   diff := headLevel - level
   diffStr := strconv.Itoa(diff)
   getBlockByLevel := "chains/main/blocks/" + headHash + "~" + diffStr
-  var blockByte bson.Unmarshaler
+  var blockByte []byte
 
   s, err := TezosRPCGet(getBlockByLevel)
   if (err != nil){
@@ -162,8 +162,8 @@ func ConvertToBson(v []byte) []byte {
   fmt.Println(v)
   bson.Unmarshal(v, &block)
 
-  fmt.Println(blockByte)
-  return blockByte
+  fmt.Println(block)
+  return block
 }
 
 /*
