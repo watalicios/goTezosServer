@@ -144,7 +144,7 @@ Returns (int): Returns integer representation of block level
 func GetBlockHead() ([]byte, error){
   s, err := TezosRPCGet("chains/main/blocks/head")
   if (err != nil){
-    return "", errors.New("Could not get block level for head: TezosRPCGet(arg string) failed: " + err.Error())
+    return s, errors.New("Could not get block level for head: TezosRPCGet(arg string) failed: " + err.Error())
   }
   return s, nil
 }
@@ -157,7 +157,7 @@ func GetBlockHead() ([]byte, error){
 Description: Takes an  array of interface (struct in our case), jsonifies it, and allows a much neater print.
 Param v (interface{}): Array of an interface
 */
-func ConvertToBson(v interface{}) bson.Unmarshaler {
+func ConvertToBson(v []byte]) bson.Unmarshaler {
   var blockByte bson.Unmarshaler
 
   bson.Unmarshal(v, &blockByte)
