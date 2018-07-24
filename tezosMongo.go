@@ -104,7 +104,7 @@ func GetBlock(level int, headHash string, headLevel int) (interface{}, error){
   diff := headLevel - level
   diffStr := strconv.Itoa(diff)
   getBlockByLevel := "chains/main/blocks/" + headHash + "~" + diffStr
-  var blockByte {}interface
+  var blockByte interface{}
 
   s, err := TezosRPCGet(getBlockByLevel)
   if (err != nil){
@@ -158,7 +158,7 @@ func GetBlockHead() ([]byte, error){
 Description: Takes an  array of interface (struct in our case), jsonifies it, and allows a much neater print.
 Param v (interface{}): Array of an interface
 */
-func ConvertToBson(v {}interface) {}interface {
+func ConvertToBson(v {}interface) interface{} {
   b, _ := json.MarshalIndent(v, "", "  ")
   block, _ := bsonutil.ConvertJSONValueToBSON(b)
 
