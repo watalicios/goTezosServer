@@ -12,9 +12,6 @@ import (
   "os"
   "os/exec"
   "errors"
-  "github.com/mongodb/mongo-go-driver/mongo"
-  "github.com/mongodb/mongo-tools/common/bsonutil"
-  "context"
   "regexp"
   "strconv"
   //"bytes"
@@ -129,7 +126,7 @@ Returns (string): A string representation of the hash for the block level querie
 Description: Will retreive the current block level as an integer
 Returns (int): Returns integer representation of block level
 */
-func GetBlockHead() ([]byte, error){
+func GetBlockHead() (string, error){
   s, err := TezosRPCGet("chains/main/blocks/head")
   if (err != nil){
     return s, errors.New("Could not get block level for head: TezosRPCGet(arg string) failed: " + err.Error())
@@ -145,16 +142,16 @@ func GetBlockHead() ([]byte, error){
 Description: Takes an  array of interface (struct in our case), jsonifies it, and allows a much neater print.
 Param v (interface{}): Array of an interface
 */
-func ConvertToBson(v interface{}) interface{} {
-  b, _ := json.MarshalIndent(v, "", "  ")
-  //fmt.Println(b)
-  block, err := bsonutil.ConvertJSONValueToBSON(string(b))
-  if (err != nil){
-    fmt.Println("ERROR: " + err.Error())
-  }
-//  fmt.Println(doc)
-  return block
-}
+// func ConvertToBson(v interface{}) interface{} {
+//   b, _ := json.MarshalIndent(v, "", "  ")
+//   //fmt.Println(b)
+//   block, err := bsonutil.ConvertJSONValueToBSON(string(b))
+//   if (err != nil){
+//     fmt.Println("ERROR: " + err.Error())
+//   }
+// //  fmt.Println(doc)
+//   return block
+// }
 
 /*
 Description: A function that executes a command to the tezos-client
