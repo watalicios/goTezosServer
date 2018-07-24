@@ -109,7 +109,7 @@ func GetBlock(level int, headHash string, headLevel int) (bson.Unmarshaler, erro
   if (err != nil){
     return blockByte, err
   }
-  blockByte = ConvertToJson(s)
+  blockByte = ConvertToBson(s)
   return blockByte, nil
 }
 
@@ -160,7 +160,7 @@ func ConvertToJBson(v interface{}) bson.Unmarshaler {
   var blockByte bson.Unmarshaler
   b, err := json.MarshalIndent(v, "", "  ")
   if err == nil {
-    blockByte = bson.Unmarshal(b, &blockByte)
+     bson.Unmarshal(b, &blockByte)
   }
   return blockByte
 }
