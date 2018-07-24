@@ -54,7 +54,7 @@ func SynchronizeTezosMongo(){
     fmt.Println(err)
   }
 
-  client, err := mongo.NewClient("mongodb://admin:1234@localhost:27017")
+  client, err := mongo.NewClient("mongodb://localhost:27017")
   if err != nil {
      fmt.Println(err)
    }
