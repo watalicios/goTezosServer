@@ -54,7 +54,7 @@ func SynchronizeTezosMongo(){
 
   session, err := mgo.Dial("localhost:21017")
   c := session.DB("TEZOS").C("blocks")
-
+  fmt.Println(c)
 
   // for _, block := range blocks{
   //   MongoAddBlock(block)
