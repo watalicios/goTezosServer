@@ -6,7 +6,6 @@ import (
   "gopkg.in/mgo.v2/bson"
 )
 
-
 func GetBlock(arg interface{}) (Block, error){
   result := Block{}
   level := -1
@@ -82,7 +81,6 @@ func GetBlockHash(arg interface{}) (string, error) {
 //   }
 //   return block.Header, nil
 // }
-
 
 func GetBlockHeaderLevel(arg interface{}) (int, error) {
   block, err := GetBlock(arg)

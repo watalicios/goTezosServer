@@ -21,7 +21,7 @@ type Block struct {
 		ProofOfWorkNonce string    `json:"proof_of_work_nonce"`
 		Signature        string    `json:"signature"`
 	} `json:"header"`
-	Metadata struct {
+	type Metadata struct {
 		Protocol        string `json:"protocol"`
 		NextProtocol    string `json:"next_protocol"`
 		TestChainStatus struct {
@@ -81,6 +81,7 @@ type Block struct {
 		Signature string `json:"signature"`
 	} `json:"operations"`
 }
+
 
 type SnapShot struct {
   Cycle int         `json:"cycle"`
