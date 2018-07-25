@@ -340,53 +340,53 @@ func GetBlockMetadataDeactivated(arg interface{}) (interface{}, error) {
 // //
 // // }
 //
-func GetBlockMetadataBalanceUpdatesKind(arg interface{}) (string, error) {
-  block, err := GetBlock(arg)
-  if (err != nil){
-    return "", err
-  }
-  return block.Metadata.BalanceUpdates.Kind, nil
-}
-
-func GetBlockMetadataBalanceUpdatesContract(arg interface{}) (string, error) {
-  block, err := GetBlock(arg)
-  if (err != nil){
-    return "", err
-  }
-  return block.Metadata.BalanceUpdates.Contract, nil
-}
-
-func GetBlockMetadataBalanceUpdatesChange(arg interface{}) (string, error) {
-  block, err := GetBlock(arg)
-  if (err != nil){
-    return "", err
-  }
-  return block.Metadata.BalanceUpdates.Change, nil
-}
-
-func GetBlockMetadataBalanceUpdatesCategory(arg interface{}) (string, error) {
-  block, err := GetBlock(arg)
-  if (err != nil){
-    return "", err
-  }
-  return block.Metadata.BalanceUpdates.Category, nil
-}
-
-func GetBlockMetadataBalanceUpdatesDelegate(arg interface{}) (string, error) {
-  block, err := GetBlock(arg)
-  if (err != nil){
-    return "", err
-  }
-  return block.Metadata.BalanceUpdates.Delegate, nil
-}
-
-func GetBlockMetadataBalanceUpdatesLevel(arg interface{}) (int, error) {
-  block, err := GetBlock(arg)
-  if (err != nil){
-    return 0, err
-  }
-  return block.Metadata.BalanceUpdates.Level, nil
-}
+// func GetBlockMetadataBalanceUpdatesKind(arg interface{}) (string, error) {
+//   block, err := GetBlock(arg)
+//   if (err != nil){
+//     return "", err
+//   }
+//   return block.Metadata.BalanceUpdates.Kind, nil
+// }
+//
+// func GetBlockMetadataBalanceUpdatesContract(arg interface{}) (string, error) {
+//   block, err := GetBlock(arg)
+//   if (err != nil){
+//     return "", err
+//   }
+//   return block.Metadata.BalanceUpdates.Contract, nil
+// }
+//
+// func GetBlockMetadataBalanceUpdatesChange(arg interface{}) (string, error) {
+//   block, err := GetBlock(arg)
+//   if (err != nil){
+//     return "", err
+//   }
+//   return block.Metadata.BalanceUpdates.Change, nil
+// }
+//
+// func GetBlockMetadataBalanceUpdatesCategory(arg interface{}) (string, error) {
+//   block, err := GetBlock(arg)
+//   if (err != nil){
+//     return "", err
+//   }
+//   return block.Metadata.BalanceUpdates.Category, nil
+// }
+//
+// func GetBlockMetadataBalanceUpdatesDelegate(arg interface{}) (string, error) {
+//   block, err := GetBlock(arg)
+//   if (err != nil){
+//     return "", err
+//   }
+//   return block.Metadata.BalanceUpdates.Delegate, nil
+// }
+//
+// func GetBlockMetadataBalanceUpdatesLevel(arg interface{}) (int, error) {
+//   block, err := GetBlock(arg)
+//   if (err != nil){
+//     return 0, err
+//   }
+//   return block.Metadata.BalanceUpdates.Level, nil
+// }
 
 // // func GetBlockOperations(arg interface{}) (Block.Operations, error){
 // //
