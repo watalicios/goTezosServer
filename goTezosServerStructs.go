@@ -82,6 +82,20 @@ type Block struct {
 	} `json:"operations"`
 }
 
+type Header struct {
+  Level            int      
+  Proto            int
+  Predecessor      string
+  Timestamp        time.Time
+  ValidationPass   int
+  OperationsHash   string
+  Fitness          []string
+  Context          string
+  Priority         int
+  ProofOfWorkNonce string
+  Signature        string
+}
+
 type Metadata struct {
   Protocol                 string
   NextProtocol             string
@@ -130,7 +144,7 @@ type BalanceUpdates struct {
 
 
 type SnapShot struct {
-  Cycle int         
+  Cycle int
   RandomSeed string
   Number string
   Level int

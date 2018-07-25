@@ -74,16 +74,29 @@ func GetBlockHash(arg interface{}) (string, error) {
   return block.Hash, nil
 }
 
-// func GetBlockHeader(arg interface{}) (Block.Header, error) {
-//   block, err := GetBlock(arg)
-//   if (err != nil){
-//     return "", err
-//   }
-//   return block.Header, nil
-// }
+func GetBlockHeader(arg interface{}) (Header, error) {
+  var header Header
+  block, err := BlockCheck(arg)
+  if (err != nil){
+    return 0, err
+  }
+  header.Level, _ = GetBlockHeaderLevel(block)
+  header.Proto, _ = GetBlockHeaderProto(block)
+  header.Predecessor, _ = GetBlockHeaderPredecessor(block)
+  header.Timestamp, _ = GetBlockHeaderTimeStamp(block)
+  header.ValidationPass, _ = GetBlockHeaderValidationPass(block)
+  header.OperationsHash, _ = GetBlockHeaderOperationsHash(block)
+  header.Fitness, _ = GetBlockHeaderFitness(block)
+  header.Context, _ = GetBlockHeaderContext(block)
+  header.Priority, _ = GetBlockHeaderPriority(block)
+  header.ProofOfWorkNonce, _ = GetBlockHeaderProofOfWorkNonce(block)
+  header.Signature, _ = GetBlockHeaderSignature(block)
+
+  return header, nil
+}
 
 func GetBlockHeaderLevel(arg interface{}) (int, error) {
-  block, err := GetBlock(arg)
+  block, err := BlockCheck(arg)
   if (err != nil){
     return 0, err
   }
@@ -91,7 +104,7 @@ func GetBlockHeaderLevel(arg interface{}) (int, error) {
 }
 
 func GetBlockHeaderProto(arg interface{}) (int, error) {
-  block, err := GetBlock(arg)
+  block, err := BlockCheck(arg)
   if (err != nil){
     return 0, err
   }
@@ -99,7 +112,7 @@ func GetBlockHeaderProto(arg interface{}) (int, error) {
 }
 
 func GetBlockHeaderPredecessor(arg interface{}) (string, error) {
-  block, err := GetBlock(arg)
+  block, err := BlockCheck(arg)
   if (err != nil){
     return "", err
   }
@@ -108,7 +121,7 @@ func GetBlockHeaderPredecessor(arg interface{}) (string, error) {
 
 func GetBlockHeaderTimeStamp(arg interface{}) (time.Time, error) {
   var t time.Time
-  block, err := GetBlock(arg)
+  block, err := BlockCheck(arg)
   if (err != nil){
     return t, err
   }
@@ -117,7 +130,7 @@ func GetBlockHeaderTimeStamp(arg interface{}) (time.Time, error) {
 }
 
 func GetBlockHeaderValidationPass(arg interface{}) (int, error) {
-  block, err := GetBlock(arg)
+  block, err := BlockCheck(arg)
   if (err != nil){
     return 0, err
   }
@@ -125,7 +138,7 @@ func GetBlockHeaderValidationPass(arg interface{}) (int, error) {
 }
 
 func GetBlockHeaderOperationsHash(arg interface{}) (string, error) {
-  block, err := GetBlock(arg)
+  block, err := BlockCheck(arg)
   if (err != nil){
     return "", err
   }
@@ -134,7 +147,7 @@ func GetBlockHeaderOperationsHash(arg interface{}) (string, error) {
 
 func GetBlockHeaderFitness(arg interface{}) ([]string, error) {
   var str []string
-  block, err := GetBlock(arg)
+  block, err := BlockCheck(arg)
   if (err != nil){
     return str, err
   }
@@ -143,7 +156,7 @@ func GetBlockHeaderFitness(arg interface{}) ([]string, error) {
 }
 
 func GetBlockHeaderContext(arg interface{}) (string, error) {
-  block, err := GetBlock(arg)
+  block, err := BlockCheck(arg)
   if (err != nil){
     return "", err
   }
@@ -151,7 +164,7 @@ func GetBlockHeaderContext(arg interface{}) (string, error) {
 }
 
 func GetBlockHeaderPriority(arg interface{}) (int, error) {
-  block, err := GetBlock(arg)
+  block, err := BlockCheck(arg)
   if (err != nil){
     return 0, err
   }
@@ -461,3 +474,18 @@ func GetBlockMetadataDeactivated(arg interface{}) (interface{}, error) {
 // func GetBlockOperationsSignature(arg interface{}) (string, error){
 //
 // }
+
+func BlockCheck(arg interface{}) (Block, error){
+  var block Block
+  var err error
+  if (arg.(Block)){
+    block = arg.(Block)
+  } else{
+    block, err = GetBlock(arg)
+    if (err != nil){
+      return 0, err
+    }
+  }
+
+  return block, nil
+}
