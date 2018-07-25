@@ -8,12 +8,17 @@ License: MIT
 */
 
 import (
+  "sync"
   "github.com/DefinitelyNotAGoat/goTezosServer"
 )
 
 
 func main(){
+  wg.Add(1)
   go goTezosServer.SynchronizeTezosMongo()
+  wg.Wait()
+  wg.Done()
+
 }
 
 // func getBlockTest() (bool, error){
