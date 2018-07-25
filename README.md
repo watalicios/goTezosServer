@@ -73,7 +73,7 @@ I will create a wiki shortly describing the functions available.
 
 ## Server Application
 
-See the application [README.md](https://github.com/DefinitelyNotAGoat/goTezosServer/blob/master/Programs/README.md) for more information.
+See the application [README.md](https://github.com/DefinitelyNotAGoat/goTezosServer/blob/dev/Programs/README.md) for more information.
 
 ```
 go build goTezosServer.go
