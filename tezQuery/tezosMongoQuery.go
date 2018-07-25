@@ -40,11 +40,11 @@ func GetBlock(arg interface{}) (goTezosServer.Block, error){
 
 func GetBlockHead() (goTezosServer.Block, error){  //db.blocks.find().skip(db.blocks.count() - 1)
   result := goTezosServer.Block{}
-  Count, err := Collection.Count()
+  Count, err := goTezosServer.Collection.Count()
   if (err != nil){
     return result, err
   }
-  err = goTezosServer.Collection.Find().Skip(Collection.Count() -1).One(&result)
+  err = goTezosServer.Collection.Find({}).Skip(Collection.Count() -1).One(&result)
   if (err != nil) {
 		return result, err
 	}
