@@ -1,4 +1,4 @@
-# goTezos: A Tezos Go Library
+# goTezosServer: A Tezos Query Server Backed by MongoDB
 
 The purpose of this goServer is to initialize a database Mongodb of the tezos network, and make it queryable for quicker
 functions on the client side.
