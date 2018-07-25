@@ -12,6 +12,7 @@ import (
   "github.com/DefinitelyNotAGoat/goTezosServer"
 )
 
+var wg sync.WaitGroup
 
 func main(){
   wg.Add(1)
