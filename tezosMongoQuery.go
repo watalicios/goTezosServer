@@ -479,7 +479,7 @@ func BlockCheck(arg interface{}) (Block, error){
   var block Block
   var err error
 
-  switch arg.(Block) {
+  switch arg.(type) {
     case Block:
       block = arg.(Block)
     default:
