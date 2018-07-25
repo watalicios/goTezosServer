@@ -14,9 +14,9 @@ func GetBlock(arg interface{}) (goTezosServer.Block, error){
 
   switch v := arg.(type) {
     case int:
-        level = v.(int)
+        level = arg.(int)
     case string:
-        hash = v.(string)
+        hash = arg.(string)
     default:
         return result, errors.New("GetBlock(arg interface{}) failed: Type not Supported")
   }
