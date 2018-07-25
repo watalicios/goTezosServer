@@ -108,8 +108,8 @@ func GetBlockHeaderPredecessor(arg interface{}) (string, error) {
   return block.Header.Predecessor, nil
 }
 
-func GetBlockHeaderTimeStamp(arg interface{}) (Time.time, error) {
-  var t Time.time
+func GetBlockHeaderTimeStamp(arg interface{}) (time.Time, error) {
+  var t time.Time
   block, err := GetBlock(arg)
   if (err != nil){
     return t, err
@@ -264,12 +264,12 @@ func GetBlockMetadataLevelLevel(arg interface{}) (int, error) {
   return block.Metadata.Level.Level, nil
 }
 
-func GetBlockMetadataLevelPosition(arg interface{}) (int, error) {
+func GetBlockMetadataLevelLevelPosition(arg interface{}) (int, error) {
   block, err := GetBlock(arg)
   if (err != nil){
     return 0, err
   }
-  return block.Metadata.Level.Position, nil
+  return block.Metadata.Level.LevelPosition, nil
 }
 
 func GetBlockMetadataLevelCycle(arg interface{}) (int, error) {
