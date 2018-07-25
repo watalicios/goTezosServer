@@ -21,7 +21,7 @@ type Block struct {
 		ProofOfWorkNonce string    `json:"proof_of_work_nonce"`
 		Signature        string    `json:"signature"`
 	} `json:"header"`
-	type Metadata struct {
+  Metadata struct {
 		Protocol        string `json:"protocol"`
 		NextProtocol    string `json:"next_protocol"`
 		TestChainStatus struct {
@@ -82,10 +82,56 @@ type Block struct {
 	} `json:"operations"`
 }
 
+type Metadata struct {
+  Protocol                 string
+  NextProtocol             string
+  TstChainStatus           TestChainStatus
+  MaxOperationsTTL         int
+  MaxOperationDataLength   int
+  MaxBlockHeaderLength     int
+  MxOperationListLength    []MaxOperationListLength
+  Baker                    string
+  Lvl                      Level
+  VotingPeriodKind         string
+  NonceHash                interface{}
+  ConsumedGas              string
+  Deactivated              []interface{}
+  BlncUpdates              []BalanceUpdates
+}
+
+type TestChainStatus struct {
+  Status string
+}
+
+type MaxOperationListLength struct {
+  MaxSize int
+  MaxOp   int
+}
+
+type Level struct {
+  Level                int
+  LevelPosition        int
+  Cycle                int
+  CyclePosition        int
+  VotingPeriod         int
+  VotingPeriodPosition int
+  ExpectedCommitment   bool
+}
+
+type BalanceUpdates struct {
+  Kind     string
+  Contract string
+  Change   string
+  Category string
+  Delegate string
+  Level    int
+}
+
+
 
 type SnapShot struct {
-  Cycle int         `json:"cycle"`
-  RandomSeed string `json:"random_seed"`
-  Number string     `json:"number"`
-  Level int         `json:"level"`
+  Cycle int         
+  RandomSeed string
+  Number string
+  Level int
 }
