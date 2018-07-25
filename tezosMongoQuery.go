@@ -2,6 +2,7 @@ package goTezosServer
 
 import (
   "errors"
+  "time"
   "gopkg.in/mgo.v2/bson"
 )
 
@@ -143,14 +144,12 @@ func GetBlockHeaderFitness(arg interface{}) ([]string, error) {
   return str, nil
 }
 
-func GetBlockHeaderContext(arg interface{}) ([]string, error) {
-  var str []string
+func GetBlockHeaderContext(arg interface{}) (string, error) {
   block, err := GetBlock(arg)
   if (err != nil){
-    return str, err
+    return "", err
   }
-  str = block.Header.Context
-  return str, nil
+  return block.Header.Context, nil
 }
 
 func GetBlockHeaderPriority(arg interface{}) (int, error) {
@@ -229,21 +228,21 @@ func GetBlockMetadataMaxBlockHeaderLength(arg interface{}) (int, error) {
 // //
 // // }
 //
-func GetBlockMetadataMaxOperationDataLengthMaxSize(arg interface{}) (int, error) {
-  block, err := GetBlock(arg)
-  if (err != nil){
-    return 0, err
-  }
-  return block.Metadata.MaxOperationListLength.MaxSize, nil
-}
-
-func GetBlockMetadataMaxOperationDataLengthMaxOp(arg interface{}) (int, error) {
-  block, err := GetBlock(arg)
-  if (err != nil){
-    return 0, err
-  }
-  return block.Metadata.MaxOperationListLength.MaxOP, nil
-}
+// func GetBlockMetadataMaxOperationDataLengthMaxSize(arg interface{}) (int, error) {
+//   block, err := GetBlock(arg)
+//   if (err != nil){
+//     return 0, err
+//   }
+//   return block.Metadata.MaxOperationListLength.MaxSize, nil
+// }
+//
+// func GetBlockMetadataMaxOperationDataLengthMaxOp(arg interface{}) (int, error) {
+//   block, err := GetBlock(arg)
+//   if (err != nil){
+//     return 0, err
+//   }
+//   return block.Metadata.MaxOperationListLength.MaxOP, nil
+// }
 
 func GetBlockMetadataBaker(arg interface{}) (string, error) {
   block, err := GetBlock(arg)
