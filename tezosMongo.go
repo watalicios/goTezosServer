@@ -57,7 +57,7 @@ func SynchronizeTezosMongo(){
     fmt.Println(err)
   }
 
-  session, err := mgo.Dial("localhost:21017")
+  session, err := mgo.Dial("127.0.0.1")
   c := session.DB("TEZOS").C("blocks")
   err = c.Insert(&Person{"Ale", "+55 53 8116 9639"})
 
