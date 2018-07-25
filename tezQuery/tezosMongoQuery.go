@@ -21,21 +21,21 @@ func GetBlock(arg interface{}) (goTezosServer.Block, error){
         return result, errors.New("GetBlock(arg interface{}) failed: Type not Supported")
   }
 
-  if (level == -1){
+  if (level > -1){
     err := goTezosServer.Collection.Find(bson.M{"header.level": level}).One(&result)
     if (err != nil) {
   		return result, err
   	}
   }
 
-  if (hash == ""){
+  if (hash != ""){
     err := goTezosServer.Collection.Find(bson.M{"hash": hash}).One(&result)
     if (err != nil) {
   		return result, err
   	}
   }
 
-  return result, errors.New("GetBlock(arg interface{}) failed: Level and Hash Empty")
+  return result, nil
 }
 
 func GetBlockHead() (goTezosServer.Block, error){  //db.blocks.find().skip(db.blocks.count() - 1)
