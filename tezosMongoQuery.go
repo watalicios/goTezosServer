@@ -86,7 +86,7 @@ func GetBlockHash(arg interface{}) (string, error) {
 func GetBlockHeaderLevel(arg interface{}) (int, error) {
   block, err := GetBlock(arg)
   if (err != nil){
-    return "", err
+    return 0, err
   }
   return block.Header.Level, nil
 }
@@ -94,7 +94,7 @@ func GetBlockHeaderLevel(arg interface{}) (int, error) {
 func GetBlockHeaderProto(arg interface{}) (int, error) {
   block, err := GetBlock(arg)
   if (err != nil){
-    return "", err
+    return 0, err
   }
   return block.Header.Proto, nil
 }
@@ -108,17 +108,19 @@ func GetBlockHeaderPredecessor(arg interface{}) (string, error) {
 }
 
 func GetBlockHeaderTimeStamp(arg interface{}) (Time.time, error) {
+  var t Time.time
   block, err := GetBlock(arg)
   if (err != nil){
-    return "", err
+    return t, err
   }
-  return block.Header.Timestamp, nil
+  t = block.Header.Timestamp
+  return t, nil
 }
 
 func GetBlockHeaderValidationPass(arg interface{}) (int, error) {
   block, err := GetBlock(arg)
   if (err != nil){
-    return "", err
+    return 0, err
   }
   return block.Header.ValidationPass, nil
 }
@@ -132,25 +134,29 @@ func GetBlockHeaderOperationsHash(arg interface{}) (string, error) {
 }
 
 func GetBlockHeaderFitness(arg interface{}) ([]string, error) {
+  var str []string
   block, err := GetBlock(arg)
   if (err != nil){
-    return "", err
+    return str, err
   }
-  return block.Header.Fitness, nil
+  str = block.Header.Fitness
+  return str, nil
 }
 
 func GetBlockHeaderContext(arg interface{}) ([]string, error) {
+  var str []string
   block, err := GetBlock(arg)
   if (err != nil){
-    return "", err
+    return str, err
   }
-  return block.Header.Context, nil
+  str = block.Header.Context
+  return str, nil
 }
 
 func GetBlockHeaderPriority(arg interface{}) (int, error) {
   block, err := GetBlock(arg)
   if (err != nil){
-    return "", err
+    return 0, err
   }
   return block.Header.Priority, nil
 }
@@ -198,7 +204,7 @@ func GetBlockMetadataNextProtocol(arg interface{}) (string, error) {
 func GetBlockMetadataMaxOperationsTTL(arg interface{}) (int, error) {
   block, err := GetBlock(arg)
   if (err != nil){
-    return "", err
+    return 0, err
   }
   return block.Metadata.MaxOperationsTTL, nil
 }
@@ -206,7 +212,7 @@ func GetBlockMetadataMaxOperationsTTL(arg interface{}) (int, error) {
 func GetBlockMetadataMaxOperationDataLength(arg interface{}) (int, error) {
   block, err := GetBlock(arg)
   if (err != nil){
-    return "", err
+    return 0, err
   }
   return block.Metadata.MaxOperationDataLength, nil
 }
@@ -214,7 +220,7 @@ func GetBlockMetadataMaxOperationDataLength(arg interface{}) (int, error) {
 func GetBlockMetadataMaxBlockHeaderLength(arg interface{}) (int, error) {
   block, err := GetBlock(arg)
   if (err != nil){
-    return "", err
+    return 0, err
   }
   return block.Metadata.MaxBlockHeaderLength, nil
 }
@@ -226,7 +232,7 @@ func GetBlockMetadataMaxBlockHeaderLength(arg interface{}) (int, error) {
 func GetBlockMetadataMaxOperationDataLengthMaxSize(arg interface{}) (int, error) {
   block, err := GetBlock(arg)
   if (err != nil){
-    return "", err
+    return 0, err
   }
   return block.Metadata.MaxOperationListLength.MaxSize, nil
 }
@@ -234,7 +240,7 @@ func GetBlockMetadataMaxOperationDataLengthMaxSize(arg interface{}) (int, error)
 func GetBlockMetadataMaxOperationDataLengthMaxOp(arg interface{}) (int, error) {
   block, err := GetBlock(arg)
   if (err != nil){
-    return "", err
+    return 0, err
   }
   return block.Metadata.MaxOperationListLength.MaxOP, nil
 }
@@ -254,7 +260,7 @@ func GetBlockMetadataBaker(arg interface{}) (string, error) {
 func GetBlockMetadataLevelLevel(arg interface{}) (int, error) {
   block, err := GetBlock(arg)
   if (err != nil){
-    return "", err
+    return 0, err
   }
   return block.Metadata.Level.Level, nil
 }
@@ -262,7 +268,7 @@ func GetBlockMetadataLevelLevel(arg interface{}) (int, error) {
 func GetBlockMetadataLevelPosition(arg interface{}) (int, error) {
   block, err := GetBlock(arg)
   if (err != nil){
-    return "", err
+    return 0, err
   }
   return block.Metadata.Level.Position, nil
 }
@@ -270,7 +276,7 @@ func GetBlockMetadataLevelPosition(arg interface{}) (int, error) {
 func GetBlockMetadataLevelCycle(arg interface{}) (int, error) {
   block, err := GetBlock(arg)
   if (err != nil){
-    return "", err
+    return 0, err
   }
   return block.Metadata.Level.Position, nil
 }
@@ -278,7 +284,7 @@ func GetBlockMetadataLevelCycle(arg interface{}) (int, error) {
 func GetBlockMetadataLevelCyclePosition(arg interface{}) (int, error) {
   block, err := GetBlock(arg)
   if (err != nil){
-    return "", err
+    return 0, err
   }
   return block.Metadata.Level.CyclePosition, nil
 }
@@ -286,7 +292,7 @@ func GetBlockMetadataLevelCyclePosition(arg interface{}) (int, error) {
 func GetBlockMetadataLevelVotingPeriod(arg interface{}) (int, error) {
   block, err := GetBlock(arg)
   if (err != nil){
-    return "", err
+    return 0, err
   }
   return block.Metadata.Level.VotingPeriod, nil
 }
@@ -294,7 +300,7 @@ func GetBlockMetadataLevelVotingPeriod(arg interface{}) (int, error) {
 func GetBlockMetadataLevelExpectedCommitment(arg interface{}) (bool, error) {
   block, err := GetBlock(arg)
   if (err != nil){
-    return "", err
+    return false, err
   }
   return block.Metadata.Level.ExpectedCommitment, nil
 }
@@ -310,7 +316,7 @@ func GetBlockMetadataVotingPeriodKind(arg interface{}) (string, error) {
 func GetBlockMetadataNonceHash(arg interface{}) (interface{}, error) {
   block, err := GetBlock(arg)
   if (err != nil){
-    return "", err
+    return arg, err
   }
   return block.Metadata.NonceHash, nil
 }
@@ -326,7 +332,7 @@ func GetBlockMetadataConsumedGas(arg interface{}) (string, error) {
 func GetBlockMetadataDeactivated(arg interface{}) (interface{}, error) {
   block, err := GetBlock(arg)
   if (err != nil){
-    return "", err
+    return arg, err
   }
   return block.Metadata.Deactivated, nil
 }
@@ -378,7 +384,7 @@ func GetBlockMetadataBalanceUpdatesDelegate(arg interface{}) (string, error) {
 func GetBlockMetadataBalanceUpdatesLevel(arg interface{}) (int, error) {
   block, err := GetBlock(arg)
   if (err != nil){
-    return "", err
+    return 0, err
   }
   return block.Metadata.BalanceUpdates.Level, nil
 }
