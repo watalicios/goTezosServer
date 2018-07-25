@@ -15,6 +15,7 @@ import (
   "regexp"
   "strconv"
   "time"
+  "encoding/json"
   "gopkg.in/mgo.v2"
 )
 
@@ -187,7 +188,7 @@ func GetBlock(level int, headHash string, headLevel int) (Block, error){
   }
 
   block = ConvertBlockToJson(s)
-  return blockByte, nil
+  return block, nil
 }
 
 /*
