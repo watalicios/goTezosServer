@@ -156,7 +156,7 @@ Returns (string): A string representation of the hash for the block level querie
 Description: Will retreive the current block level as an integer
 Returns (int): Returns integer representation of block level
 */
-func GetBlockRPCHead()() ([]byte, error){
+func GetBlockRPCHead() ([]byte, error){
   s, err := TezosRPCGet("chains/main/blocks/head")
   if (err != nil){
     return s, errors.New("Could not get block level for head: TezosRPCGet(arg string) failed: " + err.Error())
