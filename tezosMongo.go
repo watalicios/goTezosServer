@@ -71,7 +71,7 @@ func SynchronizeTezosMongo() {
     blockHead := ConvertBlockToJson(tmpBlock)
 
     if (nextLevel <= blockHead.Header.Level){
-      block, err := GetBlock(nextLevel, blockHead.Hash, blockHead.Header.Level)
+      block, err := GetBlockRPC(nextLevel, blockHead.Hash, blockHead.Header.Level)
       if (err != nil){
         fmt.Println(err)
       }
@@ -102,7 +102,7 @@ func MongoGetAllBlocks() error{
   }
 
   for i := headLevel-headLevel; i < headLevel; i ++{
-    block, err := GetBlock(i, headHash[1], headLevel)
+    block, err := GetBlockRPC(i, headHash[1], headLevel)
     if (err != nil){
       return err
     }
@@ -114,7 +114,7 @@ func MongoGetAllBlocks() error{
   return nil
 }
 
-func GetBlock(level int, headHash string, headLevel int) (Block, error){
+func GetBlockRPC(level int, headHash string, headLevel int) (Block, error){
   diff := headLevel - level
   diffStr := strconv.Itoa(diff)
   getBlockByLevel := "chains/main/blocks/" + headHash + "~" + diffStr
