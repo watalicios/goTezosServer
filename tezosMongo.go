@@ -131,11 +131,11 @@ func init() {
     os.Exit(1)
   }
 
-  Session, err = mgo.Dial("127.0.0.1")
-  if (err != nil){
-    fmt.Println(err)
+  Session, errs = mgo.Dial("127.0.0.1")
+  if (errs != nil){
+    fmt.Println(errs)
   }
-  Collection = session.DB("TEZOS").C("blocks")
+  Collection = Session.DB("TEZOS").C("blocks")
 
 }
 
