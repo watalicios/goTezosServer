@@ -277,7 +277,7 @@ func GetBlockMetadataLevelCycle(arg interface{}) (int, error) {
   if (err != nil){
     return 0, err
   }
-  return block.Metadata.Level.Position, nil
+  return block.Metadata.Level.Cycle, nil
 }
 
 func GetBlockMetadataLevelCyclePosition(arg interface{}) (int, error) {
@@ -340,12 +340,12 @@ func GetBlockMetadataDeactivated(arg interface{}) (interface{}, error) {
 // //
 // // }
 //
-func GetBlockMetadataBalanceKind(arg interface{}) (string, error) {
+func GetBlockMetadataBalanceUpdatesKind(arg interface{}) (string, error) {
   block, err := GetBlock(arg)
   if (err != nil){
     return "", err
   }
-  return block.Metadata.Balance.Kind, nil
+  return block.Metadata.BalanceUpdates.Kind, nil
 }
 
 func GetBlockMetadataBalanceUpdatesContract(arg interface{}) (string, error) {
