@@ -107,8 +107,8 @@ var (
 )
 
 var TezosPath string
-var session *mgo.Session
-var collection *mgo.Collection
+var Session *mgo.Session
+var Collection *mgo.Collection
 
 type Person struct {
         Name string
@@ -131,8 +131,11 @@ func init() {
     os.Exit(1)
   }
 
-  session, err := mgo.Dial("127.0.0.1")
-  collection := session.DB("TEZOS").C("blocks")
+  Session, err = mgo.Dial("127.0.0.1")
+  if (err != nil){
+    fmt.Println(err)
+  }
+  Collection = session.DB("TEZOS").C("blocks")
 
 }
 
@@ -164,7 +167,7 @@ func MongoGetAllBlocks() error{
     if (err != nil){
       return err
     }
-    err = collection.Insert(block)
+    err = Collection.Insert(block)
     if (err != nil){
       fmt.Println(err)
     }
