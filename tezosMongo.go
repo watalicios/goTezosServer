@@ -14,8 +14,8 @@ import (
   "errors"
   "regexp"
   "strconv"
-  //"bytes"
-  //"encoding/json"
+  "labix.org/v2/mgo"
+
 )
 
 type BlockByte struct{
@@ -47,14 +47,18 @@ func init() {
 }
 
 func SynchronizeTezosMongo(){
-  blocks, err := GetAllBlocks()
+  _, err := GetAllBlocks()
   if (err != nil){
     fmt.Println(err)
   }
 
-  for _, block := range blocks{
-    MongoAddBlock(block)
-  }
+  session, err := mgo.Dial("localhost:21017")
+  c := session.DB("TEZOS").C("blocks")
+
+
+  // for _, block := range blocks{
+  //   MongoAddBlock(block)
+  // }
 }
 
 func GetAllBlocks() ([]string, error){
