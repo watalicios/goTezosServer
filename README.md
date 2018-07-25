@@ -17,7 +17,7 @@ tz1SUgyRB8T5jXgXAwS33pgRHAKrafyg87Yc
 More robust documentation will come soon.
 
 ## Installation
-You will first need to install MongoDB and configure it to your preferences.Currently the library assumes there is no auth configuration for MongoDB. I will add this soon.
+You will first need to install MongoDB and configure it to your preferences. Currently the library assumes there is no auth configuration for MongoDB. I will add this soon.
 
 
 Create a database called `TEZOS` and a collection called `blocks`.
