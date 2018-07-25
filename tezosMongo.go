@@ -141,7 +141,7 @@ func SynchronizeTezosMongo(){
 
 
   for _, block := range blocks{
-    fmt.Println(block)
+  //  fmt.Println(block)
     err = c.Insert(block)
     if (err != nil){
       fmt.Println(err)
@@ -166,7 +166,7 @@ func GetAllBlocks() ([]Block, error){
     return blocks, errors.New("Could not get hash for block head")
   }
 
-  for i := headLevel-1; i < headLevel; i ++{
+  for i := headLevel-headLevel; i < headLevel; i ++{
     block, err := GetBlock(i, headHash[1], headLevel)
     if (err != nil){
       return blocks, err
