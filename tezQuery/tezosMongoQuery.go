@@ -7,8 +7,8 @@ import (
 )
 
 
-func GetBlock(arg interface{}) (Block, error){
-  result := Block{}
+func GetBlock(arg interface{}) (goTezosServer.Block, error){
+  result := goTezosServer.Block{}
   level := -1
   hash := ""
 
@@ -38,8 +38,8 @@ func GetBlock(arg interface{}) (Block, error){
   return result, errors.New("GetBlock(arg interface{}) failed: Level and Hash Empty")
 }
 
-func GetBlockHead() (Block, error){  //db.blocks.find().skip(db.blocks.count() - 1)
-  result := Block{}
+func GetBlockHead() (goTezosServer.Block, error){  //db.blocks.find().skip(db.blocks.count() - 1)
+  result := goTezosServer.Block{}
   Count, err := Collection.Count()
   if (err != nil){
     return result, err
@@ -63,7 +63,7 @@ func GetBlockHash(arg interface{}) (string, error) {
 
 }
 
-func GetBlockHeader(arg interface{}) (Block.Header, error) {
+func GetBlockHeader(arg interface{}) (goTezosServer.Block.Header, error) {
 
 }
 
@@ -112,7 +112,7 @@ func GetBlockHeaderSignature(arg interface{}) (string, error) {
 
 }
 
-func GetBlockMetadata(arg interface{}) (Block.Metadata, error) {
+func GetBlockMetadata(arg interface{}) (goTezosServer.Block.Metadata, error) {
 
 }
 
@@ -124,7 +124,7 @@ func GetBlockMetadataNextProtocol(arg interface{}) (string, error) {
 
 }
 
-func GetBlockMetadataTestChainStatus(arg interface{}) (Block.Metadata.TestChainStatus, error) {
+func GetBlockMetadataTestChainStatus(arg interface{}) (goTezosServer.Block.Metadata.TestChainStatus, error) {
 
 }
 
@@ -140,7 +140,7 @@ func GetBlockMetadataMaxBlockHeaderLength(arg interface{}) (int, error) {
 
 }
 
-func GetBlockMetadataMaxOperationListLength(arg interface{}) ([]Block.Metadata.MaxOperationListLength, error) {
+func GetBlockMetadataMaxOperationListLength(arg interface{}) ([]goTezosServer.Block.Metadata.MaxOperationListLength, error) {
 
 }
 
@@ -156,7 +156,7 @@ func GetBlockMetadataBaker(arg interface{}) (string, error) {
 
 }
 
-func GetBlockMetadataLevel(arg interface{}) ([]Block.Metadata.Level, error) {
+func GetBlockMetadataLevel(arg interface{}) ([]goTezosServer.Block.Metadata.Level, error) {
 
 }
 
@@ -173,10 +173,6 @@ func GetBlockMetadataLevelCycle(arg interface{}) (int, error) {
 }
 
 func GetBlockMetadataLevelCyclePosition(arg interface{}) (int, error) {
-
-}
-
-func GetBlockMetadataLevelVotingPeriod(arg interface{}) (int, error) {
 
 }
 
@@ -204,7 +200,7 @@ func GetBlockMetadataDeactivated(arg interface{}) (interface{}, error) {
 
 }
 
-func GetBlockMetadataBalanceUpdates(arg interface{}) ([]Block.Metadata.BalanceUpdates, error) {
+func GetBlockMetadataBalanceUpdates(arg interface{}) ([]goTezosServer.Block.Metadata.BalanceUpdates, error) {
 
 }
 
@@ -232,7 +228,7 @@ func GetBlockMetadataBalanceUpdatesLevel(arg interface{}) (int, error) {
 
 }
 
-func GetBlockOperations(arg interface{}) (Block.Operations, error){
+func GetBlockOperations(arg interface{}) (goTezosServer.Block.Operations, error){
 
 }
 
@@ -252,7 +248,7 @@ func GetBlockOperationsBranch(arg interface{}) (string, error){
 
 }
 
-func GetBlockOperationsContents(arg interface{}) ([]Block.Operations.Contents, error){
+func GetBlockOperationsContents(arg interface{}) ([]goTezosServer.Block.Operations.Contents, error){
 
 }
 
@@ -264,11 +260,11 @@ func GetBlockOperationsContentsLevel(arg interface{}) (int, error){
 
 }
 
-func GetBlockOperationsContentsMetadata(arg interface{}) (Block.Operations.Contents.Metadata, error){
+func GetBlockOperationsContentsMetadata(arg interface{}) (goTezosServer.Block.Operations.Contents.Metadata, error){
 
 }
 
-func GetBlockOperationsContentsMetadataBalanceUpdates(arg interface{}) ([]Block.Operations.Contents.Metadata.BalanceUpdates, error){
+func GetBlockOperationsContentsMetadataBalanceUpdates(arg interface{}) ([]goTezosServer.Block.Operations.Contents.Metadata.BalanceUpdates, error){
 
 }
 
