@@ -44,7 +44,7 @@ func GetBlockHead() (Block, error){  //db.blocks.find().skip(db.blocks.count() -
   if (err != nil){
     return result, err
   }
-  err := Collection.Find().Skip(Collection.Count() -1).One(&result)
+  err = Collection.Find().Skip(Collection.Count() -1).One(&result)
   if (err != nil) {
 		return result, err
 	}
@@ -116,10 +116,6 @@ func GetBlockMetadata(arg interface{}) (Block.Metadata, error) {
 
 }
 
-func GetBlockMetadata(arg interface{}) (Block.Metadata, error) {
-
-}
-
 func GetBlockMetadataProtocol(arg interface{}) (string, error) {
 
 }
@@ -129,14 +125,6 @@ func GetBlockMetadataNextProtocol(arg interface{}) (string, error) {
 }
 
 func GetBlockMetadataTestChainStatus(arg interface{}) (Block.Metadata.TestChainStatus, error) {
-
-}
-
-func GetBlockMetadataTestChainStatus(arg interface{}) (Block.Metadata.TestChainStatus, error) {
-
-}
-
-func GetBlockMetadataTestChainStatusStatus(arg interface{}) (string, error) {
 
 }
 
