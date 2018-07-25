@@ -63,7 +63,7 @@ func GetBlockHash(arg interface{}) (string, error) {
 
 }
 
-func GetBlockHeader(arg interface{}) (goTezosServer.Block.Header, error) {
+func GetBlockHeader(arg interface{}) (goTezosServer.Block.Header , error) {
 
 }
 
