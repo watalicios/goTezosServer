@@ -1,7 +1,7 @@
-# goTezosServer: A Tezos Query Server Backed by MongoDB
+# goTezosServer: A Tezos Query Library Backed by MongoDB
 
-The purpose of this goServer is to initialize a database Mongodb of the tezos network, and make it queryable for quicker
-functions on the client side.
+The purpose of the goTezosServer is to build server applications around the tezos blockchain's data. In the
+process of developing this library, I will create a usable server using this lib.
 
 If you would like to send me some coffee money:
 ```
@@ -17,7 +17,7 @@ tz1SUgyRB8T5jXgXAwS33pgRHAKrafyg87Yc
 More robust documentation will come soon.
 
 ## Installation
-You will first need to install MongoDB and configure it to your preferences.
+You will first need to install MongoDB and configure it to your preferences.Currently the library assumes there is no auth configuration for MongoDB. I will add this soon.
 
 
 Create a database called `TEZOS` and a collection called `blocks`.
@@ -28,7 +28,7 @@ db.createCollection("blocks")
 ```
 
 
-Then install the server:
+Then install the goTezosServer:
 ```
 go get gopkg.in/mgo.v2
 go get github.com/DefinitelyNotAGoat/goTezosServer
@@ -58,7 +58,7 @@ func SynchronizeTezosMongo(){
 ```
 
 
-## goTezos Documentation
+## goTezosServer Lib Documentation
 The goTezosServer requires the use of an env variable called TEZOSPATH.
 
 
@@ -71,10 +71,12 @@ export TEZOSPATH=/home/tezosuser/tezos/
 I will create a wiki shortly describing the functions available.
 
 
-## goTezosServer Build/Run
+## Server Application
+
+See the application [README.md](https://github.com/DefinitelyNotAGoat/goTezosServer/blob/master/Programs/README.md) for more information.
 
 ```
-go build goTezosServer.go tezosMongo.go
+go build goTezosServer.go
 ./goTezosServer
 ```
 
@@ -82,7 +84,7 @@ go build goTezosServer.go tezosMongo.go
 
 * **DefinitelyNotAGoat**
 
-See also the list of [contributors](https://github.com/DefinitelyNotAGoat/goTezos/graphs/contributors) who participated in this project.
+See also the list of [contributors](https://github.com/DefinitelyNotAGoat/goTezosServer/graphs/contributors) who participated in this project.
 
 ## License
 

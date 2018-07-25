@@ -9,12 +9,18 @@ License: MIT
 
 import (
   "sync"
+  "flag"
   "github.com/DefinitelyNotAGoat/goTezosServer"
 )
 
 var wg sync.WaitGroup
 
 func main(){
+	init := flag.Bool("init", true, "Start synchronization of the database from cycle 0")
+
+  if (*init){
+    goTezosServer.InitSynchronizeTezosMongo()
+  }
   wg.Add(1)
   go goTezosServer.SynchronizeTezosMongo()
   wg.Wait()
