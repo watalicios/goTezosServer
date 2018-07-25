@@ -59,12 +59,12 @@ func SynchronizeTezosMongo(){
 
   session, err := mgo.Dial("127.0.0.1")
   c := session.DB("TEZOS").C("blocks")
-  err = c.Insert(&Person{"Ale", "+55 53 8116 9639"})
 
-  // for _, block := range blocks{
-  //   fmt.Println(block)
-  //   err = c.Insert(block)
-  // }
+
+  for _, block := range blocks{
+    fmt.Println(block)
+    err = c.Insert(block)
+  }
 }
 
 func GetAllBlocks() ([]string, error){
