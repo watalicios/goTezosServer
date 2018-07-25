@@ -47,7 +47,7 @@ func init() {
 }
 
 func SynchronizeTezosMongo(){
-  _, err := GetAllBlocks()
+  blocks, err := GetAllBlocks()
   if (err != nil){
     fmt.Println(err)
   }
