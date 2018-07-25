@@ -485,7 +485,7 @@ func BlockCheck(arg interface{}) (Block, error){
     default:
       block, err = GetBlock(arg)
       if (err != nil){
-        return 0, err
+        return block, err
       }
   }
 
