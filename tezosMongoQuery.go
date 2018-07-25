@@ -78,7 +78,7 @@ func GetBlockHeader(arg interface{}) (Header, error) {
   var header Header
   block, err := BlockCheck(arg)
   if (err != nil){
-    return 0, err
+    return header, err
   }
   header.Level, _ = GetBlockHeaderLevel(block)
   header.Proto, _ = GetBlockHeaderProto(block)
@@ -478,13 +478,15 @@ func GetBlockMetadataDeactivated(arg interface{}) (interface{}, error) {
 func BlockCheck(arg interface{}) (Block, error){
   var block Block
   var err error
-  if (arg.(Block)){
-    block = arg.(Block)
-  } else{
-    block, err = GetBlock(arg)
-    if (err != nil){
-      return 0, err
-    }
+
+  switch arg.(Block) {
+    case Block:
+      block = arg.(Block)
+    default:
+      block, err = GetBlock(arg)
+      if (err != nil){
+        return 0, err
+      }
   }
 
   return block, nil
