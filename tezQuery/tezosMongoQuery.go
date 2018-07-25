@@ -44,8 +44,8 @@ func GetBlockHead() (goTezosServer.Block, error){  //db.blocks.find().skip(db.bl
   if (err != nil){
     return result, err
   }
-  count, _ = goTezosServer.Collection.Count()
-  err = goTezosServer.Collection.Find(bson.M{}).Skip(count -1).One(&result)
+  count, _ := goTezosServer.Collection.Count()
+  err = goTezosServer.Collection.Find(bson.M{}).Skip(count - 1).One(&result)
   if (err != nil) {
 		return result, err
 	}
