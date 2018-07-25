@@ -218,7 +218,7 @@ Returns (string): A string representation of the hash for the block level querie
 Description: Will retreive the current block level as an integer
 Returns (int): Returns integer representation of block level
 */
-func GetBlockHead() (string, error){
+func GetBlockHead() ([]byte, error){
   s, err := TezosRPCGet("chains/main/blocks/head")
   if (err != nil){
     return s, errors.New("Could not get block level for head: TezosRPCGet(arg string) failed: " + err.Error())
@@ -234,7 +234,7 @@ func GetBlockHead() (string, error){
 Description: Takes an  array of interface (struct in our case), jsonifies it, and allows a much neater print.
 Param v (interface{}): Array of an interface
 */
-func ConvertBlockToJson(v interface{}) Block {
+func ConvertBlockToJson(v []byte) Block {
   var block Block
   err := json.Unmarshal(v, &block)
   if err != nil {
@@ -270,13 +270,13 @@ Description: A function that executes a command to the tezos-client
 Param args ([]string): Arguments to be executed
 Returns (string): Returns the output of the executed command as a string
 */
-func TezosDo(args ...string) (string, error){
+func TezosDo(args ...string) ([]byte, error){
   out, err := exec.Command(TezosPath, args...).Output()
   if err != nil {
-    return string(out[:]), err
+    return out, err
   }
 
-  return string(out[:]), nil
+  return out, nil
 }
 
 /*
@@ -284,7 +284,7 @@ Description: A function that executes an rpc get arg
 Param args ([]string): Arguments to be executed
 Returns (string): Returns the output of the executed command as a string
 */
-func TezosRPCGet(arg string) (string, error){
+func TezosRPCGet(arg string) ([]byte, error){
   output, err := TezosDo("rpc", "get", arg)
   if (err != nil){
     return output, errors.New("Could not rpc get " + arg + " : tezosDo(args ...string) failed: " + err.Error())
