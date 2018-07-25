@@ -12,7 +12,7 @@ func GetBlock(arg interface{}) (goTezosServer.Block, error){
   level := -1
   hash := ""
 
-  switch v := arg.(type) {
+  switch arg.(type) {
     case int:
         level = arg.(int)
     case string:
