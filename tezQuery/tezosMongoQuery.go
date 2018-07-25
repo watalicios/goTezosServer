@@ -1,16 +1,54 @@
-package main
+package tezQuery
 
 import (
   "time"
+  "errors"
+  "github.com/DefinitelyNotAGoat/goTezosServer"
 )
 
 
 func GetBlock(arg interface{}) (Block, error){
+  result := Block{}
+  level := -1
+  hash := ""
 
+  switch v := arg.(type) {
+    case int:
+        level = arg.(int)
+    case string:
+        hash = arg.(string)
+    default:
+        return result, errors.New("GetBlock(arg interface{}) failed: Type not Supported")
+  }
+
+  if (level > -1){
+    err := Collection.Find(bson.M{"header.level": level}).One(&result)
+    if (err != nil) {
+  		return result, err
+  	}
+  }
+
+  if (hash != ""){
+    err := Collection.Find(bson.M{"hash": hash}).One(&result)
+    if (err != nil) {
+  		return result, err
+  	}
+  }
+
+  return result, errors.New("GetBlock(arg interface{}) failed: Level and Hash Empty")
 }
 
-func GetBlockHead() (Block, error){
-
+func GetBlockHead() (Block, error){  //db.blocks.find().skip(db.blocks.count() - 1)
+  result := Block{}
+  Count, err := Collection.Count()
+  if (err != nil){
+    return result, err
+  }
+  err := Collection.Find().Skip(Collection.Count() -1).One(&result)
+  if (err != nil) {
+		return result, err
+	}
+  return result, nil
 }
 
 func GetBlockProtocol(arg interface{}) (string, error){

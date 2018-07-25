@@ -1,3 +1,4 @@
+package goTezosServer
 
 import (
   "time"
