@@ -62,13 +62,13 @@ func InitSynchronizeTezosMongo(){
 }
 
 func SynchronizeTezosMongo() {
-  blockDb, err := tezQuery.GetBlockHead() //Get last block in db
+  blockDb, err := GetBlockHead() //Get last block in db
   level :=  blockDb.Header.Level
   nextLevel := level +1
   run := true
 
   for run == true{
-    tmpBlock, _ := GetBlockHead() //Get current head in rpc
+    tmpBlock, _ := GetBlockRPCHead() //Get current head in rpc
     blockHead := ConvertBlockToJson(tmpBlock)
 
     if (nextLevel <= blockHead.Header.Level){
@@ -87,7 +87,7 @@ func SynchronizeTezosMongo() {
 }
 
 func MongoGetAllBlocks() error{
-  head, err := GetBlockHead()
+  head, err := GetBlockRPCHead()()
   if (err != nil){
     return err
   }
@@ -157,7 +157,7 @@ Returns (string): A string representation of the hash for the block level querie
 Description: Will retreive the current block level as an integer
 Returns (int): Returns integer representation of block level
 */
-func GetBlockHead() ([]byte, error){
+func GetBlockRPCHead()() ([]byte, error){
   s, err := TezosRPCGet("chains/main/blocks/head")
   if (err != nil){
     return s, errors.New("Could not get block level for head: TezosRPCGet(arg string) failed: " + err.Error())

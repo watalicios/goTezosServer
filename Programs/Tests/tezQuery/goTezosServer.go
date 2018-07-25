@@ -9,7 +9,6 @@ License: MIT
 
 import (
   "github.com/DefinitelyNotAGoat/goTezosServer"
-  "github.com/DefinitelyNotAGoat/goTezosServer/tezQuery"
   "fmt"
 )
 
@@ -17,12 +16,12 @@ import (
 func main(){
   var block goTezosServer.Block
   var err error
-  block, err = tezQuery.GetBlock(10)
+  block, err = goTezosServer.GetBlock(10)
   if (err != nil){
     fmt.Println(err)
   }
   fmt.Println(block)
-  block, err = tezQuery.GetBlock("BLq3jarZuxz4F7pamd9xvNmrSstMqAS2JMP5SB2VMqpdWpN88eJ")
+  block, err = goTezosServer.GetBlock("BLq3jarZuxz4F7pamd9xvNmrSstMqAS2JMP5SB2VMqpdWpN88eJ")
   if (err != nil){
     fmt.Println(err)
   }
