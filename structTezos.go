@@ -2,7 +2,7 @@ import  (
   "time"
 )
 
-type Block []struct {
+type Block struct {
 	Protocol string `json:"protocol"`
 	ChainID  string `json:"chain_id"`
 	Hash     string `json:"hash"`
