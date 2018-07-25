@@ -61,7 +61,7 @@ func InitSynchronizeTezosMongo(){
 }
 
 func SynchronizeTezosMongo() {
-  blockDb, err := GetBlockHead() //Get last block in db
+  blockDb, _ := GetBlockHead() //Get last block in db
   level :=  blockDb.Header.Level
   nextLevel := level +1
   run := true
