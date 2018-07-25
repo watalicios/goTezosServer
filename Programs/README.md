@@ -1,6 +1,6 @@
 # goTezosServer Application: A Tezos Query Server Backed by MongoDB
 
-The purpose of the goTezosServer application is to provide an easy and quick queryable to get data from the Tezos network.
+The purpose of the goTezosServer application is to provide an easy and queryable database to get data from the Tezos network.
 
 If you would like to send me some coffee money:
 ```
