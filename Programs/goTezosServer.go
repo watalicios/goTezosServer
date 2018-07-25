@@ -13,7 +13,7 @@ import (
 
 
 func main(){
-  goTezosServer.SynchronizeTezosMongo()
+  go goTezosServer.SynchronizeTezosMongo()
 }
 
 // func getBlockTest() (bool, error){

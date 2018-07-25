@@ -14,8 +14,10 @@ import (
   "errors"
   "regexp"
   "strconv"
+  "time"
   "encoding/json"
   "gopkg.in/mgo.v2"
+  "github.com/DefinitelyNotAGoat/goTezosServer/tezQuery"
 )
 
 var (
@@ -26,11 +28,6 @@ var (
 var TezosPath string
 var Session *mgo.Session
 var Collection *mgo.Collection
-
-type Person struct {
-        Name string
-        Phone string
-}
 
 /*
 Description: This library needs the TEZOSPATH enviroment variable to function
@@ -57,10 +54,35 @@ func init() {
 
 }
 
-func SynchronizeTezosMongo(){
+func InitSynchronizeTezosMongo(){
   err := MongoGetAllBlocks()
   if (err != nil){
     fmt.Println(err)
+  }
+}
+
+func SynchronizeTezosMongo() {
+  blockDb, err := tezQuery.GetBlockHead() //Get last block in db
+  level :=  blockDb.Header.Level
+  nextLevel := level +1
+  run := true
+
+  for run == true{
+    tmpBlock, _ := GetBlockHead() //Get current head in rpc
+    blockHead := ConvertBlockToJson(tmpBlock)
+
+    if (nextLevel <= blockHead.Header.Level){
+      block, err := GetBlock(nextLevel, blockHead.Hash, blockHead.Header.Level)
+      if (err != nil){
+        fmt.Println(err)
+      }
+      err = Collection.Insert(block)
+      if (err != nil){
+        fmt.Println(err)
+      }
+      nextLevel = nextLevel + 1
+    }
+    time.Sleep(1 * time.Second)
   }
 }
 
@@ -143,10 +165,6 @@ func GetBlockHead() ([]byte, error){
   return s, nil
 }
 
-
-
-
-
 /*
 Description: Takes an  array of interface (struct in our case), jsonifies it, and allows a much neater print.
 Param v (interface{}): Array of an interface
@@ -159,27 +177,6 @@ func ConvertBlockToJson(v []byte) Block {
   }
 
   return block
-}
-
-
-/*
-Description: A function that executes a command to the tezos-client
-Param args ([]string): Arguments to be executed
-Returns (string): Returns the output of the executed command as a string
-*/
-func MongoAddBlock(json string) (error){
-
-  json = "[" + json + "]"
-  fmt.Println(json)
-  out, err := exec.Command("mongoimport", "--db", "TEZOS", "--collection", "blocks", "--type", "json", json).Output()
-  if err != nil {
-    fmt.Println(err)
-    return  err
-  }
-
-  fmt.Println(out)
-
-  return nil
 }
 
 /*
