@@ -107,6 +107,8 @@ var (
 )
 
 var TezosPath string
+var session *mgo.Session
+var collection *mgo.Collection
 
 type Person struct {
         Name string
@@ -128,52 +130,46 @@ func init() {
     fmt.Println("Could not find tezos-client in TEZOSPATH: " + err.Error())
     os.Exit(1)
   }
+
+  session, err := mgo.Dial("127.0.0.1")
+  collection := session.DB("TEZOS").C("blocks")
+
 }
 
 func SynchronizeTezosMongo(){
-  blocks, err := GetAllBlocks()
+  err := MongoGetAllBlocks()
   if (err != nil){
     fmt.Println(err)
   }
-
-  session, err := mgo.Dial("127.0.0.1")
-  c := session.DB("TEZOS").C("blocks")
-
-
-  for _, block := range blocks{
-  //  fmt.Println(block)
-    err = c.Insert(block)
-    if (err != nil){
-      fmt.Println(err)
-    }
-  }
 }
 
-func GetAllBlocks() ([]Block, error){
-  var blocks []Block
+func MongoGetAllBlocks() error{
   head, err := GetBlockHead()
   if (err != nil){
-    return blocks, err
+    return err
   }
 
   regHeadLevelResult := reGetBlockLevelHead.FindStringSubmatch(string(head[:]))
   if (regHeadLevelResult == nil){
-    return blocks, errors.New("Could not get block level for head")
+    return errors.New("Could not get block level for head")
   }
   headLevel, _ := strconv.Atoi(regHeadLevelResult[1]) //TODO Error Checking
   headHash := reGetHash.FindStringSubmatch(string(head[:])) //TODO Error check the regex
   if (headHash == nil){
-    return blocks, errors.New("Could not get hash for block head")
+    return errors.New("Could not get hash for block head")
   }
 
   for i := headLevel-headLevel; i < headLevel; i ++{
     block, err := GetBlock(i, headHash[1], headLevel)
     if (err != nil){
-      return blocks, err
+      return err
     }
-    blocks = append(blocks, block)
+    err = collection.Insert(block)
+    if (err != nil){
+      fmt.Println(err)
+    }
   }
-  return blocks, nil
+  return nil
 }
 
 func GetBlock(level int, headHash string, headLevel int) (Block, error){
