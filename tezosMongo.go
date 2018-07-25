@@ -64,6 +64,9 @@ func SynchronizeTezosMongo(){
   for _, block := range blocks{
     fmt.Println(block)
     err = c.Insert(block)
+    if (err != nil){
+      fmt.Println(err)
+    }
   }
 }
 
