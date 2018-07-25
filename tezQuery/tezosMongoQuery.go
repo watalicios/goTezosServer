@@ -14,9 +14,9 @@ func GetBlock(arg interface{}) (goTezosServer.Block, error){
 
   switch v := arg.(type) {
     case int:
-        level = arg.(int)
+        level = v.(int)
     case string:
-        hash = arg.(string)
+        hash = v.(string)
     default:
         return result, errors.New("GetBlock(arg interface{}) failed: Type not Supported")
   }
@@ -40,11 +40,10 @@ func GetBlock(arg interface{}) (goTezosServer.Block, error){
 
 func GetBlockHead() (goTezosServer.Block, error){  //db.blocks.find().skip(db.blocks.count() - 1)
   result := goTezosServer.Block{}
-  Count, err := goTezosServer.Collection.Count()
+  count, err := goTezosServer.Collection.Count()
   if (err != nil){
     return result, err
   }
-  count, _ := goTezosServer.Collection.Count()
   err = goTezosServer.Collection.Find(bson.M{}).Skip(count - 1).One(&result)
   if (err != nil) {
 		return result, err
