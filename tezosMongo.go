@@ -86,7 +86,7 @@ func SynchronizeTezosMongo() {
 }
 
 func MongoGetAllBlocks() error{
-  head, err := GetBlockRPCHead()()
+  head, err := GetBlockRPCHead()
   if (err != nil){
     return err
   }
