@@ -118,6 +118,170 @@ func GetBlockMetadataMaxOperationListLength(arg interface{}) ([]Block.Metadata.M
 
 }
 
-func GetBlockMetadataMaxOperationDataLength(arg interface{}) (int, error) {
+func GetBlockMetadataMaxOperationDataLengthMaxSize(arg interface{}) (int, error) {
+
+}
+
+func GetBlockMetadataMaxOperationDataLengthMaxOp(arg interface{}) (int, error) {
+
+}
+
+func GetBlockMetadataBaker(arg interface{}) (string, error) {
+
+}
+
+func GetBlockMetadataLevel(arg interface{}) ([]Block.Metadata.Level, error) {
+
+}
+
+func GetBlockMetadataLevelLevel(arg interface{}) (int, error) {
+
+}
+
+func GetBlockMetadataLevelPosition(arg interface{}) (int, error) {
+
+}
+
+func GetBlockMetadataLevelCycle(arg interface{}) (int, error) {
+
+}
+
+func GetBlockMetadataLevelCyclePosition(arg interface{}) (int, error) {
+
+}
+
+func GetBlockMetadataLevelVotingPeriod(arg interface{}) (int, error) {
+
+}
+
+func GetBlockMetadataLevelVotingPeriod(arg interface{}) (int, error) {
+
+}
+
+func GetBlockMetadataLevelExpectedCommitment(arg interface{}) (bool, error) {
+
+}
+
+func GetBlockMetadataVotingPeriodKind(arg interface{}) (string, error) {
+
+}
+
+func GetBlockMetadataNonceHash(arg interface{}) (interface{}, error) {
+
+}
+
+func GetBlockMetadataConsumedGas(arg interface{}) (string, error) {
+
+}
+
+func GetBlockMetadataDeactivated(arg interface{}) (interface{}, error) {
+
+}
+
+func GetBlockMetadataBalanceUpdates(arg interface{}) ([]Block.Metadata.BalanceUpdates, error) {
+
+}
+
+func GetBlockMetadataBalanceKind(arg interface{}) (string, error) {
+
+}
+
+func GetBlockMetadataBalanceUpdatesContract(arg interface{}) (string, error) {
+
+}
+
+func GetBlockMetadataBalanceUpdatesChange(arg interface{}) (string, error) {
+
+}
+
+func GetBlockMetadataBalanceUpdatesCategory(arg interface{}) (string, error) {
+
+}
+
+func GetBlockMetadataBalanceUpdatesDelegate(arg interface{}) (string, error) {
+
+}
+
+func GetBlockMetadataBalanceUpdatesLevel(arg interface{}) (int, error) {
+
+}
+
+func GetBlockOperations(arg interface{}) (Block.Operations, error){
+
+}
+
+func GetBlockOperationsProtocol(arg interface{}) (string, error){
+
+}
+
+func GetBlockOperationsChainID(arg interface{}) (string, error){
+
+}
+
+func GetBlockOperationsHash(arg interface{}) (string, error){
+
+}
+
+func GetBlockOperationsBranch(arg interface{}) (string, error){
+
+}
+
+func GetBlockOperationsContents(arg interface{}) ([]Block.Operations.Contents, error){
+
+}
+
+func GetBlockOperationsContentsKind(arg interface{}) (string, error){
+
+}
+
+func GetBlockOperationsContentsLevel(arg interface{}) (int, error){
+
+}
+
+func GetBlockOperationsContentsMetadata(arg interface{}) (Block.Operations.Contents.Metadata, error){
+
+}
+
+func GetBlockOperationsContentsMetadataBalanceUpdates(arg interface{}) ([]Block.Operations.Contents.Metadata.BalanceUpdates, error){
+
+}
+
+func GetBlockOperationsContentsMetadataBalanceUpdatesKind(arg interface{}) (string, error){
+
+}
+
+func GetBlockOperationsContentsMetadataBalanceUpdatesContract(arg interface{}) (string, error){
+
+}
+
+func GetBlockOperationsContentsMetadataBalanceUpdatesChange(arg interface{}) (string, error){
+
+}
+
+func GetBlockOperationsContentsMetadataBalanceUpdatesCategory(arg interface{}) (string, error){
+
+}
+
+func GetBlockOperationsContentsMetadataBalanceUpdatesCategory(arg interface{}) (string, error){
+
+}
+
+func GetBlockOperationsContentsMetadataBalanceUpdatesDelegate(arg interface{}) (string, error){
+
+}
+
+func GetBlockOperationsContentsMetadataBalanceUpdatesLevel(arg interface{}) (string, error){
+
+}
+
+func GetBlockOperationsContentsMetadataDelegate(arg interface{}) (string, error){
+
+}
+
+func GetBlockOperationsContentsMetadataSlots(arg interface{}) ([]int, error){
+
+}
+
+func GetBlockOperationsSignature(arg interface{}) (string, error){
 
 }
