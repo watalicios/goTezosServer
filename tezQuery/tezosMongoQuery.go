@@ -63,9 +63,9 @@ func GetBlockHash(arg interface{}) (string, error) {
 
 }
 
-func GetBlockHeader(arg interface{}) goTezosServer.Block.Header, error {
-
-}
+// func GetBlockHeader(arg interface{}) (goTezosServer.Block.Header, error) {
+//
+// }
 
 
 func GetBlockHeaderLevel(arg interface{}) (int, error) {
@@ -200,9 +200,9 @@ func GetBlockMetadataDeactivated(arg interface{}) (interface{}, error) {
 
 }
 
-func GetBlockMetadataBalanceUpdates(arg interface{}) ([]goTezosServer.Block.Metadata.BalanceUpdates, error) {
-
-}
+// func GetBlockMetadataBalanceUpdates(arg interface{}) ([]goTezosServer.Block.Metadata.BalanceUpdates, error) {
+//
+// }
 
 func GetBlockMetadataBalanceKind(arg interface{}) (string, error) {
 
@@ -228,9 +228,9 @@ func GetBlockMetadataBalanceUpdatesLevel(arg interface{}) (int, error) {
 
 }
 
-func GetBlockOperations(arg interface{}) (goTezosServer.Block.Operations, error){
-
-}
+// func GetBlockOperations(arg interface{}) (goTezosServer.Block.Operations, error){
+//
+// }
 
 func GetBlockOperationsProtocol(arg interface{}) (string, error){
 
@@ -248,9 +248,9 @@ func GetBlockOperationsBranch(arg interface{}) (string, error){
 
 }
 
-func GetBlockOperationsContents(arg interface{}) ([]goTezosServer.Block.Operations.Contents, error){
-
-}
+// func GetBlockOperationsContents(arg interface{}) ([]goTezosServer.Block.Operations.Contents, error){
+//
+// }
 
 func GetBlockOperationsContentsKind(arg interface{}) (string, error){
 
@@ -260,13 +260,13 @@ func GetBlockOperationsContentsLevel(arg interface{}) (int, error){
 
 }
 
-func GetBlockOperationsContentsMetadata(arg interface{}) (goTezosServer.Block.Operations.Contents.Metadata, error){
-
-}
-
-func GetBlockOperationsContentsMetadataBalanceUpdates(arg interface{}) ([]goTezosServer.Block.Operations.Contents.Metadata.BalanceUpdates, error){
-
-}
+// func GetBlockOperationsContentsMetadata(arg interface{}) (goTezosServer.Block.Operations.Contents.Metadata, error){
+//
+// }
+//
+// func GetBlockOperationsContentsMetadataBalanceUpdates(arg interface{}) ([]goTezosServer.Block.Operations.Contents.Metadata.BalanceUpdates, error){
+//
+// }
 
 func GetBlockOperationsContentsMetadataBalanceUpdatesKind(arg interface{}) (string, error){
 
