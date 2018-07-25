@@ -17,7 +17,6 @@ import (
   "time"
   "encoding/json"
   "gopkg.in/mgo.v2"
-  "github.com/DefinitelyNotAGoat/goTezosServer/tezQuery"
 )
 
 var (
