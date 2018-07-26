@@ -1,4 +1,4 @@
-package goTezosServer
+package random
 
 import (
   "errors"

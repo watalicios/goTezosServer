@@ -53,13 +53,9 @@ func init() {
     fmt.Println(errs)
   }
 
-  //Collection = Session.DB("TEZOS").C("blocks")
+  Collection = Session.DB("TEZOS").C("blocks")
 }
 
-func SetDataBase(db string) {
-   Collection =  Session.DB(db).C("blocks")
-   fmt.Println(Collection)
-}
 
 func InitSynchronizeTezosMongo(){
   err := MongoGetAllBlocks()
@@ -127,6 +123,7 @@ func GetBlockRPC(level int, headHash string, headLevel int) (Block, error){
   diff := headLevel - level
   diffStr := strconv.Itoa(diff)
   getBlockByLevel := "chains/main/blocks/" + headHash + "~" + diffStr
+  var bsonBlock BsonBlock
   var block Block
 
   s, err := TezosRPCGet(getBlockByLevel)
@@ -134,7 +131,8 @@ func GetBlockRPC(level int, headHash string, headLevel int) (Block, error){
     return block, err
   }
 
-  block = ConvertBlockToJson(s)
+  bsonBlock = ConvertBlockToJson(s)
+  block = BsonBlockToBlock(bsonBlock)
   return block, nil
 }
 
@@ -177,8 +175,8 @@ func GetBlockRPCHead() ([]byte, error){
 Description: Takes an  array of interface (struct in our case), jsonifies it, and allows a much neater print.
 Param v (interface{}): Array of an interface
 */
-func ConvertBlockToJson(v []byte) Block {
-  var block Block
+func ConvertBlockToJson(v []byte) BsonBlock {
+  var block BsonBlock
   err := json.Unmarshal(v, &block)
   if err != nil {
         panic(err)
