@@ -228,7 +228,7 @@ func GetBlockMetadataNextProtocol(arg interface{}) (string, error) {
 }
 
 func GetBlockMetadataTestChainStatus(arg interface{}) (TestChainStatus, error) {
-  testChainStatus TestChainStatus
+  var testChainStatus TestChainStatus
   block, err := BlockCheck(arg)
   if (err != nil){
     return testChainStatus, err
@@ -308,13 +308,13 @@ func GetBlockMetadataLevel(arg interface{}) (Level, error) {
     return level, err
   }
 
-  level.Level := block.Metadata.Level.Level
-  level.LevelPosition := block.Metadata.Level.LevelPosition
-  level.Cycle := block.Metadata.Level.Cycle
-  level.CyclePosition := block.Metadata.Level.CyclePosition
-  level.VotingPeriod :=  block.Metadata.Level.VotingPeriod
-  level.VotingPeriodPosition := block.Metadata.Level.VotingPeriodPosition
-  level.ExpectedCommitment := block.Metadata.Level.ExpectedCommitment
+  level.Level = block.Metadata.Level.Level
+  level.LevelPosition = block.Metadata.Level.LevelPosition
+  level.Cycle = block.Metadata.Level.Cycle
+  level.CyclePosition = block.Metadata.Level.CyclePosition
+  level.VotingPeriod =  block.Metadata.Level.VotingPeriod
+  level.VotingPeriodPosition = block.Metadata.Level.VotingPeriodPosition
+  level.ExpectedCommitment = block.Metadata.Level.ExpectedCommitment
 
   return level
 }
