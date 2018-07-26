@@ -269,8 +269,8 @@ func GetBlockMetadataMaxOperationListLength(arg interface{}) ([]MaxOperationList
   }
 
   for _, field := range block.Metadata.MaxOperationListLength{
-    size, _ := field.MaxSize
-    op, _ := field.MaxOp
+    size := field.MaxSize
+    op := field.MaxOp
     maxOperationListLength = append(maxOperationListLength, MaxOperationListLength{MaxSize: size, MaxOp: op})
   }
 
