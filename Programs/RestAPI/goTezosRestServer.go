@@ -407,7 +407,7 @@ func GetBlockSignature(w http.ResponseWriter, r *http.Request){
 }
 
 func GetBlockMetadata(w http.ResponseWriter, r *http.Request){
-  var rtnMeta StructMetadata
+  var rtnMeta goTezosServer.StructMetadata
   params := mux.Vars(r)
   blockid, isInt := strconv.Atoi(params["id"])
   if (isInt != nil){
@@ -425,7 +425,7 @@ func GetBlockMetadata(w http.ResponseWriter, r *http.Request){
     }
     rtnMeta = meta
   }
-  respondWithJson(w, http.StatusOK, rtnSig)
+  respondWithJson(w, http.StatusOK, rtnMeta)
 }
 
 func GetBlockMetadataProtocol(w http.ResponseWriter, r *http.Request){
@@ -473,7 +473,7 @@ func GetBlockMetadataNextProtocol(w http.ResponseWriter, r *http.Request){
 }
 
 func GetBlockMetadataTestChainStatus(w http.ResponseWriter, r *http.Request){
-  var rtnTest StructTestChainStatus
+  var rtnTest goTezosServer.StructTestChainStatus
   params := mux.Vars(r)
   blockid, isInt := strconv.Atoi(params["id"])
   if (isInt != nil){
@@ -495,7 +495,7 @@ func GetBlockMetadataTestChainStatus(w http.ResponseWriter, r *http.Request){
 }
 
 func GetBlockMetadataMaxOperationsTTL(w http.ResponseWriter, r *http.Request){
-  var rtnMaxOperationsTTL StructTestChainStatus
+  var rtnMaxOperationsTTL int
   params := mux.Vars(r)
   blockid, isInt := strconv.Atoi(params["id"])
   if (isInt != nil){
@@ -517,7 +517,7 @@ func GetBlockMetadataMaxOperationsTTL(w http.ResponseWriter, r *http.Request){
 }
 
 func GetBlockMetadataMaxOperationDataLength(w http.ResponseWriter, r *http.Request){
-  var rtnMaxOperationDataLength StructTestChainStatus
+  var rtnMaxOperationDataLength int
   params := mux.Vars(r)
   blockid, isInt := strconv.Atoi(params["id"])
   if (isInt != nil){
@@ -539,7 +539,7 @@ func GetBlockMetadataMaxOperationDataLength(w http.ResponseWriter, r *http.Reque
 }
 
 func GetBlockMetadataMaxBlockHeaderLength(w http.ResponseWriter, r *http.Request){
-  var rtnMaxBlockHeaderLength StructTestChainStatus
+  var rtnMaxBlockHeaderLength int
   params := mux.Vars(r)
   blockid, isInt := strconv.Atoi(params["id"])
   if (isInt != nil){
@@ -561,7 +561,7 @@ func GetBlockMetadataMaxBlockHeaderLength(w http.ResponseWriter, r *http.Request
 }
 
 func GetBlockMetadataMaxOperationListLength(w http.ResponseWriter, r *http.Request){
-  var rtnMaxOperationListLength StructTestChainStatus
+  var rtnMaxOperationListLength []goTezosServerStructMaxOperationListLength
   params := mux.Vars(r)
   blockid, isInt := strconv.Atoi(params["id"])
   if (isInt != nil){
