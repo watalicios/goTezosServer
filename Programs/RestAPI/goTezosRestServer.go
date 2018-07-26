@@ -4,6 +4,7 @@ import (
   "strconv"
   "net/http"
   "log"
+  "time"
   "encoding/json"
   "github.com/gorilla/mux"
   "github.com/DefinitelyNotAGoat/goTezosServer"
@@ -18,6 +19,17 @@ func main(){
   r.HandleFunc("/block/chainid/{id}", GetBlockChainId).Methods("GET")
   r.HandleFunc("/block/hash/{id}", GetBlockHash).Methods("GET")
   r.HandleFunc("/block/header/{id}", GetBlockHeader).Methods("GET")
+  r.HandleFunc("/block/level/{id}", GetBlockLevel).Methods("GET")
+  r.HandleFunc("/block/proto/{id}", GetBlockProto).Methods("GET")
+  r.HandleFunc("/block/predecessor/{id}", GetBlockPredecessor).Methods("GET")
+  r.HandleFunc("/block/timestamp/{id}", GetBlockTimeStamp).Methods("GET")
+  r.HandleFunc("/block/validationpass/{id}", GetBlockValidationPass).Methods("GET")
+  r.HandleFunc("/block/operationhash/{id}", GetBlockOperationsHash).Methods("GET")
+  r.HandleFunc("/block/fitness/{id}", GetBlockFitness).Methods("GET")
+  r.HandleFunc("/block/context/{id}", GetBlockContext).Methods("GET")
+  r.HandleFunc("/block/priority/{id}", GetBlockPriority).Methods("GET")
+  r.HandleFunc("/block/proofofworknonce/{id}", GetBlockProofOfWorkNonce).Methods("GET")
+  r.HandleFunc("/block/signature/{id}", GetBlockSignature).Methods("GET")
 	if err := http.ListenAndServe(":3000", r); err != nil {
 		log.Fatal(err)
 	}
@@ -143,6 +155,247 @@ func GetBlockHeader(w http.ResponseWriter, r *http.Request){
 	respondWithJson(w, http.StatusOK, rtnBlockHeader)
 }
 
+func GetBlockLevel(w http.ResponseWriter, r *http.Request){
+  var rtnLevel int
+  params := mux.Vars(r)
+  blockid, isInt := strconv.Atoi(params["id"])
+  if (isInt != nil){
+    level, err := goTezosServer.GetBlockHeader(params["id"])
+  	if err != nil {
+  		respondWithError(w, http.StatusInternalServerError, err.Error())
+  		return
+  	}
+    rtnLevel = level
+  } else {
+    level, err := goTezosServer.GetBlockHeader(blockid)
+  	if err != nil {
+  		respondWithError(w, http.StatusInternalServerError, err.Error())
+  		return
+  	}
+    rtnLevel = level
+  }
+	respondWithJson(w, http.StatusOK, rtnLevel)
+}
+
+func GetBlockProto(w http.ResponseWriter, r *http.Request){
+  var rtnProto int
+  params := mux.Vars(r)
+  blockid, isInt := strconv.Atoi(params["id"])
+  if (isInt != nil){
+    proto, err := goTezosServer.GetBlockHeaderProto(params["id"])
+  	if err != nil {
+  		respondWithError(w, http.StatusInternalServerError, err.Error())
+  		return
+  	}
+    rtnProto = proto
+  } else {
+    proto, err := goTezosServer.GetBlockHeaderProto(blockid)
+  	if err != nil {
+  		respondWithError(w, http.StatusInternalServerError, err.Error())
+  		return
+  	}
+    rtnProto = proto
+  }
+	respondWithJson(w, http.StatusOK, rtnProto)
+}
+
+func GetBlockPredecessor(w http.ResponseWriter, r *http.Request){
+  var rtnPredecessor string
+  params := mux.Vars(r)
+  blockid, isInt := strconv.Atoi(params["id"])
+  if (isInt != nil){
+    predecessor, err := goTezosServer.GetBlockHeaderProto(params["id"])
+  	if err != nil {
+  		respondWithError(w, http.StatusInternalServerError, err.Error())
+  		return
+  	}
+    rtnPredecessor = predecessor
+  } else {
+    predecessor, err := goTezosServer.GetBlockHeaderProto(blockid)
+  	if err != nil {
+  		respondWithError(w, http.StatusInternalServerError, err.Error())
+  		return
+  	}
+    rtnPredecessor = predecessor
+  }
+	respondWithJson(w, http.StatusOK, rtnPredecessor)
+}
+
+func GetBlockTimeStamp(w http.ResponseWriter, r *http.Request){
+  var rtnTimestamp time.Time
+  params := mux.Vars(r)
+  blockid, isInt := strconv.Atoi(params["id"])
+  if (isInt != nil){
+    timestamp, err := goTezosServer.GetBlockHeaderTimeStamp(params["id"])
+  	if err != nil {
+  		respondWithError(w, http.StatusInternalServerError, err.Error())
+  		return
+  	}
+    rtnTimestamp = timestamp
+  } else {
+    timestamp, err := goTezosServer.GetBlockHeaderTimeStamp(blockid)
+  	if err != nil {
+  		respondWithError(w, http.StatusInternalServerError, err.Error())
+  		return
+  	}
+    rtnTimestamp = timestamp
+  }
+	respondWithJson(w, http.StatusOK, rtnTimestamp)
+}
+
+func GetBlockValidationPass(w http.ResponseWriter, r *http.Request){
+  var rtnValidation int
+  params := mux.Vars(r)
+  blockid, isInt := strconv.Atoi(params["id"])
+  if (isInt != nil){
+    validation, err := goTezosServer.GetBlockHeaderValidationPass(params["id"])
+  	if err != nil {
+  		respondWithError(w, http.StatusInternalServerError, err.Error())
+  		return
+  	}
+    rtnValidation = validation
+  } else {
+    validation, err := goTezosServer.GetBlockHeaderValidationPass(blockid)
+  	if err != nil {
+  		respondWithError(w, http.StatusInternalServerError, err.Error())
+  		return
+  	}
+    rtnValidation = validation
+  }
+	respondWithJson(w, http.StatusOK, rtnValidation)
+}
+
+func GetBlockOperationsHash(w http.ResponseWriter, r *http.Request){
+  var rtnOpHash string
+  params := mux.Vars(r)
+  blockid, isInt := strconv.Atoi(params["id"])
+  if (isInt != nil){
+    opHash, err := goTezosServer.GetBlockHeaderOperationsHash(params["id"])
+  	if err != nil {
+  		respondWithError(w, http.StatusInternalServerError, err.Error())
+  		return
+  	}
+    rtnOpHash = opHash
+  } else {
+    opHash, err := goTezosServer.GetBlockHeaderOperationsHash(blockid)
+  	if err != nil {
+  		respondWithError(w, http.StatusInternalServerError, err.Error())
+  		return
+  	}
+    rtnOpHash = opHash
+  }
+	respondWithJson(w, http.StatusOK, rtnOpHash)
+}
+
+func GetBlockFitness(w http.ResponseWriter, r *http.Request){
+  var rtnFitness []string
+  params := mux.Vars(r)
+  blockid, isInt := strconv.Atoi(params["id"])
+  if (isInt != nil){
+    fitness, err := goTezosServer.GetBlockHeaderFitness(params["id"])
+  	if err != nil {
+  		respondWithError(w, http.StatusInternalServerError, err.Error())
+  		return
+  	}
+    rtnFitness = fitness
+  } else {
+    fitness, err := goTezosServer.GetBlockHeaderFitness(blockid)
+  	if err != nil {
+  		respondWithError(w, http.StatusInternalServerError, err.Error())
+  		return
+  	}
+    rtnFitness = fitness
+  }
+	respondWithJson(w, http.StatusOK, rtnFitness)
+}
+
+func GetBlockContext(w http.ResponseWriter, r *http.Request){
+  var rtnContext string
+  params := mux.Vars(r)
+  blockid, isInt := strconv.Atoi(params["id"])
+  if (isInt != nil){
+    context, err := goTezosServer.GetBlockHeaderContext(params["id"])
+  	if err != nil {
+  		respondWithError(w, http.StatusInternalServerError, err.Error())
+  		return
+  	}
+    rtnContext = context
+  } else {
+    context, err := goTezosServer.GetBlockHeaderContext(blockid)
+  	if err != nil {
+  		respondWithError(w, http.StatusInternalServerError, err.Error())
+  		return
+  	}
+    rtnContext = context
+  }
+	respondWithJson(w, http.StatusOK, rtnContext)
+}
+
+func GetBlockPriority(w http.ResponseWriter, r *http.Request){
+  var rtnPriority int
+  params := mux.Vars(r)
+  blockid, isInt := strconv.Atoi(params["id"])
+  if (isInt != nil){
+    priority, err := goTezosServer.GetBlockHeaderPriority(params["id"])
+  	if err != nil {
+  		respondWithError(w, http.StatusInternalServerError, err.Error())
+  		return
+  	}
+    rtnPriority = priority
+  } else {
+    priority, err := goTezosServer.GetBlockHeaderPriority(blockid)
+  	if err != nil {
+  		respondWithError(w, http.StatusInternalServerError, err.Error())
+  		return
+  	}
+    rtnPriority = priority
+  }
+	respondWithJson(w, http.StatusOK, rtnPriority)
+}
+
+func GetBlockProofOfWorkNonce(w http.ResponseWriter, r *http.Request){
+  var rtnProofOfWork string
+  params := mux.Vars(r)
+  blockid, isInt := strconv.Atoi(params["id"])
+  if (isInt != nil){
+    proofOfWork, err := goTezosServer.GetBlockHeaderPriority(params["id"])
+    if err != nil {
+      respondWithError(w, http.StatusInternalServerError, err.Error())
+      return
+    }
+    rtnProofOfWork = proofOfWork
+  } else {
+    proofOfWork, err := goTezosServer.GetBlockHeaderPriority(blockid)
+    if err != nil {
+      respondWithError(w, http.StatusInternalServerError, err.Error())
+      return
+    }
+    rtnProofOfWork = proofOfWork
+  }
+  respondWithJson(w, http.StatusOK, rtnProofOfWork)
+}
+
+func GetBlockSignature(w http.ResponseWriter, r *http.Request){
+  var rtnSig string
+  params := mux.Vars(r)
+  blockid, isInt := strconv.Atoi(params["id"])
+  if (isInt != nil){
+    sig, err := goTezosServer.GetBlockHeaderPriority(params["id"])
+    if err != nil {
+      respondWithError(w, http.StatusInternalServerError, err.Error())
+      return
+    }
+    rtnSig = sig
+  } else {
+    sig, err := goTezosServer.GetBlockHeaderPriority(blockid)
+    if err != nil {
+      respondWithError(w, http.StatusInternalServerError, err.Error())
+      return
+    }
+    rtnSig = sig
+  }
+  respondWithJson(w, http.StatusOK, rtnSig)
+}
 // func CheckType(v interface{}) (int, error) {
 //   switch v.(type){
 //   case int:
