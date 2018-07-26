@@ -1,7 +1,6 @@
 package main
 
 import (
-  "fmt"
   "strconv"
   "net/http"
   "log"
@@ -32,7 +31,7 @@ func GetBlockHead(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetBlock(w http.ResponseWriter, r *http.Request) {
-  var rtbBlock Block
+  var rtbBlock goTezosServer.Block
   params := mux.Vars(r)
   blockid, isInt := strconv.Atoi(params["id"])
   if (isInt != nil){
