@@ -56,7 +56,7 @@ func BsonBlockToBlock(bsonBlock BsonBlock) Block{
   metadata.ConsumedGas = bsonBlock.Metadata.ConsumedGas
   metadata.Deactivated = bsonBlock.Metadata.Deactivated
   var balanceUpdates []StructBalanceUpdates
-  for _, field := bsonBlock.Metadata.BalanceUpdates{
+  for _, field := range bsonBlock.Metadata.BalanceUpdates{
     var balanceUpdate StructBalanceUpdates
     balanceUpdate.Kind = field.Kind
     balanceUpdate.Contract = field.Contract
@@ -83,7 +83,7 @@ func BsonBlockToBlock(bsonBlock BsonBlock) Block{
         content.Level = cont.Level
         var contentMetadata ContentsMetadata
         var balanceUpdates []StructBalanceUpdates
-        for _, bup := cont.Metadata.BalanceUpdates{
+        for _, bup := range cont.Metadata.BalanceUpdates{
           var balanceUpdate StructBalanceUpdates
           balanceUpdate.Kind = bup.Kind
           balanceUpdate.Contract = bup.Contract
