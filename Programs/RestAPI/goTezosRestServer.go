@@ -561,7 +561,7 @@ func GetBlockMetadataMaxBlockHeaderLength(w http.ResponseWriter, r *http.Request
 }
 
 func GetBlockMetadataMaxOperationListLength(w http.ResponseWriter, r *http.Request){
-  var rtnMaxOperationListLength []goTezosServerStructMaxOperationListLength
+  var rtnMaxOperationListLength []goTezosServer.StructMaxOperationListLength
   params := mux.Vars(r)
   blockid, isInt := strconv.Atoi(params["id"])
   if (isInt != nil){
@@ -572,7 +572,7 @@ func GetBlockMetadataMaxOperationListLength(w http.ResponseWriter, r *http.Reque
     }
     rtnMaxOperationListLength = maxOperationListLength
   } else {
-    maxBlockHeaderLength, err := goTezosServer.GetBlockMetadataMaxOperationListLength(blockid)
+    maxOperationListLength, err := goTezosServer.GetBlockMetadataMaxOperationListLength(blockid)
     if err != nil {
       respondWithError(w, http.StatusInternalServerError, err.Error())
       return
