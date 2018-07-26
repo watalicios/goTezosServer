@@ -271,7 +271,7 @@ func GetBlockMetadataMaxOperationListLength(arg interface{}) ([]StructMaxOperati
   for _, field := range block.Metadata.MaxOperationListLength{
     size := field.MaxSize
     op := field.MaxOp
-    maxOperationListLength = append(maxOperationListLength, MaxOperationListLength{MaxSize: size, MaxOp: op})
+    maxOperationListLength = append(maxOperationListLength, StructMaxOperationListLength{MaxSize: size, MaxOp: op})
   }
 
   return maxOperationListLength, nil
@@ -414,7 +414,7 @@ func GetBlockMetadataBalanceUpdates(arg interface{}) ([]StructBalanceUpdates, er
     category := field.Category
     delegate := field.Delegate
     level := field.Level
-    balanceUpdates = append(balanceUpdates, BalanceUpdates{Kind: kind, Contract: contract, Change: change, Category: category, Delegate: delegate, Level: level})
+    balanceUpdates = append(balanceUpdates, StructBalanceUpdates{Kind: kind, Contract: contract, Change: change, Category: category, Delegate: delegate, Level: level})
   }
 
   return balanceUpdates, nil
@@ -475,14 +475,14 @@ func GetBlockOperations(arg interface{}) ([]StructOperations, error){
     return operations, err
   }
 
-  for _, field := range block.Operations[0]{
+  for _, field := range block.Operations{
     protocol := field.Protocol
     chainId := field.ChainID
     hash := field.Hash
     branch := field.Branch
     //contents := nil //GetBlockOperationsContents(block)
     signature := field.Signature
-    operations = append(operations, Operations{Protocol: protocol, ChainID: chainId, Hash: hash, Branch: branch, Signature: signature})
+    operations = append(operations, StructOperations{Protocol: protocol, ChainID: chainId, Hash: hash, Branch: branch, Signature: signature})
   }
 
   return operations, nil
