@@ -14,6 +14,7 @@ func main(){
   r := mux.NewRouter()
 	r.HandleFunc("/head", GetBlockHead).Methods("GET")
 	r.HandleFunc("/block/{id}", GetBlock).Methods("GET")
+  r.HandleFunc("/block/protocol/{id}", GetBlockProtocol).Methods("GET")
 	if err := http.ListenAndServe(":3000", r); err != nil {
 		log.Fatal(err)
 	}
@@ -43,6 +44,28 @@ func GetBlock(w http.ResponseWriter, r *http.Request) {
     rtbBlock = block
   } else {
     block, err := goTezosServer.GetBlock(blockid)
+  	if err != nil {
+  		respondWithError(w, http.StatusInternalServerError, err.Error())
+  		return
+  	}
+    rtbBlock = block
+  }
+	respondWithJson(w, http.StatusOK, rtbBlock)
+}
+
+func GetBlockProtocol(w http.ResponseWriter, r *http.Request){
+  var rtbBlock goTezosServer.Block
+  params := mux.Vars(r)
+  blockid, isInt := strconv.Atoi(params["id"])
+  if (isInt != nil){
+    block, err := goTezosServer.GetBlockProtocol(params["id"])
+  	if err != nil {
+  		respondWithError(w, http.StatusInternalServerError, err.Error())
+  		return
+  	}
+    rtbBlock = block
+  } else {
+    block, err := goTezosServer.GetBlockProtocol(blockid)
   	if err != nil {
   		respondWithError(w, http.StatusInternalServerError, err.Error())
   		return
