@@ -31,7 +31,7 @@ func GetBlockHead(w http.ResponseWriter, r *http.Request) {
 
 func GetBlock(w http.ResponseWriter, r *http.Request) {
   params := mux.Vars(r)
-  block, err := goTezosServer.GetBlockHead(params["id"])
+  block, err := goTezosServer.GetBlock(params["id"])
 	if err != nil {
 		respondWithError(w, http.StatusInternalServerError, err.Error())
 		return
