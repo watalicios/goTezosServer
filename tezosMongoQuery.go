@@ -172,7 +172,7 @@ func GetBlockHeaderPriority(arg interface{}) (int, error) {
 }
 
 func GetBlockHeaderProofOfWorkNonce(arg interface{}) (string, error) {
-  block, err := GetBlock(arg)
+  block, err := BlockCheck(arg)
   if (err != nil){
     return "", err
   }
@@ -180,19 +180,39 @@ func GetBlockHeaderProofOfWorkNonce(arg interface{}) (string, error) {
 }
 
 func GetBlockHeaderSignature(arg interface{}) (string, error) {
-  block, err := GetBlock(arg)
+  block, err := BlockCheck(arg)
   if (err != nil){
     return "", err
   }
   return block.Header.ProofOfWorkNonce, nil
 }
 
-// func GetBlockMetadata(arg interface{}) (Block.Metadata, error) {
-//
-// }
+func GetBlockMetadata(arg interface{}) (Metadata, error) {
+  var metadata Metadata
+  block, err := BlockCheck(arg)
+  if (err != nil){
+    return metadata, err
+  }
+  metadata.Protocol = GetBlockMetadataProtocol(block)
+  metadata.NextProtocol = GetBlockMetadataNextProtocol(block)
+  metadata.TstChainStatus = GetBlockMetadataTestChainStatus(block)
+  metadata.MaxOperationsTTL = GetBlockMetadataMaxOperationsTTL(block)
+  metadata.MaxOperationDataLength = GetBlockMetadataMaxOperationDataLength(block)
+  metadata.MaxBlockHeaderLength = GetBlockMetadataMaxBlockHeaderLength(block)
+  metadata.MxOperationListLength = GetBlockMetadataMaxOperationListLength(block)
+  metadata.Baker = GetBlockMetadataBaker(block)
+  metadata.Lvl = GetBlockMetadataLevel(block)
+  metadata.VotingPeriodKind = GetBlockMetadataLevelVotingPeriod(block)
+  metadata.NonceHash = GetBlockMetadataNonceHash(block)
+  metadata.ConsumedGas = GetBlockMetadataConsumedGas(block)
+  metadata.Deactivated = GetBlockMetadataDeactivated(block)
+  metadata.BlncUpdates = GetBlockMetadataBalanceUpdates(block)
+
+  return metadata, nil
+}
 
 func GetBlockMetadataProtocol(arg interface{}) (string, error) {
-  block, err := GetBlock(arg)
+  block, err := BlockCheck(arg)
   if (err != nil){
     return "", err
   }
@@ -200,19 +220,25 @@ func GetBlockMetadataProtocol(arg interface{}) (string, error) {
 }
 
 func GetBlockMetadataNextProtocol(arg interface{}) (string, error) {
-  block, err := GetBlock(arg)
+  block, err := BlockCheck(arg)
   if (err != nil){
     return "", err
   }
   return block.Metadata.NextProtocol, nil
 }
 
-// func GetBlockMetadataTestChainStatus(arg interface{}) (Block.Metadata.TestChainStatus, error) {
-//
-// }
+func GetBlockMetadataTestChainStatus(arg interface{}) (TestChainStatus, error) {
+  testChainStatus TestChainStatus
+  block, err := BlockCheck(arg)
+  if (err != nil){
+    return testChainStatus, err
+  }
+  testChainStatus.Status = block.Metadata.TestChainStatus.Status
+  return testChainStatus
+}
 
 func GetBlockMetadataMaxOperationsTTL(arg interface{}) (int, error) {
-  block, err := GetBlock(arg)
+  block, err := BlockCheck(arg)
   if (err != nil){
     return 0, err
   }
@@ -220,7 +246,7 @@ func GetBlockMetadataMaxOperationsTTL(arg interface{}) (int, error) {
 }
 
 func GetBlockMetadataMaxOperationDataLength(arg interface{}) (int, error) {
-  block, err := GetBlock(arg)
+  block, err := BlockCheck(arg)
   if (err != nil){
     return 0, err
   }
@@ -228,17 +254,29 @@ func GetBlockMetadataMaxOperationDataLength(arg interface{}) (int, error) {
 }
 
 func GetBlockMetadataMaxBlockHeaderLength(arg interface{}) (int, error) {
-  block, err := GetBlock(arg)
+  block, err := BlockCheck(arg)
   if (err != nil){
     return 0, err
   }
   return block.Metadata.MaxBlockHeaderLength, nil
 }
 
-// // func GetBlockMetadataMaxOperationListLength(arg interface{}) ([]Block.Metadata.MaxOperationListLength, error) {
-// //
-// // }
-//
+func GetBlockMetadataMaxOperationListLength(arg interface{}) ([]MaxOperationListLength, error) {
+  var maxOperationListLength MaxOperationListLength
+  block, err := BlockCheck(arg)
+  if (err != nil){
+    return 0, err
+  }
+
+  for _, field = range block.Metadata.MaxOperationListLength{
+    size, _ := field.MaxSize
+    op, _ := field.MaxOp
+    maxOperationListLength = append(maxOperationListLength, MaxOperationListLength{MaxSize: size, MaxOp: op})
+  }
+
+  return maxOperationListLength
+}
+
 // func GetBlockMetadataMaxOperationDataLengthMaxSize(arg interface{}) (int, error) {
 //   block, err := GetBlock(arg)
 //   if (err != nil){
@@ -256,19 +294,33 @@ func GetBlockMetadataMaxBlockHeaderLength(arg interface{}) (int, error) {
 // }
 
 func GetBlockMetadataBaker(arg interface{}) (string, error) {
-  block, err := GetBlock(arg)
+  block, err := BlockCheck(arg)
   if (err != nil){
     return "", err
   }
   return block.Metadata.Baker, nil
 }
 
-// // func GetBlockMetadataLevel(arg interface{}) ([]Block.Metadata.Level, error) {
-// //
-// // }
-//
+func GetBlockMetadataLevel(arg interface{}) (Level, error) {
+  var level Level
+  block, err := BlockCheck(arg)
+  if (err != nil){
+    return level, err
+  }
+
+  level.Level := block.Metadata.Level.Level
+  level.LevelPosition := block.Metadata.Level.LevelPosition
+  level.Cycle := block.Metadata.Level.Cycle
+  level.CyclePosition := block.Metadata.Level.CyclePosition
+  level.VotingPeriod :=  block.Metadata.Level.VotingPeriod
+  level.VotingPeriodPosition := block.Metadata.Level.VotingPeriodPosition
+  level.ExpectedCommitment := block.Metadata.Level.ExpectedCommitment
+
+  return level
+}
+
 func GetBlockMetadataLevelLevel(arg interface{}) (int, error) {
-  block, err := GetBlock(arg)
+  block, err := BlockCheck(arg)
   if (err != nil){
     return 0, err
   }
@@ -276,7 +328,7 @@ func GetBlockMetadataLevelLevel(arg interface{}) (int, error) {
 }
 
 func GetBlockMetadataLevelLevelPosition(arg interface{}) (int, error) {
-  block, err := GetBlock(arg)
+  block, err := BlockCheck(arg)
   if (err != nil){
     return 0, err
   }
@@ -284,7 +336,7 @@ func GetBlockMetadataLevelLevelPosition(arg interface{}) (int, error) {
 }
 
 func GetBlockMetadataLevelCycle(arg interface{}) (int, error) {
-  block, err := GetBlock(arg)
+  block, err := BlockCheck(arg)
   if (err != nil){
     return 0, err
   }
@@ -292,7 +344,7 @@ func GetBlockMetadataLevelCycle(arg interface{}) (int, error) {
 }
 
 func GetBlockMetadataLevelCyclePosition(arg interface{}) (int, error) {
-  block, err := GetBlock(arg)
+  block, err := BlockCheck(arg)
   if (err != nil){
     return 0, err
   }
@@ -300,7 +352,7 @@ func GetBlockMetadataLevelCyclePosition(arg interface{}) (int, error) {
 }
 
 func GetBlockMetadataLevelVotingPeriod(arg interface{}) (int, error) {
-  block, err := GetBlock(arg)
+  block, err := BlockCheck(arg)
   if (err != nil){
     return 0, err
   }
@@ -308,7 +360,7 @@ func GetBlockMetadataLevelVotingPeriod(arg interface{}) (int, error) {
 }
 
 func GetBlockMetadataLevelExpectedCommitment(arg interface{}) (bool, error) {
-  block, err := GetBlock(arg)
+  block, err := BlockCheck(arg)
   if (err != nil){
     return false, err
   }
@@ -316,7 +368,7 @@ func GetBlockMetadataLevelExpectedCommitment(arg interface{}) (bool, error) {
 }
 
 func GetBlockMetadataVotingPeriodKind(arg interface{}) (string, error) {
-  block, err := GetBlock(arg)
+  block, err := BlockCheck(arg)
   if (err != nil){
     return "", err
   }
@@ -324,7 +376,7 @@ func GetBlockMetadataVotingPeriodKind(arg interface{}) (string, error) {
 }
 
 func GetBlockMetadataNonceHash(arg interface{}) (interface{}, error) {
-  block, err := GetBlock(arg)
+  block, err := BlockCheck(arg)
   if (err != nil){
     return arg, err
   }
@@ -332,7 +384,7 @@ func GetBlockMetadataNonceHash(arg interface{}) (interface{}, error) {
 }
 
 func GetBlockMetadataConsumedGas(arg interface{}) (string, error) {
-  block, err := GetBlock(arg)
+  block, err := BlockCheck(arg)
   if (err != nil){
     return "", err
   }
@@ -340,17 +392,32 @@ func GetBlockMetadataConsumedGas(arg interface{}) (string, error) {
 }
 
 func GetBlockMetadataDeactivated(arg interface{}) (interface{}, error) {
-  block, err := GetBlock(arg)
+  block, err := BlockCheck(arg)
   if (err != nil){
     return arg, err
   }
   return block.Metadata.Deactivated, nil
 }
 
-// // func GetBlockMetadataBalanceUpdates(arg interface{}) ([]Block.Metadata.BalanceUpdates, error) {
-// //
-// // }
-//
+func GetBlockMetadataBalanceUpdates(arg interface{}) ([]BalanceUpdates, error) {
+  var balanceUpdates []BalanceUpdates
+  block, err := BlockCheck(arg)
+  if (err != nil){
+    return balanceUpdates, err
+  }
+  for _, field := range block.Metadata.BalanceUpdates{
+    kind := field.Kind
+    contract := field.Contract
+    change := field.Change
+    category := field.Category
+    delegate := field.delegate
+    level := field.Level
+    balanceUpdates = append(balanceUpdates, BalanceUpdates{Kind: kind, Contract: contract, Change: change, Category: category, Delegate: delegate, Level: level})
+  }
+
+  return balanceUpdates
+}
+
 // func GetBlockMetadataBalanceUpdatesKind(arg interface{}) (string, error) {
 //   block, err := GetBlock(arg)
 //   if (err != nil){
