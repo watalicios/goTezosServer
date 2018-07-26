@@ -2,6 +2,8 @@ package main
 
 import (
   "flag"
+  "fmt"
+  "sync"
   "strconv"
   "net/http"
   "log"
@@ -11,6 +13,7 @@ import (
   "github.com/DefinitelyNotAGoat/goTezosServer"
 )
 
+var wg sync.WaitGroup
 
 func main(){
   init := flag.Bool("init", true, "Start synchronization of the database from cycle 0")
