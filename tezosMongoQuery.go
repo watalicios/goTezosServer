@@ -193,20 +193,20 @@ func GetBlockMetadata(arg interface{}) (Metadata, error) {
   if (err != nil){
     return metadata, err
   }
-  metadata.Protocol = GetBlockMetadataProtocol(block)
-  metadata.NextProtocol = GetBlockMetadataNextProtocol(block)
-  metadata.TstChainStatus = GetBlockMetadataTestChainStatus(block)
-  metadata.MaxOperationsTTL = GetBlockMetadataMaxOperationsTTL(block)
-  metadata.MaxOperationDataLength = GetBlockMetadataMaxOperationDataLength(block)
-  metadata.MaxBlockHeaderLength = GetBlockMetadataMaxBlockHeaderLength(block)
-  metadata.MxOperationListLength = GetBlockMetadataMaxOperationListLength(block)
-  metadata.Baker = GetBlockMetadataBaker(block)
-  metadata.Lvl = GetBlockMetadataLevel(block)
-  metadata.VotingPeriodKind = GetBlockMetadataLevelVotingPeriod(block)
-  metadata.NonceHash = GetBlockMetadataNonceHash(block)
-  metadata.ConsumedGas = GetBlockMetadataConsumedGas(block)
-  metadata.Deactivated = GetBlockMetadataDeactivated(block)
-  metadata.BlncUpdates = GetBlockMetadataBalanceUpdates(block)
+  metadata.Protocol, _ = GetBlockMetadataProtocol(block)
+  metadata.NextProtocol, _ = GetBlockMetadataNextProtocol(block)
+  metadata.TstChainStatus, _ = GetBlockMetadataTestChainStatus(block)
+  metadata.MaxOperationsTTL, _ = GetBlockMetadataMaxOperationsTTL(block)
+  metadata.MaxOperationDataLength, _ = GetBlockMetadataMaxOperationDataLength(block)
+  metadata.MaxBlockHeaderLength, _ = GetBlockMetadataMaxBlockHeaderLength(block)
+  metadata.MxOperationListLength, _ = GetBlockMetadataMaxOperationListLength(block)
+  metadata.Baker, _ = GetBlockMetadataBaker(block)
+  metadata.Lvl, _ = GetBlockMetadataLevel(block)
+  metadata.VotingPeriodKind, _ = GetBlockMetadataLevelVotingPeriod(block)
+  metadata.NonceHash, _ = GetBlockMetadataNonceHash(block)
+  metadata.ConsumedGas, _ = GetBlockMetadataConsumedGas(block)
+  metadata.Deactivated, _ = GetBlockMetadataDeactivated(block)
+  metadata.BlncUpdates, _ = GetBlockMetadataBalanceUpdates(block)
 
   return metadata, nil
 }
