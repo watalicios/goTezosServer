@@ -75,7 +75,7 @@ func GetBlockHash(arg interface{}) (string, error) {
 }
 
 func GetBlockHeader(arg interface{}) (Header, error) {
-  var header Header
+  var header StructHeader
   block, err := BlockCheck(arg)
   if (err != nil){
     return header, err
