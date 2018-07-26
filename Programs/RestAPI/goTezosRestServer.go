@@ -133,7 +133,7 @@ func GetBlockHeader(w http.ResponseWriter, r *http.Request){
   	}
     rtnBlockHeader = blockHeader
   } else {
-    blockHash, err := goTezosServer.GetBlockHeader(blockid)
+    blockHeader, err := goTezosServer.GetBlockHeader(blockid)
   	if err != nil {
   		respondWithError(w, http.StatusInternalServerError, err.Error())
   		return
