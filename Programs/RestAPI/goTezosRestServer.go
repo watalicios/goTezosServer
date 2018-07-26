@@ -17,7 +17,7 @@ func main(){
   r.HandleFunc("/block/protocol/{id}", GetBlockProtocol).Methods("GET")
   r.HandleFunc("/block/chainid/{id}", GetBlockChainId).Methods("GET")
   r.HandleFunc("/block/hash/{id}", GetBlockHash).Methods("GET")
-  r.HandleFunc("/block/hash/header/{id}", GetBlockHeader).Methods("GET")
+  r.HandleFunc("/block/header/{id}", GetBlockHeader).Methods("GET")
 	if err := http.ListenAndServe(":3000", r); err != nil {
 		log.Fatal(err)
 	}
