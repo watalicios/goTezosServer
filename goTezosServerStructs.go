@@ -95,8 +95,8 @@ func BsonBlockToBlock(bsonBlock BsonBlock) Block{
           balanceUpdates = append(balanceUpdates, balanceUpdate)
         }
         contentMetadata.BalanceUpdates = balanceUpdates
-        contentMetadata.Delegate = cont.Delegate
-        contentMetadata.Slots = cont.Slots
+        contentMetadata.Delegate = cont.Metadata.Delegate
+        contentMetadata.Slots = cont.Metadata.Slots
         content.Metadata = contentMetadata
         contents = append(contents, content)
       }
