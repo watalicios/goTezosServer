@@ -53,7 +53,7 @@ func init() {
     fmt.Println(errs)
   }
 
-  Collection = Session.DB("TEZOS").C("blocks")
+  //Collection = Session.DB("TEZOS").C("blocks")
 }
 
 func SetDataBase(db string) {
