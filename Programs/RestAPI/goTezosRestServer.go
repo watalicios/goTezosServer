@@ -612,7 +612,7 @@ func GetBlockMetadataBaker(w http.ResponseWriter, r *http.Request){
 }
 
 func GetBlockMetadataLevel(w http.ResponseWriter, r *http.Request){
-  var rtnMetadataLevel string
+  var rtnMetadataLevel goTezosServer.StructLevel
   params := mux.Vars(r)
   blockid, isInt := strconv.Atoi(params["id"])
   if (isInt != nil){
@@ -634,7 +634,7 @@ func GetBlockMetadataLevel(w http.ResponseWriter, r *http.Request){
 }
 
 func GetBlockMetadataLevelLevel(w http.ResponseWriter, r *http.Request){
-  var rtnMetadataLevel string
+  var rtnMetadataLevel int
   params := mux.Vars(r)
   blockid, isInt := strconv.Atoi(params["id"])
   if (isInt != nil){
@@ -656,7 +656,7 @@ func GetBlockMetadataLevelLevel(w http.ResponseWriter, r *http.Request){
 }
 
 func GetBlockMetadataLevelLevelPosition(w http.ResponseWriter, r *http.Request){
-  var rtnMetadataLevelPosition string
+  var rtnMetadataLevelPosition int
   params := mux.Vars(r)
   blockid, isInt := strconv.Atoi(params["id"])
   if (isInt != nil){
@@ -678,7 +678,7 @@ func GetBlockMetadataLevelLevelPosition(w http.ResponseWriter, r *http.Request){
 }
 
 func GetBlockMetadataLevelCycle(w http.ResponseWriter, r *http.Request){
-  var rtnMetadataLevelCycle string
+  var rtnMetadataLevelCycle int
   params := mux.Vars(r)
   blockid, isInt := strconv.Atoi(params["id"])
   if (isInt != nil){
@@ -700,7 +700,7 @@ func GetBlockMetadataLevelCycle(w http.ResponseWriter, r *http.Request){
 }
 
 func GetBlockMetadataLevelCyclePosition(w http.ResponseWriter, r *http.Request){
-  var rtnMetadataLevelCyclePosition string
+  var rtnMetadataLevelCyclePosition int
   params := mux.Vars(r)
   blockid, isInt := strconv.Atoi(params["id"])
   if (isInt != nil){
