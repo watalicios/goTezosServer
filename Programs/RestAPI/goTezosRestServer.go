@@ -54,25 +54,25 @@ func GetBlock(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetBlockProtocol(w http.ResponseWriter, r *http.Request){
-  var rtbBlock goTezosServer.Block
+  var rtnProtocol string
   params := mux.Vars(r)
   blockid, isInt := strconv.Atoi(params["id"])
   if (isInt != nil){
-    block, err := goTezosServer.GetBlockProtocol(params["id"])
+    protocol, err := goTezosServer.GetBlockProtocol(params["id"])
   	if err != nil {
   		respondWithError(w, http.StatusInternalServerError, err.Error())
   		return
   	}
-    rtbBlock = block
+    rtnProtocol = protocol
   } else {
-    block, err := goTezosServer.GetBlockProtocol(blockid)
+    protocol, err := goTezosServer.GetBlockProtocol(blockid)
   	if err != nil {
   		respondWithError(w, http.StatusInternalServerError, err.Error())
   		return
   	}
-    rtbBlock = block
+    rtnProtocol = protocol
   }
-	respondWithJson(w, http.StatusOK, rtbBlock)
+	respondWithJson(w, http.StatusOK, rtnProtocol)
 }
 
 func respondWithError(w http.ResponseWriter, code int, msg string) {
