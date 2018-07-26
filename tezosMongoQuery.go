@@ -475,7 +475,7 @@ func GetBlockOperations(arg interface{}) ([]Operations, error){
     return operations, err
   }
 
-  for _, field := range block.Operations{
+  for _, field := range block.Operations[0]{
     protocol := field.Protocol
     chainId := field.ChainID
     hash := field.Hash

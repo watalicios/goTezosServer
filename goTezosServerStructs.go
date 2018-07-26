@@ -57,7 +57,7 @@ type Block struct {
 			Level    int    `json:"level,omitempty"`
 		} `json:"balance_updates"`
 	} `json:"metadata"`
-	Operations []struct {
+	Operations [][]struct {
 		Protocol string `json:"protocol"`
 		ChainID  string `json:"chain_id"`
 		Hash     string `json:"hash"`
