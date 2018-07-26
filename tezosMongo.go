@@ -60,7 +60,7 @@ func init() {
 }
 
 func SetDataBase(db string) {
-  DataBaseStr = db
+  dataBaseStr = db
 }
 
 func InitSynchronizeTezosMongo(){
