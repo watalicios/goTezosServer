@@ -46,6 +46,10 @@ func main(){
   r.HandleFunc("/block/metadata/level/votingperiod/{id}", GetBlockMetadataLevelVotingPeriod).Methods("GET")
   r.HandleFunc("/block/metadata/level/expectedcommitment/{id}", GetBlockMetadataLevelExpectedCommitment).Methods("GET")
   r.HandleFunc("/block/metadata/votingperiodkind/{id}", GetBlockMetadataVotingPeriodKind).Methods("GET")
+  r.HandleFunc("/block/metadata/noncehash/{id}", GetBlockMetadataNonceHash).Methods("GET")
+  r.HandleFunc("/block/metadata/consumedgas/{id}", GetBlockMetadataConsumedGas).Methods("GET")
+  r.HandleFunc("/block/metadata/deactivated/{id}", GetBlockMetadataDeactivated).Methods("GET")
+  //GetBlockMetadataDeactivated
 	if err := http.ListenAndServe(":3000", r); err != nil {
 		log.Fatal(err)
 	}
@@ -785,6 +789,72 @@ func GetBlockMetadataVotingPeriodKind(w http.ResponseWriter, r *http.Request){
     rtnMetadataVotingPeriodKind = votingPeriodKind
   }
   respondWithJson(w, http.StatusOK, rtnMetadataVotingPeriodKind)
+}
+
+func GetBlockMetadataNonceHash(w http.ResponseWriter, r *http.Request){
+  var rtnMetadataNonceHash interface{}
+  params := mux.Vars(r)
+  blockid, isInt := strconv.Atoi(params["id"])
+  if (isInt != nil){
+    nonceHash, err := goTezosServer.GetBlockMetadataNonceHash(params["id"])
+    if err != nil {
+      respondWithError(w, http.StatusInternalServerError, err.Error())
+      return
+    }
+    rtnMetadataNonceHash = nonceHash
+  } else {
+    nonceHash, err := goTezosServer.GetBlockMetadataNonceHash(blockid)
+    if err != nil {
+      respondWithError(w, http.StatusInternalServerError, err.Error())
+      return
+    }
+    rtnMetadataNonceHash = nonceHash
+  }
+  respondWithJson(w, http.StatusOK, rtnMetadataNonceHash)
+}
+
+func GetBlockMetadataConsumedGas(w http.ResponseWriter, r *http.Request){
+  var rtnMetadataConsumedGas string
+  params := mux.Vars(r)
+  blockid, isInt := strconv.Atoi(params["id"])
+  if (isInt != nil){
+    consumedGas, err := goTezosServer.GetBlockMetadataConsumedGas(params["id"])
+    if err != nil {
+      respondWithError(w, http.StatusInternalServerError, err.Error())
+      return
+    }
+    rtnMetadataConsumedGas = consumedGas
+  } else {
+    consumedGas, err := goTezosServer.GetBlockMetadataConsumedGas(blockid)
+    if err != nil {
+      respondWithError(w, http.StatusInternalServerError, err.Error())
+      return
+    }
+    rtnMetadataConsumedGas = consumedGas
+  }
+  respondWithJson(w, http.StatusOK, rtnMetadataConsumedGas)
+}
+
+func GetBlockMetadataDeactivated(w http.ResponseWriter, r *http.Request){
+  var rtnMetadataDeactivated []interface{}
+  params := mux.Vars(r)
+  blockid, isInt := strconv.Atoi(params["id"])
+  if (isInt != nil){
+    deactivated, err := goTezosServer.GetBlockMetadataDeactivated(params["id"])
+    if err != nil {
+      respondWithError(w, http.StatusInternalServerError, err.Error())
+      return
+    }
+    rtnMetadataDeactivated = deactivated
+  } else {
+    deactivated, err := goTezosServer.GetBlockMetadataDeactivated(blockid)
+    if err != nil {
+      respondWithError(w, http.StatusInternalServerError, err.Error())
+      return
+    }
+    rtnMetadataDeactivated = deactivated
+  }
+  respondWithJson(w, http.StatusOK, rtnMetadataDeactivated)
 }
 
 // func CheckType(v interface{}) (int, error) {
