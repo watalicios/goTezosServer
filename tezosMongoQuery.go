@@ -74,7 +74,7 @@ func GetBlockHash(arg interface{}) (string, error) {
   return block.Hash, nil
 }
 
-func GetBlockHeader(arg interface{}) (Header, error) {
+func GetBlockHeader(arg interface{}) (StructHeader, error) {
   var header StructHeader
   block, err := BlockCheck(arg)
   if (err != nil){
@@ -187,8 +187,8 @@ func GetBlockHeaderSignature(arg interface{}) (string, error) {
   return block.Header.ProofOfWorkNonce, nil
 }
 
-func GetBlockMetadata(arg interface{}) (Metadata, error) {
-  var metadata Metadata
+func GetBlockMetadata(arg interface{}) (StructMetadata, error) {
+  var metadata StructMetadata
   block, err := BlockCheck(arg)
   if (err != nil){
     return metadata, err
