@@ -184,7 +184,7 @@ func GetBlockHeaderSignature(arg interface{}) (string, error) {
   if (err != nil){
     return "", err
   }
-  return block.Header.ProofOfWorkNonce, nil
+  return block.Header.Signature, nil
 }
 
 func GetBlockMetadata(arg interface{}) (StructMetadata, error) {
