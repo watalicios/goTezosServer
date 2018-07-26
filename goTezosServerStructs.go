@@ -2,6 +2,7 @@ package goTezosServer
 
 import (
   "time"
+  "fmt"
   "gopkg.in/mgo.v2/bson"
 )
 
@@ -71,6 +72,7 @@ func BsonBlockToBlock(bsonBlock BsonBlock) Block{
 
   var operations []StructOperations
   for _, op := range bsonBlock.Operations{
+    fmt.Println(bsonBlock.Operations)
     for _, op2 := range op {
       var operation StructOperations
       operation.Protocol = op2.Protocol

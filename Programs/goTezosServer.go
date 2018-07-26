@@ -10,6 +10,10 @@ License: MIT
 import (
   "sync"
   "flag"
+  // "log"
+  // "html"
+  // "net/http"
+  // "github.com/gorilla/mux"
   "github.com/DefinitelyNotAGoat/goTezosServer"
 )
 
@@ -22,10 +26,13 @@ func main(){
   //goTezosServer.SetDataBase(*database)
 
   if (*init){
+    fmt.Println("Initializing the server from cycle 0.")
     goTezosServer.InitSynchronizeTezosMongo()
+    fmt.Println("Done Initializing.")
   }
   wg.Add(1)
   go goTezosServer.SynchronizeTezosMongo()
+
   wg.Wait()
   wg.Done()
 
