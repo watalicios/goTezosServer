@@ -883,7 +883,7 @@ func GetBlockMetadataBalanceUpdates(w http.ResponseWriter, r *http.Request){
   respondWithJson(w, http.StatusOK, rtnMetadataBalanceUpdates)
 }
 
-func GetBlockOperations(){
+func GetBlockOperations(w http.ResponseWriter, r *http.Request){
   var rtnOperations []goTezosServer.StructOperations
   params := mux.Vars(r)
   blockid, isInt := strconv.Atoi(params["id"])
