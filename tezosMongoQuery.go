@@ -202,7 +202,7 @@ func GetBlockMetadata(arg interface{}) (Metadata, error) {
   metadata.MxOperationListLength, _ = GetBlockMetadataMaxOperationListLength(block)
   metadata.Baker, _ = GetBlockMetadataBaker(block)
   metadata.Lvl, _ = GetBlockMetadataLevel(block)
-  metadata.VotingPeriodKind, _ = GetBlockMetadataLevelVotingPeriod(block)
+  metadata.VotingPeriodKind, _ = GetBlockMetadataVotingPeriodKind(block)
   metadata.NonceHash, _ = GetBlockMetadataNonceHash(block)
   metadata.ConsumedGas, _ = GetBlockMetadataConsumedGas(block)
   metadata.Deactivated, _ = GetBlockMetadataDeactivated(block)
@@ -234,7 +234,7 @@ func GetBlockMetadataTestChainStatus(arg interface{}) (TestChainStatus, error) {
     return testChainStatus, err
   }
   testChainStatus.Status = block.Metadata.TestChainStatus.Status
-  return testChainStatus
+  return testChainStatus, nil
 }
 
 func GetBlockMetadataMaxOperationsTTL(arg interface{}) (int, error) {
@@ -391,12 +391,14 @@ func GetBlockMetadataConsumedGas(arg interface{}) (string, error) {
   return block.Metadata.ConsumedGas, nil
 }
 
-func GetBlockMetadataDeactivated(arg interface{}) (interface{}, error) {
+func GetBlockMetadataDeactivated(arg interface{}) ([]interface{}, error) {
+  var interf []interface{}
   block, err := BlockCheck(arg)
   if (err != nil){
-    return arg, err
+    return interf, err
   }
-  return block.Metadata.Deactivated, nil
+  interf = block.Metadata.Deactivated
+  return interf, nil
 }
 
 func GetBlockMetadataBalanceUpdates(arg interface{}) ([]BalanceUpdates, error) {
