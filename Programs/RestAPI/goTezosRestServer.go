@@ -97,6 +97,34 @@ func GetBlockChainId(w http.ResponseWriter, r *http.Request){
 	respondWithJson(w, http.StatusOK, rtnBlockChainId)
 }
 
+func GetBlockHash(w http.ResponseWriter, r *http.Request){
+  var rtnBlockHash string
+  params := mux.Vars(r)
+  blockid, isInt := strconv.Atoi(params["id"])
+  if (isInt != nil){
+    blockHash, err := goTezosServer.GetBlockHash(params["id"])
+  	if err != nil {
+  		respondWithError(w, http.StatusInternalServerError, err.Error())
+  		return
+  	}
+    rtnBlockHash = blockHash
+  } else {
+    blockHash, err := goTezosServer.GetBlockHash(blockid)
+  	if err != nil {
+  		respondWithError(w, http.StatusInternalServerError, err.Error())
+  		return
+  	}
+    rtnBlockHash = blockHash
+  }
+	respondWithJson(w, http.StatusOK, rtnBlockHash)
+}
+
+// func CheckType(v interface{}) (int, error) {
+//   switch v.(type){
+//   case int:
+//   }
+// }
+
 func respondWithError(w http.ResponseWriter, code int, msg string) {
 	respondWithJson(w, code, map[string]string{"error": msg})
 }
