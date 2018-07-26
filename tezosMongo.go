@@ -58,6 +58,7 @@ func init() {
 
 func SetDataBase(db string) {
    Collection =  Session.DB(db).C("blocks")
+   fmt.Println(Collection)
 }
 
 func InitSynchronizeTezosMongo(){
@@ -83,6 +84,7 @@ func SynchronizeTezosMongo() {
         fmt.Println(err)
       }
       err = Collection.Insert(block)
+      fmt.Println(Collection)
       if (err != nil){
         fmt.Println(err)
       }
