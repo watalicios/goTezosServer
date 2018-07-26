@@ -17,6 +17,9 @@ var wg sync.WaitGroup
 
 func main(){
 	init := flag.Bool("init", true, "Start synchronization of the database from cycle 0")
+  database := flag.String("database", "TEZOS", "Database name for Tezos data")
+
+  goTezosServer.SetDataBase(*database)
 
   if (*init){
     goTezosServer.InitSynchronizeTezosMongo()

@@ -28,6 +28,9 @@ var TezosPath string
 var Session *mgo.Session
 var Collection *mgo.Collection
 
+var (
+  dataBaseStr = ""
+)
 /*
 Description: This library needs the TEZOSPATH enviroment variable to function
 */
@@ -49,8 +52,15 @@ func init() {
   if (errs != nil){
     fmt.Println(errs)
   }
-  Collection = Session.DB("TEZOS").C("blocks")
+  if (dataBaseStr == ""){
+    Collection = Session.DB("TEZOS").C("blocks")
+  } else {
+    Collection = Session.DB(dataBaseStr).C("blocks")
+  }
+}
 
+func SetDataBase(db string) {
+  DataBaseStr = db
 }
 
 func InitSynchronizeTezosMongo(){
