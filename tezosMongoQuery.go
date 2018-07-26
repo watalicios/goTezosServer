@@ -480,9 +480,9 @@ func GetBlockOperations(arg interface{}) ([]Operations, error){
     chainId := field.ChainID
     hash := field.Hash
     branch := field.Branch
-    contents := nil //GetBlockOperationsContents(block)
+    //contents := nil //GetBlockOperationsContents(block)
     signature := field.Signature
-    operations = append(operations, Operations{Protocol: protocol, ChainID: chainId, Hash: hash, Branch: branch, Cont: contents, Signature: signature})
+    operations = append(operations, Operations{Protocol: protocol, ChainID: chainId, Hash: hash, Branch: branch, Signature: signature})
   }
 
   return operations, nil
