@@ -17,6 +17,7 @@ func main(){
   r.HandleFunc("/block/protocol/{id}", GetBlockProtocol).Methods("GET")
   r.HandleFunc("/block/chainid/{id}", GetBlockChainId).Methods("GET")
   r.HandleFunc("/block/hash/{id}", GetBlockHash).Methods("GET")
+  r.HandleFunc("/block/hash/header/{id}", GetBlockHeader).Methods("GET")
 	if err := http.ListenAndServe(":3000", r); err != nil {
 		log.Fatal(err)
 	}
@@ -118,6 +119,28 @@ func GetBlockHash(w http.ResponseWriter, r *http.Request){
     rtnBlockHash = blockHash
   }
 	respondWithJson(w, http.StatusOK, rtnBlockHash)
+}
+
+func GetBlockHeader(w http.ResponseWriter, r *http.Request){
+  var rtnBlockHeader string
+  params := mux.Vars(r)
+  blockid, isInt := strconv.Atoi(params["id"])
+  if (isInt != nil){
+    blockHeader, err := goTezosServer.GetBlockHash(params["id"])
+  	if err != nil {
+  		respondWithError(w, http.StatusInternalServerError, err.Error())
+  		return
+  	}
+    rtnBlockHeader = blockHeader
+  } else {
+    blockHash, err := goTezosServer.GetBlockHash(blockid)
+  	if err != nil {
+  		respondWithError(w, http.StatusInternalServerError, err.Error())
+  		return
+  	}
+    rtnBlockHeader = blockHeader
+  }
+	respondWithJson(w, http.StatusOK, rtnBlockHeader)
 }
 
 // func CheckType(v interface{}) (int, error) {
