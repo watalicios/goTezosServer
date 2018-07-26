@@ -160,14 +160,14 @@ func GetBlockLevel(w http.ResponseWriter, r *http.Request){
   params := mux.Vars(r)
   blockid, isInt := strconv.Atoi(params["id"])
   if (isInt != nil){
-    level, err := goTezosServer.GetBlockHeader(params["id"])
+    level, err := goTezosServer.GetBlockHeaderLevel(params["id"])
   	if err != nil {
   		respondWithError(w, http.StatusInternalServerError, err.Error())
   		return
   	}
     rtnLevel = level
   } else {
-    level, err := goTezosServer.GetBlockHeader(blockid)
+    level, err := goTezosServer.GetBlockHeaderLevel(blockid)
   	if err != nil {
   		respondWithError(w, http.StatusInternalServerError, err.Error())
   		return
@@ -204,14 +204,14 @@ func GetBlockPredecessor(w http.ResponseWriter, r *http.Request){
   params := mux.Vars(r)
   blockid, isInt := strconv.Atoi(params["id"])
   if (isInt != nil){
-    predecessor, err := goTezosServer.GetBlockHeaderProto(params["id"])
+    predecessor, err := goTezosServer.GetBlockHeaderPredecessor(params["id"])
   	if err != nil {
   		respondWithError(w, http.StatusInternalServerError, err.Error())
   		return
   	}
     rtnPredecessor = predecessor
   } else {
-    predecessor, err := goTezosServer.GetBlockHeaderProto(blockid)
+    predecessor, err := goTezosServer.GetBlockHeaderPredecessor(blockid)
   	if err != nil {
   		respondWithError(w, http.StatusInternalServerError, err.Error())
   		return
@@ -358,14 +358,14 @@ func GetBlockProofOfWorkNonce(w http.ResponseWriter, r *http.Request){
   params := mux.Vars(r)
   blockid, isInt := strconv.Atoi(params["id"])
   if (isInt != nil){
-    proofOfWork, err := goTezosServer.GetBlockHeaderPriority(params["id"])
+    proofOfWork, err := goTezosServer.GetBlockHeaderProofOfWorkNonce(params["id"])
     if err != nil {
       respondWithError(w, http.StatusInternalServerError, err.Error())
       return
     }
     rtnProofOfWork = proofOfWork
   } else {
-    proofOfWork, err := goTezosServer.GetBlockHeaderPriority(blockid)
+    proofOfWork, err := goTezosServer.GetBlockHeaderProofOfWorkNonce(blockid)
     if err != nil {
       respondWithError(w, http.StatusInternalServerError, err.Error())
       return
@@ -380,14 +380,14 @@ func GetBlockSignature(w http.ResponseWriter, r *http.Request){
   params := mux.Vars(r)
   blockid, isInt := strconv.Atoi(params["id"])
   if (isInt != nil){
-    sig, err := goTezosServer.GetBlockHeaderPriority(params["id"])
+    sig, err := goTezosServer.GetBlockHeaderSignature(params["id"])
     if err != nil {
       respondWithError(w, http.StatusInternalServerError, err.Error())
       return
     }
     rtnSig = sig
   } else {
-    sig, err := goTezosServer.GetBlockHeaderPriority(blockid)
+    sig, err := goTezosServer.GetBlockHeaderSignature(blockid)
     if err != nil {
       respondWithError(w, http.StatusInternalServerError, err.Error())
       return
