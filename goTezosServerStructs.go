@@ -70,7 +70,7 @@ func BsonBlockToBlock(bsonBlock BsonBlock) Block{
   metadata.BalanceUpdates = balanceUpdates
 
   var operations []StructOperations
-  for _, op := range bsonBlock.Metadata.Operations{
+  for _, op := range bsonBlock.Operations{
     for _, op2 := range op {
       var operation StructOperations
       operation.Protocol = op2.Protocol
