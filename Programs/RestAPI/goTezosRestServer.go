@@ -126,14 +126,14 @@ func GetBlockHeader(w http.ResponseWriter, r *http.Request){
   params := mux.Vars(r)
   blockid, isInt := strconv.Atoi(params["id"])
   if (isInt != nil){
-    blockHeader, err := goTezosServer.GetBlockHash(params["id"])
+    blockHeader, err := goTezosServer.GetBlockHeader(params["id"])
   	if err != nil {
   		respondWithError(w, http.StatusInternalServerError, err.Error())
   		return
   	}
     rtnBlockHeader = blockHeader
   } else {
-    blockHash, err := goTezosServer.GetBlockHash(blockid)
+    blockHash, err := goTezosServer.GetBlockHeader(blockid)
   	if err != nil {
   		respondWithError(w, http.StatusInternalServerError, err.Error())
   		return
