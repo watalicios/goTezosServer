@@ -105,7 +105,7 @@ func MongoGetAllBlocks() error{
     return errors.New("Could not get hash for block head")
   }
 
-  for i := headLevel-1; i < headLevel; i ++{
+  for i := headLevel-headLevel; i < headLevel; i ++{
     block, err := GetBlockRPC(i, headHash[1], headLevel)
     if (err != nil){
       return err
