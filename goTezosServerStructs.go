@@ -2,6 +2,7 @@ package goTezosServer
 
 import (
   "time"
+  "gopkg.in/mgo.v2/bson"
 )
 
 func BsonBlockToBlock(bsonBlock BsonBlock) Block{
