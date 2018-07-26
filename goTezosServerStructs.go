@@ -265,7 +265,7 @@ type StructBalanceUpdates struct {
   Level    int              `json:"level,omitempty"`
 }
 
-type Operations struct {
+type StructOperations struct {
   ID        bson.ObjectId    `bson:"_id,omitempty"`
   Protocol  string           `json:"protocol"`
   ChainID   string           `json:"chain_id"`
