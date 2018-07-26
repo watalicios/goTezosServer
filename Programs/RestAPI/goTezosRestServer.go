@@ -15,10 +15,10 @@ func main(){
 	r.HandleFunc("/head", GetBlockHead).Methods("GET")
 	r.HandleFunc("/block/{id}", GetBlock).Methods("GET")
   r.HandleFunc("/block/protocol/{id}", GetBlockProtocol).Methods("GET")
+  r.HandleFunc("/block/chainid/{id}", GetBlockChainId).Methods("GET")
 	if err := http.ListenAndServe(":3000", r); err != nil {
 		log.Fatal(err)
 	}
-
 }
 
 func GetBlockHead(w http.ResponseWriter, r *http.Request) {
@@ -73,6 +73,28 @@ func GetBlockProtocol(w http.ResponseWriter, r *http.Request){
     rtnProtocol = protocol
   }
 	respondWithJson(w, http.StatusOK, rtnProtocol)
+}
+
+func GetBlockChainId(w http.ResponseWriter, r *http.Request){
+  var rtnBlockChainId string
+  params := mux.Vars(r)
+  blockid, isInt := strconv.Atoi(params["id"])
+  if (isInt != nil){
+    blockChainId, err := goTezosServer.GetBlockChainId(params["id"])
+  	if err != nil {
+  		respondWithError(w, http.StatusInternalServerError, err.Error())
+  		return
+  	}
+    rtnBlockChainId = blockChainId
+  } else {
+    protocol, err := goTezosServer.GetBlockChainId(blockid)
+  	if err != nil {
+  		respondWithError(w, http.StatusInternalServerError, err.Error())
+  		return
+  	}
+    rtnBlockChainId = blockChainId
+  }
+	respondWithJson(w, http.StatusOK, rtnBlockChainId)
 }
 
 func respondWithError(w http.ResponseWriter, code int, msg string) {
