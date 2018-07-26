@@ -87,7 +87,7 @@ func GetBlockChainId(w http.ResponseWriter, r *http.Request){
   	}
     rtnBlockChainId = blockChainId
   } else {
-    protocol, err := goTezosServer.GetBlockChainId(blockid)
+    blockChainId, err := goTezosServer.GetBlockChainId(blockid)
   	if err != nil {
   		respondWithError(w, http.StatusInternalServerError, err.Error())
   		return
