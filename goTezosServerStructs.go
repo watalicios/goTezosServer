@@ -162,7 +162,7 @@ type ContentsMetadata struct {
   Slots    []int
 }
 
-type BalanceUpdates struct {
+type OpBalanceUpdates struct {
   Kind     string
   Contract string
   Change   string
