@@ -12,7 +12,7 @@ import (
 func main(){
   r := mux.NewRouter()
 	r.HandleFunc("/head", GetBlockHead).Methods("GET")
-	r.HandleFunc("/block/{id}", FindMovieEndpoint).Methods("GET")
+	r.HandleFunc("/block/{id}", GetBlock).Methods("GET")
 	if err := http.ListenAndServe(":3000", r); err != nil {
 		log.Fatal(err)
 	}
