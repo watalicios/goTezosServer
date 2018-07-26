@@ -2,6 +2,7 @@ package main
 
 import (
   "fmt"
+  "strconv"
   "net/http"
   "log"
   "encoding/json"
@@ -31,14 +32,25 @@ func GetBlockHead(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetBlock(w http.ResponseWriter, r *http.Request) {
+  var rtbBlock Block
   params := mux.Vars(r)
-  fmt.Println(params)
-  block, err := goTezosServer.GetBlock(params["id"])
-	if err != nil {
-		respondWithError(w, http.StatusInternalServerError, err.Error())
-		return
-	}
-	respondWithJson(w, http.StatusOK, block)
+  blockid, isInt := strconv.Atoi(params["id"])
+  if (isInt != nil){
+    block, err := goTezosServer.GetBlock(params["id"])
+  	if err != nil {
+  		respondWithError(w, http.StatusInternalServerError, err.Error())
+  		return
+  	}
+    rtbBlock = block
+  } else {
+    block, err := goTezosServer.GetBlock(blockid)
+  	if err != nil {
+  		respondWithError(w, http.StatusInternalServerError, err.Error())
+  		return
+  	}
+    rtbBlock = block
+  }
+	respondWithJson(w, http.StatusOK, rtbBlock)
 }
 
 func respondWithError(w http.ResponseWriter, code int, msg string) {
