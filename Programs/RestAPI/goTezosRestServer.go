@@ -722,7 +722,7 @@ func GetBlockMetadataLevelCyclePosition(w http.ResponseWriter, r *http.Request){
 }
 
 func GetBlockMetadataLevelVotingPeriod(w http.ResponseWriter, r *http.Request){
-  var rtnMetadataLevelVotingPeriod string
+  var rtnMetadataLevelVotingPeriod int
   params := mux.Vars(r)
   blockid, isInt := strconv.Atoi(params["id"])
   if (isInt != nil){
@@ -744,7 +744,7 @@ func GetBlockMetadataLevelVotingPeriod(w http.ResponseWriter, r *http.Request){
 }
 
 func GetBlockMetadataLevelExpectedCommitment(w http.ResponseWriter, r *http.Request){
-  var rtnMetadataLevelExpectedCommitment string
+  var rtnMetadataLevelExpectedCommitment bool
   params := mux.Vars(r)
   blockid, isInt := strconv.Atoi(params["id"])
   if (isInt != nil){
