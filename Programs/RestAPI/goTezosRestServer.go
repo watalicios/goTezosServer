@@ -16,39 +16,43 @@ func main(){
 	r.HandleFunc("/head", GetBlockHead).Methods("GET")
 	r.HandleFunc("/block/{id}", GetBlock).Methods("GET")
   r.HandleFunc("/block/protocol/{id}", GetBlockProtocol).Methods("GET")
-  r.HandleFunc("/block/chainid/{id}", GetBlockChainId).Methods("GET")
+  r.HandleFunc("/block/chain_id/{id}", GetBlockChainId).Methods("GET")
   r.HandleFunc("/block/hash/{id}", GetBlockHash).Methods("GET")
   r.HandleFunc("/block/header/{id}", GetBlockHeader).Methods("GET")
   r.HandleFunc("/block/level/{id}", GetBlockLevel).Methods("GET")
   r.HandleFunc("/block/proto/{id}", GetBlockProto).Methods("GET")
   r.HandleFunc("/block/predecessor/{id}", GetBlockPredecessor).Methods("GET")
   r.HandleFunc("/block/timestamp/{id}", GetBlockTimeStamp).Methods("GET")
-  r.HandleFunc("/block/validationpass/{id}", GetBlockValidationPass).Methods("GET")
-  r.HandleFunc("/block/operationhash/{id}", GetBlockOperationsHash).Methods("GET")
+  r.HandleFunc("/block/validation_pass/{id}", GetBlockValidationPass).Methods("GET")
+  r.HandleFunc("/block/operation_hash/{id}", GetBlockOperationsHash).Methods("GET")
   r.HandleFunc("/block/fitness/{id}", GetBlockFitness).Methods("GET")
   r.HandleFunc("/block/context/{id}", GetBlockContext).Methods("GET")
   r.HandleFunc("/block/priority/{id}", GetBlockPriority).Methods("GET")
-  r.HandleFunc("/block/proofofworknonce/{id}", GetBlockProofOfWorkNonce).Methods("GET")
+  r.HandleFunc("/block/proof_of_work_nonce/{id}", GetBlockProofOfWorkNonce).Methods("GET")
   r.HandleFunc("/block/signature/{id}", GetBlockSignature).Methods("GET")
   r.HandleFunc("/block/metadata/{id}", GetBlockMetadata).Methods("GET")
   r.HandleFunc("/block/metadata/protocol/{id}", GetBlockMetadataProtocol).Methods("GET")
-  r.HandleFunc("/block/metadata/nextprotocol/{id}", GetBlockMetadataNextProtocol).Methods("GET")
-  r.HandleFunc("/block/metadata/testchainstatus/{id}", GetBlockMetadataTestChainStatus).Methods("GET")
-  r.HandleFunc("/block/metadata/maxoperationsttl/{id}", GetBlockMetadataMaxOperationsTTL).Methods("GET")
-  r.HandleFunc("/block/metadata/maxoperationdatalength/{id}", GetBlockMetadataMaxOperationDataLength).Methods("GET")
-  r.HandleFunc("/block/metadata/maxblockheaderlength/{id}", GetBlockMetadataMaxBlockHeaderLength).Methods("GET")
-  r.HandleFunc("/block/metadata/maxoperationlistlength/{id}", GetBlockMetadataMaxOperationListLength).Methods("GET")
+  r.HandleFunc("/block/metadata/next_protocol/{id}", GetBlockMetadataNextProtocol).Methods("GET")
+  r.HandleFunc("/block/metadata/test_chain_status/{id}", GetBlockMetadataTestChainStatus).Methods("GET")
+  r.HandleFunc("/block/metadata/max_operations_ttl/{id}", GetBlockMetadataMaxOperationsTTL).Methods("GET")
+  r.HandleFunc("/block/metadata/max_operation_data_length/{id}", GetBlockMetadataMaxOperationDataLength).Methods("GET")
+  r.HandleFunc("/block/metadata/max_block_header_length/{id}", GetBlockMetadataMaxBlockHeaderLength).Methods("GET")
+  r.HandleFunc("/block/metadata/max_operation_list_length/{id}", GetBlockMetadataMaxOperationListLength).Methods("GET")
   r.HandleFunc("/block/metadata/baker/{id}", GetBlockMetadataBaker).Methods("GET")
   r.HandleFunc("/block/metadata/level/{id}", GetBlockMetadataLevel).Methods("GET")
   r.HandleFunc("/block/metadata/level/level/{id}", GetBlockMetadataLevelLevel).Methods("GET")
   r.HandleFunc("/block/metadata/level/position/{id}", GetBlockMetadataLevelLevelPosition).Methods("GET")
   r.HandleFunc("/block/metadata/level/cycle/{id}", GetBlockMetadataLevelCycle).Methods("GET")
-  r.HandleFunc("/block/metadata/level/votingperiod/{id}", GetBlockMetadataLevelVotingPeriod).Methods("GET")
-  r.HandleFunc("/block/metadata/level/expectedcommitment/{id}", GetBlockMetadataLevelExpectedCommitment).Methods("GET")
-  r.HandleFunc("/block/metadata/votingperiodkind/{id}", GetBlockMetadataVotingPeriodKind).Methods("GET")
-  r.HandleFunc("/block/metadata/noncehash/{id}", GetBlockMetadataNonceHash).Methods("GET")
-  r.HandleFunc("/block/metadata/consumedgas/{id}", GetBlockMetadataConsumedGas).Methods("GET")
+  r.HandleFunc("/block/metadata/level/voting_period/{id}", GetBlockMetadataLevelVotingPeriod).Methods("GET")
+  r.HandleFunc("/block/metadata/level/expected_commitment/{id}", GetBlockMetadataLevelExpectedCommitment).Methods("GET")
+  r.HandleFunc("/block/metadata/voting_period_kind/{id}", GetBlockMetadataVotingPeriodKind).Methods("GET")
+  r.HandleFunc("/block/metadata/nonce_hash/{id}", GetBlockMetadataNonceHash).Methods("GET")
+  r.HandleFunc("/block/metadata/consumed_gas/{id}", GetBlockMetadataConsumedGas).Methods("GET")
   r.HandleFunc("/block/metadata/deactivated/{id}", GetBlockMetadataDeactivated).Methods("GET")
+  r.HandleFunc("/block/metadata/balance_updates/{id}", GetBlockMetadataBalanceUpdates).Methods("GET")
+  r.HandleFunc("/block/operations/{id}", GetBlockOperations).Methods("GET")
+  //GetBlockOperations
+  //GetBlockMetadataBalanceUpdates
   //GetBlockMetadataDeactivated
 	if err := http.ListenAndServe(":3000", r); err != nil {
 		log.Fatal(err)
@@ -855,6 +859,50 @@ func GetBlockMetadataDeactivated(w http.ResponseWriter, r *http.Request){
     rtnMetadataDeactivated = deactivated
   }
   respondWithJson(w, http.StatusOK, rtnMetadataDeactivated)
+}
+
+func GetBlockMetadataBalanceUpdates(w http.ResponseWriter, r *http.Request){
+  var rtnMetadataBalanceUpdates []goTezosServer.StructBalanceUpdates
+  params := mux.Vars(r)
+  blockid, isInt := strconv.Atoi(params["id"])
+  if (isInt != nil){
+    balanceUpdate, err := goTezosServer.GetBlockMetadataBalanceUpdates(params["id"])
+    if err != nil {
+      respondWithError(w, http.StatusInternalServerError, err.Error())
+      return
+    }
+    rtnMetadataBalanceUpdates = balanceUpdate
+  } else {
+    balanceUpdate, err := goTezosServer.GetBlockMetadataBalanceUpdates(blockid)
+    if err != nil {
+      respondWithError(w, http.StatusInternalServerError, err.Error())
+      return
+    }
+    rtnMetadataBalanceUpdates = balanceUpdate
+  }
+  respondWithJson(w, http.StatusOK, rtnMetadataBalanceUpdates)
+}
+
+func GetBlockOperations(){
+  var rtnOperations []goTezosServer.StructOperations
+  params := mux.Vars(r)
+  blockid, isInt := strconv.Atoi(params["id"])
+  if (isInt != nil){
+    operations, err := goTezosServer.GetBlockOperations(params["id"])
+    if err != nil {
+      respondWithError(w, http.StatusInternalServerError, err.Error())
+      return
+    }
+    rtnOperations = operations
+  } else {
+    operations, err := goTezosServer.GetBlockOperations(blockid)
+    if err != nil {
+      respondWithError(w, http.StatusInternalServerError, err.Error())
+      return
+    }
+    rtnOperations = operations
+  }
+  respondWithJson(w, http.StatusOK, rtnOperations)
 }
 
 // func CheckType(v interface{}) (int, error) {
