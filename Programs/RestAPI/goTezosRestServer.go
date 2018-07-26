@@ -122,7 +122,7 @@ func GetBlockHash(w http.ResponseWriter, r *http.Request){
 }
 
 func GetBlockHeader(w http.ResponseWriter, r *http.Request){
-  var rtnBlockHeader StructHeader
+  var rtnBlockHeader goTezosServer.StructHeader
   params := mux.Vars(r)
   blockid, isInt := strconv.Atoi(params["id"])
   if (isInt != nil){
