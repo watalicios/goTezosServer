@@ -38,7 +38,14 @@ func main(){
   r.HandleFunc("/block/metadata/maxoperationdatalength/{id}", GetBlockMetadataMaxOperationDataLength).Methods("GET")
   r.HandleFunc("/block/metadata/maxblockheaderlength/{id}", GetBlockMetadataMaxBlockHeaderLength).Methods("GET")
   r.HandleFunc("/block/metadata/maxoperationlistlength/{id}", GetBlockMetadataMaxOperationListLength).Methods("GET")
-  //GetBlockMetadataMaxOperationListLength
+  r.HandleFunc("/block/metadata/baker/{id}", GetBlockMetadataBaker).Methods("GET")
+  r.HandleFunc("/block/metadata/level/{id}", GetBlockMetadataLevel).Methods("GET")
+  r.HandleFunc("/block/metadata/level/level/{id}", GetBlockMetadataLevelLevel).Methods("GET")
+  r.HandleFunc("/block/metadata/level/position/{id}", GetBlockMetadataLevelLevelPosition).Methods("GET")
+  r.HandleFunc("/block/metadata/level/cycle/{id}", GetBlockMetadataLevelCycle).Methods("GET")
+  r.HandleFunc("/block/metadata/level/votingperiod/{id}", GetBlockMetadataLevelVotingPeriod).Methods("GET")
+  r.HandleFunc("/block/metadata/level/expectedcommitment/{id}", GetBlockMetadataLevelExpectedCommitment).Methods("GET")
+  r.HandleFunc("/block/metadata/votingperiodkind/{id}", GetBlockMetadataVotingPeriodKind).Methods("GET")
 	if err := http.ListenAndServe(":3000", r); err != nil {
 		log.Fatal(err)
 	}
@@ -581,6 +588,205 @@ func GetBlockMetadataMaxOperationListLength(w http.ResponseWriter, r *http.Reque
   }
   respondWithJson(w, http.StatusOK, rtnMaxOperationListLength)
 }
+
+func GetBlockMetadataBaker(w http.ResponseWriter, r *http.Request){
+  var rtnMetadataBaker string
+  params := mux.Vars(r)
+  blockid, isInt := strconv.Atoi(params["id"])
+  if (isInt != nil){
+    metaBaker, err := goTezosServer.GetBlockMetadataBaker(params["id"])
+    if err != nil {
+      respondWithError(w, http.StatusInternalServerError, err.Error())
+      return
+    }
+    rtnMetadataBaker = metaBaker
+  } else {
+    metaBaker, err := goTezosServer.GetBlockMetadataBaker(blockid)
+    if err != nil {
+      respondWithError(w, http.StatusInternalServerError, err.Error())
+      return
+    }
+    rtnMetadataBaker = metaBaker
+  }
+  respondWithJson(w, http.StatusOK, rtnMetadataBaker)
+}
+
+func GetBlockMetadataLevel(w http.ResponseWriter, r *http.Request){
+  var rtnMetadataLevel string
+  params := mux.Vars(r)
+  blockid, isInt := strconv.Atoi(params["id"])
+  if (isInt != nil){
+    level, err := goTezosServer.GetBlockMetadataLevel(params["id"])
+    if err != nil {
+      respondWithError(w, http.StatusInternalServerError, err.Error())
+      return
+    }
+    rtnMetadataLevel = level
+  } else {
+    level, err := goTezosServer.GetBlockMetadataLevel(blockid)
+    if err != nil {
+      respondWithError(w, http.StatusInternalServerError, err.Error())
+      return
+    }
+    rtnMetadataLevel = level
+  }
+  respondWithJson(w, http.StatusOK, rtnMetadataLevel)
+}
+
+func GetBlockMetadataLevelLevel(w http.ResponseWriter, r *http.Request){
+  var rtnMetadataLevel string
+  params := mux.Vars(r)
+  blockid, isInt := strconv.Atoi(params["id"])
+  if (isInt != nil){
+    level, err := goTezosServer.GetBlockMetadataLevelLevel(params["id"])
+    if err != nil {
+      respondWithError(w, http.StatusInternalServerError, err.Error())
+      return
+    }
+    rtnMetadataLevel = level
+  } else {
+    level, err := goTezosServer.GetBlockMetadataLevelLevel(blockid)
+    if err != nil {
+      respondWithError(w, http.StatusInternalServerError, err.Error())
+      return
+    }
+    rtnMetadataLevel = level
+  }
+  respondWithJson(w, http.StatusOK, rtnMetadataLevel)
+}
+
+func GetBlockMetadataLevelLevelPosition(w http.ResponseWriter, r *http.Request){
+  var rtnMetadataLevelPosition string
+  params := mux.Vars(r)
+  blockid, isInt := strconv.Atoi(params["id"])
+  if (isInt != nil){
+    levelPosition, err := goTezosServer.GetBlockMetadataLevelLevelPosition(params["id"])
+    if err != nil {
+      respondWithError(w, http.StatusInternalServerError, err.Error())
+      return
+    }
+    rtnMetadataLevelPosition = levelPosition
+  } else {
+    levelPosition, err := goTezosServer.GetBlockMetadataLevelLevelPosition(blockid)
+    if err != nil {
+      respondWithError(w, http.StatusInternalServerError, err.Error())
+      return
+    }
+    rtnMetadataLevelPosition = levelPosition
+  }
+  respondWithJson(w, http.StatusOK, rtnMetadataLevelPosition)
+}
+
+func GetBlockMetadataLevelCycle(w http.ResponseWriter, r *http.Request){
+  var rtnMetadataLevelCycle string
+  params := mux.Vars(r)
+  blockid, isInt := strconv.Atoi(params["id"])
+  if (isInt != nil){
+    levelCycle, err := goTezosServer.GetBlockMetadataLevelCycle(params["id"])
+    if err != nil {
+      respondWithError(w, http.StatusInternalServerError, err.Error())
+      return
+    }
+    rtnMetadataLevelCycle = levelCycle
+  } else {
+    levelCycle, err := goTezosServer.GetBlockMetadataLevelCycle(blockid)
+    if err != nil {
+      respondWithError(w, http.StatusInternalServerError, err.Error())
+      return
+    }
+    rtnMetadataLevelCycle = levelCycle
+  }
+  respondWithJson(w, http.StatusOK, rtnMetadataLevelCycle)
+}
+
+func GetBlockMetadataLevelCyclePosition(w http.ResponseWriter, r *http.Request){
+  var rtnMetadataLevelCyclePosition string
+  params := mux.Vars(r)
+  blockid, isInt := strconv.Atoi(params["id"])
+  if (isInt != nil){
+    levelCyclePosition, err := goTezosServer.GetBlockMetadataLevelCyclePosition(params["id"])
+    if err != nil {
+      respondWithError(w, http.StatusInternalServerError, err.Error())
+      return
+    }
+    rtnMetadataLevelCyclePosition = levelCyclePosition
+  } else {
+    levelCyclePosition, err := goTezosServer.GetBlockMetadataLevelCyclePosition(blockid)
+    if err != nil {
+      respondWithError(w, http.StatusInternalServerError, err.Error())
+      return
+    }
+    rtnMetadataLevelCyclePosition = levelCyclePosition
+  }
+  respondWithJson(w, http.StatusOK, rtnMetadataLevelCyclePosition)
+}
+
+func GetBlockMetadataLevelVotingPeriod(w http.ResponseWriter, r *http.Request){
+  var rtnMetadataLevelVotingPeriod string
+  params := mux.Vars(r)
+  blockid, isInt := strconv.Atoi(params["id"])
+  if (isInt != nil){
+    levelVotingPeriod, err := goTezosServer.GetBlockMetadataLevelVotingPeriod(params["id"])
+    if err != nil {
+      respondWithError(w, http.StatusInternalServerError, err.Error())
+      return
+    }
+    rtnMetadataLevelVotingPeriod = levelVotingPeriod
+  } else {
+    levelVotingPeriod, err := goTezosServer.GetBlockMetadataLevelVotingPeriod(blockid)
+    if err != nil {
+      respondWithError(w, http.StatusInternalServerError, err.Error())
+      return
+    }
+    rtnMetadataLevelVotingPeriod = levelVotingPeriod
+  }
+  respondWithJson(w, http.StatusOK, rtnMetadataLevelVotingPeriod)
+}
+
+func GetBlockMetadataLevelExpectedCommitment(w http.ResponseWriter, r *http.Request){
+  var rtnMetadataLevelExpectedCommitment string
+  params := mux.Vars(r)
+  blockid, isInt := strconv.Atoi(params["id"])
+  if (isInt != nil){
+    levelExpectedCommitment, err := goTezosServer.GetBlockMetadataLevelExpectedCommitment(params["id"])
+    if err != nil {
+      respondWithError(w, http.StatusInternalServerError, err.Error())
+      return
+    }
+    rtnMetadataLevelExpectedCommitment = levelExpectedCommitment
+  } else {
+    levelExpectedCommitment, err := goTezosServer.GetBlockMetadataLevelExpectedCommitment(blockid)
+    if err != nil {
+      respondWithError(w, http.StatusInternalServerError, err.Error())
+      return
+    }
+    rtnMetadataLevelExpectedCommitment = levelExpectedCommitment
+  }
+  respondWithJson(w, http.StatusOK, rtnMetadataLevelExpectedCommitment)
+}
+
+func GetBlockMetadataVotingPeriodKind(w http.ResponseWriter, r *http.Request){
+  var rtnMetadataVotingPeriodKind string
+  params := mux.Vars(r)
+  blockid, isInt := strconv.Atoi(params["id"])
+  if (isInt != nil){
+    votingPeriodKind, err := goTezosServer.GetBlockMetadataVotingPeriodKind(params["id"])
+    if err != nil {
+      respondWithError(w, http.StatusInternalServerError, err.Error())
+      return
+    }
+    rtnMetadataVotingPeriodKind = votingPeriodKind
+  } else {
+    votingPeriodKind, err := goTezosServer.GetBlockMetadataVotingPeriodKind(blockid)
+    if err != nil {
+      respondWithError(w, http.StatusInternalServerError, err.Error())
+      return
+    }
+    rtnMetadataVotingPeriodKind = votingPeriodKind
+  }
+  respondWithJson(w, http.StatusOK, rtnMetadataVotingPeriodKind)
+}
+
 // func CheckType(v interface{}) (int, error) {
 //   switch v.(type){
 //   case int:
