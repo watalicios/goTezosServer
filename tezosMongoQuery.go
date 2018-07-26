@@ -195,18 +195,18 @@ func GetBlockMetadata(arg interface{}) (StructMetadata, error) {
   }
   metadata.Protocol, _ = GetBlockMetadataProtocol(block)
   metadata.NextProtocol, _ = GetBlockMetadataNextProtocol(block)
-  metadata.TstChainStatus, _ = GetBlockMetadataTestChainStatus(block)
+  metadata.TestChainStatus, _ = GetBlockMetadataTestChainStatus(block)
   metadata.MaxOperationsTTL, _ = GetBlockMetadataMaxOperationsTTL(block)
   metadata.MaxOperationDataLength, _ = GetBlockMetadataMaxOperationDataLength(block)
   metadata.MaxBlockHeaderLength, _ = GetBlockMetadataMaxBlockHeaderLength(block)
-  metadata.MxOperationListLength, _ = GetBlockMetadataMaxOperationListLength(block)
+  metadata.MaxOperationListLength, _ = GetBlockMetadataMaxOperationListLength(block)
   metadata.Baker, _ = GetBlockMetadataBaker(block)
-  metadata.Lvl, _ = GetBlockMetadataLevel(block)
+  metadata.Level, _ = GetBlockMetadataLevel(block)
   metadata.VotingPeriodKind, _ = GetBlockMetadataVotingPeriodKind(block)
   metadata.NonceHash, _ = GetBlockMetadataNonceHash(block)
   metadata.ConsumedGas, _ = GetBlockMetadataConsumedGas(block)
   metadata.Deactivated, _ = GetBlockMetadataDeactivated(block)
-  metadata.BlncUpdates, _ = GetBlockMetadataBalanceUpdates(block)
+  metadata.BalanceUpdates, _ = GetBlockMetadataBalanceUpdates(block)
 
   return metadata, nil
 }
@@ -227,8 +227,8 @@ func GetBlockMetadataNextProtocol(arg interface{}) (string, error) {
   return block.Metadata.NextProtocol, nil
 }
 
-func GetBlockMetadataTestChainStatus(arg interface{}) (TestChainStatus, error) {
-  var testChainStatus TestChainStatus
+func GetBlockMetadataTestChainStatus(arg interface{}) (StructTestChainStatus, error) {
+  var testChainStatus StructTestChainStatus
   block, err := BlockCheck(arg)
   if (err != nil){
     return testChainStatus, err
@@ -261,8 +261,8 @@ func GetBlockMetadataMaxBlockHeaderLength(arg interface{}) (int, error) {
   return block.Metadata.MaxBlockHeaderLength, nil
 }
 
-func GetBlockMetadataMaxOperationListLength(arg interface{}) ([]MaxOperationListLength, error) {
-  var maxOperationListLength []MaxOperationListLength
+func GetBlockMetadataMaxOperationListLength(arg interface{}) ([]StructMaxOperationListLength, error) {
+  var maxOperationListLength []StructMaxOperationListLength
   block, err := BlockCheck(arg)
   if (err != nil){
     return maxOperationListLength, err
@@ -301,8 +301,8 @@ func GetBlockMetadataBaker(arg interface{}) (string, error) {
   return block.Metadata.Baker, nil
 }
 
-func GetBlockMetadataLevel(arg interface{}) (Level, error) {
-  var level Level
+func GetBlockMetadataLevel(arg interface{}) (StructLevel, error) {
+  var level StructLevel
   block, err := BlockCheck(arg)
   if (err != nil){
     return level, err
@@ -401,8 +401,8 @@ func GetBlockMetadataDeactivated(arg interface{}) ([]interface{}, error) {
   return interf, nil
 }
 
-func GetBlockMetadataBalanceUpdates(arg interface{}) ([]BalanceUpdates, error) {
-  var balanceUpdates []BalanceUpdates
+func GetBlockMetadataBalanceUpdates(arg interface{}) ([]StructBalanceUpdates, error) {
+  var balanceUpdates []StructBalanceUpdates
   block, err := BlockCheck(arg)
   if (err != nil){
     return balanceUpdates, err
@@ -468,8 +468,8 @@ func GetBlockMetadataBalanceUpdates(arg interface{}) ([]BalanceUpdates, error) {
 //   return block.Metadata.BalanceUpdates.Level, nil
 // }
 
-func GetBlockOperations(arg interface{}) ([]Operations, error){
-  var operations []Operations
+func GetBlockOperations(arg interface{}) ([]StructOperations, error){
+  var operations []StructOperations
   block, err := BlockCheck(arg)
   if (err != nil){
     return operations, err
