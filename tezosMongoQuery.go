@@ -262,19 +262,19 @@ func GetBlockMetadataMaxBlockHeaderLength(arg interface{}) (int, error) {
 }
 
 func GetBlockMetadataMaxOperationListLength(arg interface{}) ([]MaxOperationListLength, error) {
-  var maxOperationListLength MaxOperationListLength
+  var maxOperationListLength []MaxOperationListLength
   block, err := BlockCheck(arg)
   if (err != nil){
-    return 0, err
+    return maxOperationListLength, err
   }
 
-  for _, field = range block.Metadata.MaxOperationListLength{
+  for _, field := range block.Metadata.MaxOperationListLength{
     size, _ := field.MaxSize
     op, _ := field.MaxOp
     maxOperationListLength = append(maxOperationListLength, MaxOperationListLength{MaxSize: size, MaxOp: op})
   }
 
-  return maxOperationListLength
+  return maxOperationListLength, nil
 }
 
 // func GetBlockMetadataMaxOperationDataLengthMaxSize(arg interface{}) (int, error) {
@@ -316,7 +316,7 @@ func GetBlockMetadataLevel(arg interface{}) (Level, error) {
   level.VotingPeriodPosition = block.Metadata.Level.VotingPeriodPosition
   level.ExpectedCommitment = block.Metadata.Level.ExpectedCommitment
 
-  return level
+  return level, nil
 }
 
 func GetBlockMetadataLevelLevel(arg interface{}) (int, error) {
@@ -412,12 +412,12 @@ func GetBlockMetadataBalanceUpdates(arg interface{}) ([]BalanceUpdates, error) {
     contract := field.Contract
     change := field.Change
     category := field.Category
-    delegate := field.delegate
+    delegate := field.Delegate
     level := field.Level
     balanceUpdates = append(balanceUpdates, BalanceUpdates{Kind: kind, Contract: contract, Change: change, Category: category, Delegate: delegate, Level: level})
   }
 
-  return balanceUpdates
+  return balanceUpdates, nil
 }
 
 // func GetBlockMetadataBalanceUpdatesKind(arg interface{}) (string, error) {
