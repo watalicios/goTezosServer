@@ -57,7 +57,7 @@ type Block struct {
 			Level    int    `json:"level,omitempty"`
 		} `json:"balance_updates"`
 	} `json:"metadata"`
-	Operations [][]struct {
+	Operations []struct {
 		Protocol string `json:"protocol"`
 		ChainID  string `json:"chain_id"`
 		Hash     string `json:"hash"`
@@ -83,7 +83,7 @@ type Block struct {
 }
 
 type Header struct {
-  Level            int      
+  Level            int
   Proto            int
   Predecessor      string
   Timestamp        time.Time
@@ -141,7 +141,35 @@ type BalanceUpdates struct {
   Level    int
 }
 
+type Operations struct {
+  Protocol string
+  ChainID  string
+  Hash     string
+  Branch   string
+  Cont     []Contents
+  Signature string
+}
 
+type Contents struct {
+  Kind     string
+  Level    int
+  Metadata ContentsMetadata
+}
+
+type ContentsMetadata struct {
+  balUpdates []BalanceUpdates
+  Delegate string
+  Slots    []int
+}
+
+type BalanceUpdates struct {
+  Kind     string
+  Contract string
+  Change   string
+  Category string
+  Delegate string
+  Level    int
+}
 
 type SnapShot struct {
   Cycle int
