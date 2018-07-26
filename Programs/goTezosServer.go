@@ -1,24 +1,10 @@
 package main
 
-/*
-Author: DefinitelyNotAGoat/MagicAglet
-Version: 0.0.1
-Description: The Tezos API written in GO, for easy development.
-License: MIT
-*/
-
 import (
-//  "sync"
-  //"flag"
-  //"fmt"
-  // "log"
-  // "html"
-  // "net/http"
   "github.com/gorilla/mux"
   "github.com/DefinitelyNotAGoat/goTezosServer"
 )
 
-var wg sync.WaitGroup
 
 func main(){
   r := mux.NewRouter()
