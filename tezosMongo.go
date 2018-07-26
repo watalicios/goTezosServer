@@ -111,7 +111,6 @@ func MongoGetAllBlocks() error{
       return err
     }
     err = Collection.Insert(block)
-    fmt.Println(Collection)
     if (err != nil){
       fmt.Println(err)
     }
