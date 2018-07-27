@@ -133,8 +133,15 @@ func main(){
 	}
 }
 
-func GetBlockHead(w http.ResponseWriter, r *http.Request) {
+func parseID(id string) interface{}{
+  blockid, isInt := strconv.Atoi(id)
+  if (isInt != nil){
+    return id
+  }
+  return blockid
+}
 
+func GetBlockHead(w http.ResponseWriter, r *http.Request) {
   block, err := goTezosServer.GetBlockHead()
 	if err != nil {
 		respondWithError(w, http.StatusInternalServerError, err.Error())
@@ -154,298 +161,147 @@ func GetBlock(w http.ResponseWriter, r *http.Request) {
   respondWithJson(w, http.StatusOK, block)
 }
 
-func parseID(id string) interface{}{
-  blockid, isInt := strconv.Atoi(id)
-  if (isInt != nil){
-    return id
-  }
-  return blockid
-}
-
 func GetBlockProtocol(w http.ResponseWriter, r *http.Request){
-  var rtnProtocol string
   params := mux.Vars(r)
-  blockid, isInt := strconv.Atoi(params["id"])
-  if (isInt != nil){
-    protocol, err := goTezosServer.GetBlockProtocol(params["id"])
-  	if err != nil {
-  		respondWithError(w, http.StatusInternalServerError, err.Error())
-  		return
-  	}
-    rtnProtocol = protocol
-  } else {
-    protocol, err := goTezosServer.GetBlockProtocol(blockid)
-  	if err != nil {
-  		respondWithError(w, http.StatusInternalServerError, err.Error())
-  		return
-  	}
-    rtnProtocol = protocol
+  blockid := parseID(params["id"])
+  protocol, err := goTezosServer.GetBlockProtocol(blockid)
+  if err != nil {
+    respondWithError(w, http.StatusInternalServerError, err.Error())
+    return
   }
-	respondWithJson(w, http.StatusOK, rtnProtocol)
+  respondWithJson(w, http.StatusOK, protocol)
 }
 
 func GetBlockChainId(w http.ResponseWriter, r *http.Request){
-  var rtnBlockChainId string
   params := mux.Vars(r)
-  blockid, isInt := strconv.Atoi(params["id"])
-  if (isInt != nil){
-    blockChainId, err := goTezosServer.GetBlockChainId(params["id"])
-  	if err != nil {
-  		respondWithError(w, http.StatusInternalServerError, err.Error())
-  		return
-  	}
-    rtnBlockChainId = blockChainId
-  } else {
-    blockChainId, err := goTezosServer.GetBlockChainId(blockid)
-  	if err != nil {
-  		respondWithError(w, http.StatusInternalServerError, err.Error())
-  		return
-  	}
-    rtnBlockChainId = blockChainId
+  blockid := parseID(params["id"])
+  blockChainId, err := goTezosServer.GetBlockChainId(blockid)
+  if err != nil {
+    respondWithError(w, http.StatusInternalServerError, err.Error())
+    return
   }
-	respondWithJson(w, http.StatusOK, rtnBlockChainId)
+  respondWithJson(w, http.StatusOK, blockChainId)
 }
 
 func GetBlockHash(w http.ResponseWriter, r *http.Request){
-  var rtnBlockHash string
   params := mux.Vars(r)
-  blockid, isInt := strconv.Atoi(params["id"])
-  if (isInt != nil){
-    blockHash, err := goTezosServer.GetBlockHash(params["id"])
-  	if err != nil {
-  		respondWithError(w, http.StatusInternalServerError, err.Error())
-  		return
-  	}
-    rtnBlockHash = blockHash
-  } else {
-    blockHash, err := goTezosServer.GetBlockHash(blockid)
-  	if err != nil {
-  		respondWithError(w, http.StatusInternalServerError, err.Error())
-  		return
-  	}
-    rtnBlockHash = blockHash
+  blockid := parseID(params["id"])
+  blockHash, err := goTezosServer.GetBlockHash(blockid)
+  if err != nil {
+    respondWithError(w, http.StatusInternalServerError, err.Error())
+    return
   }
-	respondWithJson(w, http.StatusOK, rtnBlockHash)
+  respondWithJson(w, http.StatusOK, blockHash)
 }
 
 func GetBlockHeader(w http.ResponseWriter, r *http.Request){
-  var rtnBlockHeader goTezosServer.StructHeader
   params := mux.Vars(r)
-  blockid, isInt := strconv.Atoi(params["id"])
-  if (isInt != nil){
-    blockHeader, err := goTezosServer.GetBlockHeader(params["id"])
-  	if err != nil {
-  		respondWithError(w, http.StatusInternalServerError, err.Error())
-  		return
-  	}
-    rtnBlockHeader = blockHeader
-  } else {
-    blockHeader, err := goTezosServer.GetBlockHeader(blockid)
-  	if err != nil {
-  		respondWithError(w, http.StatusInternalServerError, err.Error())
-  		return
-  	}
-    rtnBlockHeader = blockHeader
+  blockid := parseID(params["id"])
+  blockHeader, err := goTezosServer.GetBlockHeader(blockid)
+  if err != nil {
+    respondWithError(w, http.StatusInternalServerError, err.Error())
+    return
   }
-	respondWithJson(w, http.StatusOK, rtnBlockHeader)
+  respondWithJson(w, http.StatusOK, rtnBlockHeader)
 }
 
 func GetBlockLevel(w http.ResponseWriter, r *http.Request){
-  var rtnLevel int
   params := mux.Vars(r)
-  blockid, isInt := strconv.Atoi(params["id"])
-  if (isInt != nil){
-    level, err := goTezosServer.GetBlockHeaderLevel(params["id"])
-  	if err != nil {
-  		respondWithError(w, http.StatusInternalServerError, err.Error())
-  		return
-  	}
-    rtnLevel = level
-  } else {
-    level, err := goTezosServer.GetBlockHeaderLevel(blockid)
-  	if err != nil {
-  		respondWithError(w, http.StatusInternalServerError, err.Error())
-  		return
-  	}
-    rtnLevel = level
+  blockid := parseID(params["id"])
+  level, err := goTezosServer.GetBlockHeaderLevel(blockid)
+  if err != nil {
+    respondWithError(w, http.StatusInternalServerError, err.Error())
+    return
   }
-	respondWithJson(w, http.StatusOK, rtnLevel)
+  respondWithJson(w, http.StatusOK, level)
 }
 
 func GetBlockProto(w http.ResponseWriter, r *http.Request){
-  var rtnProto int
   params := mux.Vars(r)
-  blockid, isInt := strconv.Atoi(params["id"])
-  if (isInt != nil){
-    proto, err := goTezosServer.GetBlockHeaderProto(params["id"])
-  	if err != nil {
-  		respondWithError(w, http.StatusInternalServerError, err.Error())
-  		return
-  	}
-    rtnProto = proto
-  } else {
-    proto, err := goTezosServer.GetBlockHeaderProto(blockid)
-  	if err != nil {
-  		respondWithError(w, http.StatusInternalServerError, err.Error())
-  		return
-  	}
-    rtnProto = proto
+  blockid := parseID(params["id"])
+  proto, err := goTezosServer.GetBlockHeaderProto(blockid)
+  if err != nil {
+    respondWithError(w, http.StatusInternalServerError, err.Error())
+    return
   }
-	respondWithJson(w, http.StatusOK, rtnProto)
+  respondWithJson(w, http.StatusOK, proto)
 }
 
 func GetBlockPredecessor(w http.ResponseWriter, r *http.Request){
-  var rtnPredecessor string
   params := mux.Vars(r)
-  blockid, isInt := strconv.Atoi(params["id"])
-  if (isInt != nil){
-    predecessor, err := goTezosServer.GetBlockHeaderPredecessor(params["id"])
-  	if err != nil {
-  		respondWithError(w, http.StatusInternalServerError, err.Error())
-  		return
-  	}
-    rtnPredecessor = predecessor
-  } else {
-    predecessor, err := goTezosServer.GetBlockHeaderPredecessor(blockid)
-  	if err != nil {
-  		respondWithError(w, http.StatusInternalServerError, err.Error())
-  		return
-  	}
-    rtnPredecessor = predecessor
+  blockid := parseID(params["id"])
+  predecessor, err := goTezosServer.GetBlockHeaderPredecessor(blockid)
+  if err != nil {
+    respondWithError(w, http.StatusInternalServerError, err.Error())
+    return
   }
-	respondWithJson(w, http.StatusOK, rtnPredecessor)
+  respondWithJson(w, http.StatusOK, predecessor)
 }
 
 func GetBlockTimeStamp(w http.ResponseWriter, r *http.Request){
-  var rtnTimestamp time.Time
   params := mux.Vars(r)
-  blockid, isInt := strconv.Atoi(params["id"])
-  if (isInt != nil){
-    timestamp, err := goTezosServer.GetBlockHeaderTimeStamp(params["id"])
-  	if err != nil {
-  		respondWithError(w, http.StatusInternalServerError, err.Error())
-  		return
-  	}
-    rtnTimestamp = timestamp
-  } else {
-    timestamp, err := goTezosServer.GetBlockHeaderTimeStamp(blockid)
-  	if err != nil {
-  		respondWithError(w, http.StatusInternalServerError, err.Error())
-  		return
-  	}
-    rtnTimestamp = timestamp
+  blockid := parseID(params["id"])
+  timestamp, err := goTezosServer.GetBlockHeaderTimeStamp(blockid)
+  if err != nil {
+    respondWithError(w, http.StatusInternalServerError, err.Error())
+    return
   }
-	respondWithJson(w, http.StatusOK, rtnTimestamp)
+  respondWithJson(w, http.StatusOK, timestamp)
 }
 
 func GetBlockValidationPass(w http.ResponseWriter, r *http.Request){
-  var rtnValidation int
   params := mux.Vars(r)
-  blockid, isInt := strconv.Atoi(params["id"])
-  if (isInt != nil){
-    validation, err := goTezosServer.GetBlockHeaderValidationPass(params["id"])
-  	if err != nil {
-  		respondWithError(w, http.StatusInternalServerError, err.Error())
-  		return
-  	}
-    rtnValidation = validation
-  } else {
-    validation, err := goTezosServer.GetBlockHeaderValidationPass(blockid)
-  	if err != nil {
-  		respondWithError(w, http.StatusInternalServerError, err.Error())
-  		return
-  	}
-    rtnValidation = validation
+  blockid := parseID(params["id"])
+  validation, err := goTezosServer.GetBlockHeaderValidationPass(blockid)
+  if err != nil {
+    respondWithError(w, http.StatusInternalServerError, err.Error())
+    return
   }
-	respondWithJson(w, http.StatusOK, rtnValidation)
+  respondWithJson(w, http.StatusOK, rtnValidation)
 }
 
 func GetBlockOperationsHash(w http.ResponseWriter, r *http.Request){
-  var rtnOpHash string
   params := mux.Vars(r)
-  blockid, isInt := strconv.Atoi(params["id"])
-  if (isInt != nil){
-    opHash, err := goTezosServer.GetBlockHeaderOperationsHash(params["id"])
-  	if err != nil {
-  		respondWithError(w, http.StatusInternalServerError, err.Error())
-  		return
-  	}
-    rtnOpHash = opHash
-  } else {
-    opHash, err := goTezosServer.GetBlockHeaderOperationsHash(blockid)
-  	if err != nil {
-  		respondWithError(w, http.StatusInternalServerError, err.Error())
-  		return
-  	}
-    rtnOpHash = opHash
+  blockid := parseID(params["id"])
+  opHash, err := goTezosServer.GetBlockHeaderOperationsHash(blockid)
+  if err != nil {
+    respondWithError(w, http.StatusInternalServerError, err.Error())
+    return
   }
-	respondWithJson(w, http.StatusOK, rtnOpHash)
+  respondWithJson(w, http.StatusOK, opHash)
 }
 
 func GetBlockFitness(w http.ResponseWriter, r *http.Request){
-  var rtnFitness []string
   params := mux.Vars(r)
-  blockid, isInt := strconv.Atoi(params["id"])
-  if (isInt != nil){
-    fitness, err := goTezosServer.GetBlockHeaderFitness(params["id"])
-  	if err != nil {
-  		respondWithError(w, http.StatusInternalServerError, err.Error())
-  		return
-  	}
-    rtnFitness = fitness
-  } else {
-    fitness, err := goTezosServer.GetBlockHeaderFitness(blockid)
-  	if err != nil {
-  		respondWithError(w, http.StatusInternalServerError, err.Error())
-  		return
-  	}
-    rtnFitness = fitness
+  blockid := parseID(params["id"])
+  fitness, err := goTezosServer.GetBlockHeaderFitness(blockid)
+  if err != nil {
+    respondWithError(w, http.StatusInternalServerError, err.Error())
+    return
   }
-	respondWithJson(w, http.StatusOK, rtnFitness)
+  respondWithJson(w, http.StatusOK, fitness)
 }
 
 func GetBlockContext(w http.ResponseWriter, r *http.Request){
-  var rtnContext string
   params := mux.Vars(r)
-  blockid, isInt := strconv.Atoi(params["id"])
-  if (isInt != nil){
-    context, err := goTezosServer.GetBlockHeaderContext(params["id"])
-  	if err != nil {
-  		respondWithError(w, http.StatusInternalServerError, err.Error())
-  		return
-  	}
-    rtnContext = context
-  } else {
-    context, err := goTezosServer.GetBlockHeaderContext(blockid)
-  	if err != nil {
-  		respondWithError(w, http.StatusInternalServerError, err.Error())
-  		return
-  	}
-    rtnContext = context
+  blockid := parseID(params["id"])
+  context, err := goTezosServer.GetBlockHeaderContext(params["id"])
+  if err != nil {
+    respondWithError(w, http.StatusInternalServerError, err.Error())
+    return
   }
-	respondWithJson(w, http.StatusOK, rtnContext)
+  respondWithJson(w, http.StatusOK, context)
 }
 
 func GetBlockPriority(w http.ResponseWriter, r *http.Request){
-  var rtnPriority int
   params := mux.Vars(r)
-  blockid, isInt := strconv.Atoi(params["id"])
-  if (isInt != nil){
-    priority, err := goTezosServer.GetBlockHeaderPriority(params["id"])
-  	if err != nil {
-  		respondWithError(w, http.StatusInternalServerError, err.Error())
-  		return
-  	}
-    rtnPriority = priority
-  } else {
-    priority, err := goTezosServer.GetBlockHeaderPriority(blockid)
-  	if err != nil {
-  		respondWithError(w, http.StatusInternalServerError, err.Error())
-  		return
-  	}
-    rtnPriority = priority
+  blockid := parseID(params["id"])
+  priority, err := goTezosServer.GetBlockHeaderPriority(params["id"])
+  if err != nil {
+    respondWithError(w, http.StatusInternalServerError, err.Error())
+    return
   }
-	respondWithJson(w, http.StatusOK, rtnPriority)
+  respondWithJson(w, http.StatusOK, priority)
 }
 
 func GetBlockProofOfWorkNonce(w http.ResponseWriter, r *http.Request){
