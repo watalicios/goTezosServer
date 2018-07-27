@@ -11,7 +11,6 @@ import (
   "strconv"
   "net/http"
   "log"
-  "fmt"
   "flag"
   "encoding/json"
   "github.com/gorilla/mux"
