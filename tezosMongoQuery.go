@@ -391,7 +391,7 @@ func GetBlockMetadataConsumedGas(arg interface{}) (string, error) {
   return block.Metadata.ConsumedGas, nil
 }
 
-func GetBlockMetadataDeactivated(arg interface{}) ([]interface{}, error) {
+func GetBlockMetadataDeactivated(arg interface{}) ([]string, error) {
   var interf []interface{}
   block, err := BlockCheck(arg)
   if (err != nil){
@@ -475,14 +475,16 @@ func GetBlockOperations(arg interface{}) ([]StructOperations, error){
     return operations, err
   }
 
-  for _, field := range block.Operations{
-    protocol := field.Protocol
-    chainId := field.ChainID
-    hash := field.Hash
-    branch := field.Branch
-    //contents := nil //GetBlockOperationsContents(block)
-    signature := field.Signature
-    operations = append(operations, StructOperations{Protocol: protocol, ChainID: chainId, Hash: hash, Branch: branch, Signature: signature})
+  for _, operation := range block.Operations{
+    for _, field := range operation{
+      protocol := field.Protocol
+      chainId := field.ChainID
+      hash := field.Hash
+      branch := field.Branch
+      //contents := nil //GetBlockOperationsContents(block)
+      signature := field.Signature
+      operations = append(operations, StructOperations{Protocol: protocol, ChainID: chainId, Hash: hash, Branch: branch, Signature: signature})
+    }
   }
 
   return operations, nil

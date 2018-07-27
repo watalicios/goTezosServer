@@ -146,8 +146,8 @@ func GetBlockRPCHead() ([]byte, error){
 Description: Takes an  array of interface (struct in our case), jsonifies it, and allows a much neater print.
 Param v (interface{}): Array of an interface
 */
-func ConvertBlockToJson(v []byte) BsonBlock {
-  var block BsonBlock
+func ConvertBlockToJson(v []byte) Block {
+  var block Block
   err := json.Unmarshal(v, &block)
   if err != nil {
         panic(err)
