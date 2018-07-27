@@ -1,5 +1,12 @@
 package main
 
+/*
+Author: DefinitelyNotAGoat/MagicAglet
+Version: 0.0.1
+Description: A ReST API to Query the MongoDB database
+License: MIT
+*/
+
 import (
   "strconv"
   "net/http"

@@ -3,6 +3,7 @@ package goTezosServer
 import (
   "errors"
   "time"
+  "fmt"
   "gopkg.in/mgo.v2/bson"
 )
 
@@ -30,6 +31,7 @@ func GetBlock(arg interface{}) (Block, error){
   if (hash != ""){
     err := Collection.Find(bson.M{"hash": hash}).One(&result)
     if (err != nil) {
+      fmt.Println(err)
   		return result, err
   	}
   }
