@@ -146,7 +146,7 @@ func GetBlockHead(w http.ResponseWriter, r *http.Request) {
 func GetBlock(w http.ResponseWriter, r *http.Request) {
   var rtbBlock goTezosServer.Block
   params := mux.Vars(r)
-  blockid := parseID(params)
+  blockid := parseID(params["id"])
   block, err := goTezosServer.GetBlock(blockid)
   if err != nil {
     respondWithError(w, http.StatusInternalServerError, err.Error())
