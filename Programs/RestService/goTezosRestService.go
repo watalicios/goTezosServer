@@ -54,8 +54,8 @@ func main(){
   r.HandleFunc("/block/operation/protocol/{id}", GetBlockOperationProtocol).Methods("GET")
   r.HandleFunc("/block/operation/branch/{id}", GetBlockOperationProtocol).Methods("GET")
   r.HandleFunc("/block/operation/contents/{id}", GetBlockOperationsContents).Methods("GET")
-  r.HandleFunc("/block/operation/signature/{id}", GetBlockOperationsContents).Methods("GET")
-  r.HandleFunc("/block/operation/signature/{id}/{kind}", GetBlockOperationsByKind).Methods("GET")
+  r.HandleFunc("/block/operations/signature/{id}", GetBlockOperationsContents).Methods("GET")
+  r.HandleFunc("/block/operation/{id}/kind/{kind}", GetBlockOperationsByKind).Methods("GET")
 
 	if err := http.ListenAndServe(":3000", r); err != nil {
 		log.Fatal(err)
@@ -985,12 +985,6 @@ func GetBlockOperationsByKind(w http.ResponseWriter, r *http.Request){
 
   respondWithJson(w, http.StatusOK, rtnOperationsKind)
 }
-
-// func CheckType(v interface{}) (int, error) {
-//   switch v.(type){
-//   case int:
-//   }
-// }
 
 func respondWithError(w http.ResponseWriter, code int, msg string) {
 	respondWithJson(w, code, map[string]string{"error": msg})
