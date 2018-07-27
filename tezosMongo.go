@@ -28,9 +28,6 @@ var TezosPath string
 var Session *mgo.Session
 var Collection *mgo.Collection
 
-var (
-  DataBaseStr = ""
-)
 /*
 Description: This library needs the TEZOSPATH enviroment variable to function
 */
@@ -47,14 +44,17 @@ func init() {
     fmt.Println("Could not find tezos-client in TEZOSPATH: " + err.Error())
     os.Exit(1)
   }
+}
 
-  Session, errs = mgo.Dial("127.0.0.1")
+func SetDatabaseConnection(connection ,database, collection string){
+  Session, errs = mgo.Dial(connection)
   if (errs != nil){
     fmt.Println(errs)
+    os.Exit(1)
   }
-
-  Collection = Session.DB("TEZOS").C("blocks")
+  Collection = Session.DB(database).C(collection)
 }
+
 
 
 func InitSynchronizeTezosMongo(){
