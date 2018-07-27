@@ -853,7 +853,7 @@ func GetBlockMetadataConsumedGas(w http.ResponseWriter, r *http.Request){
 }
 
 func GetBlockMetadataDeactivated(w http.ResponseWriter, r *http.Request){
-  var rtnMetadataDeactivated []interface{}
+  var rtnMetadataDeactivated []string
   params := mux.Vars(r)
   blockid, isInt := strconv.Atoi(params["id"])
   if (isInt != nil){
