@@ -905,22 +905,13 @@ func GetBlockOperations(w http.ResponseWriter, r *http.Request){
 func GetBlockOperation(w http.ResponseWriter, r *http.Request){
   var rtnOperation goTezosServer.StructOperations
   params := mux.Vars(r)
-  blockid, isInt := strconv.Atoi(params["id"])
-  if (isInt != nil){
-    operation, err := goTezosServer.GetBlockOperation(params["id"])
-    if err != nil {
-      respondWithError(w, http.StatusInternalServerError, err.Error())
-      return
-    }
-    rtnOperation = operation
-  } else {
-    operation, err := goTezosServer.GetBlockOperation(blockid)
-    if err != nil {
-      respondWithError(w, http.StatusInternalServerError, err.Error())
-      return
-    }
-    rtnOperation = operation
+  operation, err := goTezosServer.GetBlockOperation(params["id"])
+  if err != nil {
+    respondWithError(w, http.StatusInternalServerError, err.Error())
+    return
   }
+  rtnOperation = operation
+
   respondWithJson(w, http.StatusOK, rtnOperations)
 }
 
