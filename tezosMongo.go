@@ -79,7 +79,7 @@ func SynchronizeTezosMongo() {
       if (err != nil){
         fmt.Println(err)
       }
-      fmt.Println(block)
+      fmt.Println(PrettyReport(block))
       // err = Collection.Insert(block)
       // if (err != nil){
       //   fmt.Println(err)
@@ -210,4 +210,12 @@ func TezosRPCGet(arg string) ([]byte, error){
     return output, errors.New("Could not rpc get " + arg + " : tezosDo(args ...string) failed: " + err.Error())
   }
   return output, nil
+}
+
+func PrettyReport(v interface{}) string {
+  b, err := json.MarshalIndent(v, "", "  ")
+  if err == nil {
+    return string(b)
+  }
+  return ""
 }
