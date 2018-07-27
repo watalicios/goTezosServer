@@ -123,7 +123,6 @@ func GetBlockRPC(level int, headHash string, headLevel int) (Block, error){
   diff := headLevel - level
   diffStr := strconv.Itoa(diff)
   getBlockByLevel := "chains/main/blocks/" + headHash + "~" + diffStr
-  var bsonBlock BsonBlock
   var block Block
 
   s, err := TezosRPCGet(getBlockByLevel)
@@ -131,38 +130,10 @@ func GetBlockRPC(level int, headHash string, headLevel int) (Block, error){
     return block, err
   }
 
-  bsonBlock = ConvertBlockToJson(s)
-  block = BsonBlockToBlock(bsonBlock)
+  block = ConvertBlockToJson(s)
   return block, nil
 }
 
-/*
-Description: Takes a block level, and returns the hash for that specific level
-Param level (int): An integer representation of the block level to query
-Returns (string): A string representation of the hash for the block level queried.
-*/
-// func GetBlockLevelHash(level int, headHash string, headLevel int) (string, error){
-//   diff :=  headLevel - level
-//   diffStr := strconv.Itoa(diff)
-//   getBlockByLevel := "chains/main/blocks/" + headHash + "~" + diffStr
-//
-//   s, err := TezosRPCGet(getBlockByLevel)
-//   if (err != nil){
-//     return "", errors.New("Could not get hash for block " +  strconv.Itoa(level) + ": TezosRPCGet(arg string) failed: " + err.Error())
-//   }
-//
-//   hash := reGetHash.FindStringSubmatch(s) //TODO Error check the regex
-//   if (hash == nil){
-//     return "", errors.New("Could not get hash for block " + strconv.Itoa(level))
-//   }
-//
-//   return hash[1], nil
-// }
-
-/*
-Description: Will retreive the current block level as an integer
-Returns (int): Returns integer representation of block level
-*/
 func GetBlockRPCHead() ([]byte, error){
   s, err := TezosRPCGet("chains/main/blocks/head")
   if (err != nil){
