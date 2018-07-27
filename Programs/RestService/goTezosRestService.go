@@ -1,9 +1,7 @@
 package main
 
 import (
-  "flag"
   "fmt"
-  "sync"
   "strconv"
   "net/http"
   "log"
@@ -13,18 +11,7 @@ import (
   "github.com/DefinitelyNotAGoat/goTezosServer"
 )
 
-var wg sync.WaitGroup
-
 func main(){
-  init := flag.Bool("init", true, "Start synchronization of the database from cycle 0")
-  flag.Parse()
-  if (*init){
-    fmt.Println("Initializing the server from cycle 0.")
-    goTezosServer.InitSynchronizeTezosMongo()
-    fmt.Println("Done Initializing.")
-  }
-  wg.Add(1)
-  go goTezosServer.SynchronizeTezosMongo()
   r := mux.NewRouter()
 	r.HandleFunc("/head", GetBlockHead).Methods("GET")
 	r.HandleFunc("/block/{id}", GetBlock).Methods("GET")
@@ -67,9 +54,6 @@ func main(){
 	if err := http.ListenAndServe(":3000", r); err != nil {
 		log.Fatal(err)
 	}
-
-  wg.Wait()
-  wg.Done()
 }
 
 func GetBlockHead(w http.ResponseWriter, r *http.Request) {
