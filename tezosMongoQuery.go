@@ -519,11 +519,15 @@ func GetBlockOperation(opHash string) (StructOperations, error){
   }
   return op, nil
 }
-//
-// func GetBlockOperationsChainID(arg interface{}) (string, error){
-//
-// }
-//
+
+func GetBlockOperationProtocol(opHash string) (string, error){
+  operation, err := GetBlockOperation(opHash)
+  if (err != nil){
+    return "", err
+  }
+  return operation.Protocol, nil
+}
+
 // func GetBlockOperationsHash(arg interface{}) (string, error){
 //
 // }
