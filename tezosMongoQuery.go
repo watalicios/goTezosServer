@@ -481,7 +481,10 @@ func GetBlockOperations(arg interface{}) ([]StructOperations, error){
       chainId := field.ChainID
       hash := field.Hash
       branch := field.Branch
-      //contents := nil //GetBlockOperationsContents(block)
+      var contents []StructContents
+      for _,cont := range field.Contents{
+        contents = append(contents, cont)
+      }
       signature := field.Signature
       operations = append(operations, StructOperations{Protocol: protocol, ChainID: chainId, Hash: hash, Branch: branch, Signature: signature})
     }
