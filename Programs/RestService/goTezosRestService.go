@@ -48,10 +48,10 @@ func main(){
   r.HandleFunc("/block/metadata/nonce_hash/{id}", GetBlockMetadataNonceHash).Methods("GET")
   r.HandleFunc("/block/metadata/consumed_gas/{id}", GetBlockMetadataConsumedGas).Methods("GET")
   r.HandleFunc("/block/metadata/deactivated/{id}", GetBlockMetadataDeactivated).Methods("GET")
-  r.HandleFunc("/block/{id}/metadata/balance_updates/", GetBlockMetadataBalanceUpdates).Methods("GET")
-  r.HandleFunc("/block/{id}/operations/", GetBlockOperations).Methods("GET")
+  r.HandleFunc("/block/metadata/balance_updates/{id}", GetBlockMetadataBalanceUpdates).Methods("GET")
+  r.HandleFunc("/block/operations/{id}", GetBlockOperations).Methods("GET")
   r.HandleFunc("/block/operation/{id}", GetBlockOperation).Methods("GET")
-  r.HandleFunc("/block/operation/{id}/Protocol/", GetBlockOperationProtocol).Methods("GET")
+  r.HandleFunc("/block/operation/Protocol/{id}", GetBlockOperationProtocol).Methods("GET")
 	if err := http.ListenAndServe(":3000", r); err != nil {
 		log.Fatal(err)
 	}
