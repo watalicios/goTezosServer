@@ -392,7 +392,7 @@ func GetBlockMetadataConsumedGas(arg interface{}) (string, error) {
 }
 
 func GetBlockMetadataDeactivated(arg interface{}) ([]string, error) {
-  var interf []interface{}
+  var interf []string
   block, err := BlockCheck(arg)
   if (err != nil){
     return interf, err
