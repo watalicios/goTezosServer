@@ -484,7 +484,6 @@ func GetBlockOperations(arg interface{}) ([]StructOperations, error){
       branch := field.Branch
       var contents []StructContents
       for _,cont := range field.Contents{
-        fmt.Println(cont)
         contents = append(contents, cont)
       }
       signature := field.Signature
