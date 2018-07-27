@@ -912,7 +912,7 @@ func GetBlockOperation(w http.ResponseWriter, r *http.Request){
   }
   rtnOperation = operation
 
-  respondWithJson(w, http.StatusOK, rtnOperations)
+  respondWithJson(w, http.StatusOK, rtnOperation)
 }
 
 // func CheckType(v interface{}) (int, error) {
