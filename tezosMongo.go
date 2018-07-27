@@ -33,7 +33,6 @@ Description: This library needs the TEZOSPATH enviroment variable to function
 */
 func init() {
   var ok bool
-  var errs error
   TezosPath, ok = os.LookupEnv("TEZOSPATH")
   if !ok {
 	   fmt.Println("TEZOSPATH not set. Please 'export TEZOSPATH=<path_to_tezos>'.")
