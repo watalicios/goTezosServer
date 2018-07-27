@@ -11,7 +11,6 @@ import (
   "sync"
   "flag"
   "fmt"
-  "github.com/gorilla/mux"
   "github.com/DefinitelyNotAGoat/goTezosServer"
 )
 
