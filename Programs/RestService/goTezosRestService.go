@@ -5,6 +5,7 @@ import (
   "net/http"
   "log"
   "time"
+  "fmt"
   "encoding/json"
   "github.com/gorilla/mux"
   "github.com/DefinitelyNotAGoat/goTezosServer"
@@ -976,6 +977,7 @@ func GetBlockOperationsSignature(w http.ResponseWriter, r *http.Request){
 func GetBlockOperationsByKind(w http.ResponseWriter, r *http.Request){
   var rtnOperationsKind []goTezosServer.StructOperations
   params := mux.Vars(r)
+  fmt.Println(params)
   operation, err := goTezosServer.GetBlockOperationsByKind(params["id"], params["kind"])
   if err != nil {
     respondWithError(w, http.StatusInternalServerError, err.Error())
