@@ -488,7 +488,7 @@ func GetBlockOperations(arg interface{}) ([]StructOperations, error){
         contents = append(contents, cont)
       }
       signature := field.Signature
-      operations = append(operations, StructOperations{Protocol: protocol, ChainID: chainId, Hash: hash, Branch: branch, Signature: signature})
+      operations = append(operations, StructOperations{Protocol: protocol, ChainID: chainId, Hash: hash, Contents: contents, Branch: branch, Signature: signature})
     }
   }
 
