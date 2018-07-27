@@ -4,7 +4,6 @@ import (
   "errors"
   "time"
   "gopkg.in/mgo.v2/bson"
-  "fmt"
 )
 
 func GetBlock(arg interface{}) (Block, error){
@@ -496,10 +495,7 @@ func GetBlockOperations(arg interface{}) ([]StructOperations, error){
 
 func GetBlockOperation(string opHash) (StructOperations, error){
   var op StructOperations
-  block, err := BlockCheck(arg)
-  if (err != nil){
-    return operations, err
-  }
+  block := GetBlockByOp(opHash)
 
   for _, operation := range block.Operations{
     for _, field := range operation{
@@ -608,4 +604,13 @@ func BlockCheck(arg interface{}) (Block, error){
   }
 
   return block, nil
+}
+
+func GetBlockByOp(opHash string){
+  result := Block{}
+  err := Collection.Find(bson.M{{"operations":{$elemMatch:{$elemMatch:{"hash":opHash}}}}}).One(&result)
+  if (err != nil) {
+		return result, err
+	}
+  return result, nil
 }
