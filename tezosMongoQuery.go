@@ -475,7 +475,7 @@ func GetBlockOperationsBranch(opHash string) (string, error){
 func GetBlockOperationsContents(opHash string) ([]StructContents, error){
   operation, err := GetBlockOperation(opHash)
   if (err != nil){
-    return operation, err
+    return operation.Contents, err
   }
 
   return operation.Contents, nil
@@ -488,8 +488,10 @@ func GetBlockOperationsByKind(arg interface{}, kind string) ([]StructOperations,
   }
   var ops []StructOperations
   for _, op := range operations{
-    if (op.Contents.Kind == kind){
-      ops = append(ops, op)
+    for _, cont := range op.Contents{
+      if (cont.Kind == kind){
+        ops = append(ops, op)
+      }
     }
   }
 
