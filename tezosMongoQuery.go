@@ -494,9 +494,32 @@ func GetBlockOperations(arg interface{}) ([]StructOperations, error){
   return operations, nil
 }
 
-// func GetBlockOperationsProtocol(arg interface{}) (string, error){
-//
-// }
+func GetBlockOperation(string opHash) (StructOperations, error){
+  var op StructOperations
+  block, err := BlockCheck(arg)
+  if (err != nil){
+    return operations, err
+  }
+
+  for _, operation := range block.Operations{
+    for _, field := range operation{
+      if (opHash == field.Hash) {
+        protocol := field.Protocol
+        chainId := field.ChainID
+        branch := field.Branch
+        var contents []StructContents
+        for _,cont := range field.Contents{
+          contents = append(contents, cont)
+        }
+        signature := field.Signature
+        op = StructOperations{Protocol: protocol, ChainID: chainId, Hash: opHash, Contents: contents, Branch: branch, Signature: signature}
+        break
+      }
+    }
+    break
+  }
+  return op
+}
 //
 // func GetBlockOperationsChainID(arg interface{}) (string, error){
 //

@@ -50,6 +50,7 @@ func main(){
   r.HandleFunc("/block/metadata/deactivated/{id}", GetBlockMetadataDeactivated).Methods("GET")
   r.HandleFunc("/block/metadata/balance_updates/{id}", GetBlockMetadataBalanceUpdates).Methods("GET")
   r.HandleFunc("/block/operations/{id}", GetBlockOperations).Methods("GET")
+  r.HandleFunc("/block/operation/{id}", GetBlockOperation).Methods("GET")
 	if err := http.ListenAndServe(":3000", r); err != nil {
 		log.Fatal(err)
 	}
@@ -897,6 +898,28 @@ func GetBlockOperations(w http.ResponseWriter, r *http.Request){
       return
     }
     rtnOperations = operations
+  }
+  respondWithJson(w, http.StatusOK, rtnOperations)
+}
+
+func GetBlockOperation(w http.ResponseWriter, r *http.Request){
+  var rtnOperation goTezosServer.StructOperations
+  params := mux.Vars(r)
+  blockid, isInt := strconv.Atoi(params["id"])
+  if (isInt != nil){
+    operation, err := goTezosServer.GetBlockOperation(params["id"])
+    if err != nil {
+      respondWithError(w, http.StatusInternalServerError, err.Error())
+      return
+    }
+    rtnOperation = operation
+  } else {
+    operation, err := goTezosServer.GetBlockOperation(blockid)
+    if err != nil {
+      respondWithError(w, http.StatusInternalServerError, err.Error())
+      return
+    }
+    rtnOperation = operation
   }
   respondWithJson(w, http.StatusOK, rtnOperations)
 }
