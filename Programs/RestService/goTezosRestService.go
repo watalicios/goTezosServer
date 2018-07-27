@@ -13,12 +13,31 @@ import (
   "log"
   "time"
   "fmt"
+  "flag"
   "encoding/json"
   "github.com/gorilla/mux"
   "github.com/DefinitelyNotAGoat/goTezosServer"
 )
 
 func main(){
+  connection := flag.String("connection", "127.0.0.1", "URL or IP to the MongoDB Database")
+  db := flag.String("db", "TEZOS", "Use the TEZOS Database")
+  collection := flag.String("collection", "blocks", "Use the blocks collection")
+  user := flag.String("user", "", "If using authentication, set the user")
+  pass := flag.String("pass", "", "If using authentication, set the password")
+
+  flag.Parse()
+
+  var dbCon string
+
+  if (*user != "" && *pass != ""){
+    dbCon = "mongodb://" + *user + ":" + *pass + "@" + *connection
+  } else{
+    dbCon = "mongodb://"+ *connection
+  }
+
+  goTezosServer.SetDatabaseConnection(dbCon, *db, *collection)
+
   r := mux.NewRouter()
 	r.HandleFunc("/head/", GetBlockHead).Methods("GET")
 	r.HandleFunc("/block/{id}/", GetBlock).Methods("GET")
