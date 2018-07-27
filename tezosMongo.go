@@ -79,10 +79,11 @@ func SynchronizeTezosMongo() {
       if (err != nil){
         fmt.Println(err)
       }
-      err = Collection.Insert(block)
-      if (err != nil){
-        fmt.Println(err)
-      }
+      fmt.Println(block)
+      // err = Collection.Insert(block)
+      // if (err != nil){
+      //   fmt.Println(err)
+      // }
       nextLevel = nextLevel + 1
     }
     time.Sleep(1 * time.Second)
@@ -105,7 +106,7 @@ func MongoGetAllBlocks() error{
     return errors.New("Could not get hash for block head")
   }
 
-  for i := headLevel-headLevel; i < headLevel; i ++{
+  for i := headLevel-1; i < headLevel; i ++{
     block, err := GetBlockRPC(i, headHash[1], headLevel)
     if (err != nil){
       return err
