@@ -517,7 +517,7 @@ func GetBlockOperation(opHash string) (StructOperations, error){
     }
     break
   }
-  return op
+  return op, nil
 }
 //
 // func GetBlockOperationsChainID(arg interface{}) (string, error){
@@ -611,7 +611,7 @@ func BlockCheck(arg interface{}) (Block, error){
 
 func GetBlockByOp(opHash string) (Block, error) {
   result := Block{}
-  err := Collection.Find(bson.M{{"operations":{`$elemMatch`:{`$elemMatch`:{"hash":opHash}}}}}).One(&result)
+  err := Collection.Find(bson.M{{"operations":{"$elemMatch":{"$elemMatch":{"hash":opHash}}}}}).One(&result)
   if (err != nil) {
 		return result, err
 	}
