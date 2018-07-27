@@ -252,10 +252,7 @@ func GetBlockContext(w http.ResponseWriter, r *http.Request){
   params := mux.Vars(r)
   blockid := parseID(params["id"])
   context, err := goTezosServer.GetBlockHeaderContext(blockid)
-  if err != nil {
-    respondWithError(w, http.StatusInternalServerError, err.Error())
-    return
-  }
+  errorControl(err, w)
   respondWithJson(w, http.StatusOK, context)
 }
 
@@ -263,10 +260,7 @@ func GetBlockPriority(w http.ResponseWriter, r *http.Request){
   params := mux.Vars(r)
   blockid := parseID(params["id"])
   priority, err := goTezosServer.GetBlockHeaderPriority(blockid)
-  if err != nil {
-    respondWithError(w, http.StatusInternalServerError, err.Error())
-    return
-  }
+  errorControl(err, w)
   respondWithJson(w, http.StatusOK, priority)
 }
 
@@ -274,10 +268,7 @@ func GetBlockProofOfWorkNonce(w http.ResponseWriter, r *http.Request){
   params := mux.Vars(r)
   blockid := parseID(params["id"])
   proofOfWork, err := goTezosServer.GetBlockHeaderProofOfWorkNonce(blockid)
-  if err != nil {
-    respondWithError(w, http.StatusInternalServerError, err.Error())
-    return
-  }
+  errorControl(err, w)
   respondWithJson(w, http.StatusOK, proofOfWork)
 }
 
@@ -285,10 +276,7 @@ func GetBlockSignature(w http.ResponseWriter, r *http.Request){
   params := mux.Vars(r)
   blockid := parseID(params["id"])
   sig, err := goTezosServer.GetBlockHeaderSignature(blockid)
-  if err != nil {
-    respondWithError(w, http.StatusInternalServerError, err.Error())
-    return
-  }
+  errorControl(err, w)
   respondWithJson(w, http.StatusOK, sig)
 }
 
@@ -296,10 +284,7 @@ func GetBlockMetadata(w http.ResponseWriter, r *http.Request){
   params := mux.Vars(r)
   blockid := parseID(params["id"])
   meta, err := goTezosServer.GetBlockMetadata(blockid)
-  if err != nil {
-    respondWithError(w, http.StatusInternalServerError, err.Error())
-    return
-  }
+  errorControl(err, w)
   respondWithJson(w, http.StatusOK, meta)
 }
 
@@ -307,10 +292,7 @@ func GetBlockMetadataProtocol(w http.ResponseWriter, r *http.Request){
   params := mux.Vars(r)
   blockid := parseID(params["id"])
   protocol, err := goTezosServer.GetBlockMetadataProtocol(blockid)
-  if err != nil {
-    respondWithError(w, http.StatusInternalServerError, err.Error())
-    return
-  }
+  errorControl(err, w)
   respondWithJson(w, http.StatusOK, protocol)
 }
 
@@ -318,10 +300,7 @@ func GetBlockMetadataNextProtocol(w http.ResponseWriter, r *http.Request){
   params := mux.Vars(r)
   blockid := parseID(params["id"])
   protocol, err := goTezosServer.GetBlockMetadataNextProtocol(blockid)
-  if err != nil {
-    respondWithError(w, http.StatusInternalServerError, err.Error())
-    return
-  }
+  errorControl(err, w)
   respondWithJson(w, http.StatusOK, protocol)
 }
 
@@ -329,10 +308,7 @@ func GetBlockMetadataTestChainStatus(w http.ResponseWriter, r *http.Request){
   params := mux.Vars(r)
   blockid := parseID(params["id"])
   test, err := goTezosServer.GetBlockMetadataTestChainStatus(blockid)
-  if err != nil {
-    respondWithError(w, http.StatusInternalServerError, err.Error())
-    return
-  }
+  errorControl(err, w)
   respondWithJson(w, http.StatusOK, test)
 }
 
@@ -340,10 +316,7 @@ func GetBlockMetadataMaxOperationsTTL(w http.ResponseWriter, r *http.Request){
   params := mux.Vars(r)
   blockid := parseID(params["id"])
   maxOperationsTTL, err := goTezosServer.GetBlockMetadataMaxOperationsTTL(blockid)
-  if err != nil {
-    respondWithError(w, http.StatusInternalServerError, err.Error())
-    return
-  }
+  errorControl(err, w)
   respondWithJson(w, http.StatusOK, maxOperationsTTL)
 }
 
@@ -351,10 +324,7 @@ func GetBlockMetadataMaxOperationDataLength(w http.ResponseWriter, r *http.Reque
   params := mux.Vars(r)
   blockid := parseID(params["id"])
   maxOperationDataLength, err := goTezosServer.GetBlockMetadataMaxOperationDataLength(blockid)
-  if err != nil {
-    respondWithError(w, http.StatusInternalServerError, err.Error())
-    return
-  }
+  errorControl(err, w)
   respondWithJson(w, http.StatusOK, maxOperationDataLength)
 }
 
@@ -362,10 +332,7 @@ func GetBlockMetadataMaxBlockHeaderLength(w http.ResponseWriter, r *http.Request
   params := mux.Vars(r)
   blockid := parseID(params["id"])
   maxBlockHeaderLength, err := goTezosServer.GetBlockMetadataMaxBlockHeaderLength(blockid)
-  if err != nil {
-    respondWithError(w, http.StatusInternalServerError, err.Error())
-    return
-  }
+  errorControl(err, w)
   respondWithJson(w, http.StatusOK, maxBlockHeaderLength)
 }
 
@@ -373,10 +340,7 @@ func GetBlockMetadataMaxOperationListLength(w http.ResponseWriter, r *http.Reque
   params := mux.Vars(r)
   blockid := parseID(params["id"])
   maxOperationListLength, err := goTezosServer.GetBlockMetadataMaxOperationListLength(blockid)
-  if err != nil {
-    respondWithError(w, http.StatusInternalServerError, err.Error())
-    return
-  }
+  errorControl(err, w)
   respondWithJson(w, http.StatusOK, maxOperationListLength)
 }
 
@@ -384,10 +348,7 @@ func GetBlockMetadataBaker(w http.ResponseWriter, r *http.Request){
   params := mux.Vars(r)
   blockid := parseID(params["id"])
   metaBaker, err := goTezosServer.GetBlockMetadataBaker(blockid)
-  if err != nil {
-    respondWithError(w, http.StatusInternalServerError, err.Error())
-    return
-  }
+  errorControl(err, w)
   respondWithJson(w, http.StatusOK, metaBaker)
 }
 
@@ -395,10 +356,7 @@ func GetBlockMetadataLevel(w http.ResponseWriter, r *http.Request){
   params := mux.Vars(r)
   blockid := parseID(params["id"])
   level, err := goTezosServer.GetBlockMetadataLevel(blockid)
-  if err != nil {
-    respondWithError(w, http.StatusInternalServerError, err.Error())
-    return
-  }
+  errorControl(err, w)
   respondWithJson(w, http.StatusOK, level)
 }
 
@@ -406,10 +364,7 @@ func GetBlockMetadataLevelLevel(w http.ResponseWriter, r *http.Request){
   params := mux.Vars(r)
   blockid := parseID(params["id"])
   level, err := goTezosServer.GetBlockMetadataLevelLevel(blockid)
-  if err != nil {
-    respondWithError(w, http.StatusInternalServerError, err.Error())
-    return
-  }
+  errorControl(err, w)
   respondWithJson(w, http.StatusOK, level)
 }
 
@@ -417,10 +372,7 @@ func GetBlockMetadataLevelLevelPosition(w http.ResponseWriter, r *http.Request){
   params := mux.Vars(r)
   blockid := parseID(params["id"])
   levelPosition, err := goTezosServer.GetBlockMetadataLevelLevelPosition(blockid)
-  if err != nil {
-    respondWithError(w, http.StatusInternalServerError, err.Error())
-    return
-  }
+  errorControl(err, w)
   respondWithJson(w, http.StatusOK, levelPosition)
 }
 
@@ -428,10 +380,7 @@ func GetBlockMetadataLevelCycle(w http.ResponseWriter, r *http.Request){
   params := mux.Vars(r)
   blockid := parseID(params["id"])
   levelCycle, err := goTezosServer.GetBlockMetadataLevelCycle(blockid)
-  if err != nil {
-    respondWithError(w, http.StatusInternalServerError, err.Error())
-    return
-  }
+  errorControl(err, w)
   respondWithJson(w, http.StatusOK, levelCycle)
 }
 
@@ -439,10 +388,7 @@ func GetBlockMetadataLevelCyclePosition(w http.ResponseWriter, r *http.Request){
   params := mux.Vars(r)
   blockid := parseID(params["id"])
   levelCyclePosition, err := goTezosServer.GetBlockMetadataLevelCyclePosition(blockid)
-  if err != nil {
-    respondWithError(w, http.StatusInternalServerError, err.Error())
-    return
-  }
+  errorControl(err, w)
   respondWithJson(w, http.StatusOK, levelCyclePosition)
 }
 
@@ -450,10 +396,7 @@ func GetBlockMetadataLevelVotingPeriod(w http.ResponseWriter, r *http.Request){
   params := mux.Vars(r)
   blockid := parseID(params["id"])
   levelVotingPeriod, err := goTezosServer.GetBlockMetadataLevelVotingPeriod(blockid)
-  if err != nil {
-    respondWithError(w, http.StatusInternalServerError, err.Error())
-    return
-  }
+  errorControl(err, w)
   respondWithJson(w, http.StatusOK, levelVotingPeriod)
 }
 
@@ -461,10 +404,7 @@ func GetBlockMetadataLevelExpectedCommitment(w http.ResponseWriter, r *http.Requ
   params := mux.Vars(r)
   blockid := parseID(params["id"])
   levelExpectedCommitment, err := goTezosServer.GetBlockMetadataLevelExpectedCommitment(blockid)
-  if err != nil {
-    respondWithError(w, http.StatusInternalServerError, err.Error())
-    return
-  }
+  errorControl(err, w)
   respondWithJson(w, http.StatusOK, levelExpectedCommitment)
 }
 
@@ -472,10 +412,7 @@ func GetBlockMetadataVotingPeriodKind(w http.ResponseWriter, r *http.Request){
   params := mux.Vars(r)
   blockid := parseID(params["id"])
   votingPeriodKind, err := goTezosServer.GetBlockMetadataVotingPeriodKind(blockid)
-  if err != nil {
-    respondWithError(w, http.StatusInternalServerError, err.Error())
-    return
-  }
+  errorControl(err, w)
   respondWithJson(w, http.StatusOK, votingPeriodKind)
 }
 
@@ -483,10 +420,7 @@ func GetBlockMetadataNonceHash(w http.ResponseWriter, r *http.Request){
   params := mux.Vars(r)
   blockid := parseID(params["id"])
   nonceHash, err := goTezosServer.GetBlockMetadataNonceHash(blockid)
-  if err != nil {
-    respondWithError(w, http.StatusInternalServerError, err.Error())
-    return
-  }
+  errorControl(err, w)
   respondWithJson(w, http.StatusOK, nonceHash)
 }
 
@@ -494,10 +428,7 @@ func GetBlockMetadataConsumedGas(w http.ResponseWriter, r *http.Request){
   params := mux.Vars(r)
   blockid := parseID(params["id"])
   consumedGas, err := goTezosServer.GetBlockMetadataConsumedGas(blockid)
-  if err != nil {
-    respondWithError(w, http.StatusInternalServerError, err.Error())
-    return
-  }
+  errorControl(err, w)
   respondWithJson(w, http.StatusOK, consumedGas)
 }
 
@@ -505,10 +436,7 @@ func GetBlockMetadataDeactivated(w http.ResponseWriter, r *http.Request){
   params := mux.Vars(r)
   blockid := parseID(params["id"])
   deactivated, err := goTezosServer.GetBlockMetadataDeactivated(blockid)
-  if err != nil {
-    respondWithError(w, http.StatusInternalServerError, err.Error())
-    return
-  }
+  errorControl(err, w)
   respondWithJson(w, http.StatusOK, deactivated)
 }
 
@@ -516,10 +444,7 @@ func GetBlockMetadataBalanceUpdates(w http.ResponseWriter, r *http.Request){
   params := mux.Vars(r)
   blockid := parseID(params["id"])
   balanceUpdate, err := goTezosServer.GetBlockMetadataBalanceUpdates(blockid)
-  if err != nil {
-    respondWithError(w, http.StatusInternalServerError, err.Error())
-    return
-  }
+  errorControl(err, w)
   respondWithJson(w, http.StatusOK, balanceUpdate)
 }
 
@@ -527,70 +452,49 @@ func GetBlockOperations(w http.ResponseWriter, r *http.Request){
   params := mux.Vars(r)
   blockid := parseID(params["id"])
   operations, err := goTezosServer.GetBlockOperations(blockid)
-  if err != nil {
-    respondWithError(w, http.StatusInternalServerError, err.Error())
-    return
-  }
+  errorControl(err, w)
   respondWithJson(w, http.StatusOK, operations)
 }
 
 func GetBlockOperation(w http.ResponseWriter, r *http.Request){
   params := mux.Vars(r)
   operation, err := goTezosServer.GetBlockOperation(params["id"])
-  if err != nil {
-    respondWithError(w, http.StatusInternalServerError, err.Error())
-    return
-  }
+  errorControl(err, w)
   respondWithJson(w, http.StatusOK, operation)
 }
 
 func GetBlockOperationProtocol(w http.ResponseWriter, r *http.Request){
   params := mux.Vars(r)
   operation, err := goTezosServer.GetBlockOperationProtocol(params["id"])
-  if err != nil {
-    respondWithError(w, http.StatusInternalServerError, err.Error())
-    return
-  }
+  errorControl(err, w)
   respondWithJson(w, http.StatusOK, operation)
 }
 
 func GetBlockOperationsBranch(w http.ResponseWriter, r *http.Request){
   params := mux.Vars(r)
   operation, err := goTezosServer.GetBlockOperationsBranch(params["id"])
-  if err != nil {
-    respondWithError(w, http.StatusInternalServerError, err.Error())
-    return
-  }
+  errorControl(err, w)
   respondWithJson(w, http.StatusOK, operation)
 }
 
 func GetBlockOperationsContents(w http.ResponseWriter, r *http.Request){
   params := mux.Vars(r)
   operation, err := goTezosServer.GetBlockOperationsContents(params["id"])
-  if err != nil {
-    respondWithError(w, http.StatusInternalServerError, err.Error())
-    return
-  }
+  errorControl(err, w)
   respondWithJson(w, http.StatusOK, operation)
 }
 
 func GetBlockOperationsSignature(w http.ResponseWriter, r *http.Request){
   params := mux.Vars(r)
   operation, err := goTezosServer.GetBlockOperationsSignature(params["id"])
-  if err != nil {
-    respondWithError(w, http.StatusInternalServerError, err.Error())
-    return
-  }
+  errorControl(err, w)
   respondWithJson(w, http.StatusOK, operation)
 }
 
 func GetBlockOperationsByKind(w http.ResponseWriter, r *http.Request){
   params := mux.Vars(r)
   operation, err := goTezosServer.GetBlockOperationsByKind(params["id"], params["kind"])
-  if err != nil {
-    respondWithError(w, http.StatusInternalServerError, err.Error())
-    return
-  }
+  errorControl(err, w)
   respondWithJson(w, http.StatusOK, operation)
 }
 
