@@ -55,7 +55,7 @@ func main(){
   r.HandleFunc("/block/operation/branch/{id}", GetBlockOperationProtocol).Methods("GET")
   r.HandleFunc("/block/operation/contents/{id}", GetBlockOperationsContents).Methods("GET")
   r.HandleFunc("/block/operation/signature/{id}", GetBlockOperationsContents).Methods("GET")
-
+  r.HandleFunc("/block/operation/signature/{id}/{kind}", GetBlockOperationsByKind).Methods("GET")
 
 	if err := http.ListenAndServe(":3000", r); err != nil {
 		log.Fatal(err)
@@ -948,7 +948,7 @@ func GetBlockOperationsBranch(w http.ResponseWriter, r *http.Request){
 }
 
 func GetBlockOperationsContents(w http.ResponseWriter, r *http.Request){
-  var rtnOperationContents []StructContents
+  var rtnOperationContents []goTezosServer.StructContents
   params := mux.Vars(r)
   operation, err := goTezosServer.GetBlockOperationsContents(params["id"])
   if err != nil {
@@ -963,7 +963,7 @@ func GetBlockOperationsContents(w http.ResponseWriter, r *http.Request){
 func GetBlockOperationsSignature(w http.ResponseWriter, r *http.Request){
   var rtnOperationSig string
   params := mux.Vars(r)
-  operation, err := goTezosServer.GetBlockOperationsContents(params["id"])
+  operation, err := goTezosServer.GetBlockOperationsSignature(params["id"])
   if err != nil {
     respondWithError(w, http.StatusInternalServerError, err.Error())
     return
@@ -971,6 +971,19 @@ func GetBlockOperationsSignature(w http.ResponseWriter, r *http.Request){
   rtnOperationSig = operation
 
   respondWithJson(w, http.StatusOK, rtnOperationSig)
+}
+
+func GetBlockOperationsByKind(w http.ResponseWriter, r *http.Request){
+  var rtnOperationsKind []goTezosServer.StructOperations
+  params := mux.Vars(r)
+  operation, err := goTezosServer.GetBlockOperationsByKind(params["id"], params["kind"])
+  if err != nil {
+    respondWithError(w, http.StatusInternalServerError, err.Error())
+    return
+  }
+  rtnOperationsKind = operation
+
+  respondWithJson(w, http.StatusOK, rtnOperationsKind)
 }
 
 // func CheckType(v interface{}) (int, error) {
