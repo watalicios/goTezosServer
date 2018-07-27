@@ -283,7 +283,7 @@ func GetBlockFitness(w http.ResponseWriter, r *http.Request){
 func GetBlockContext(w http.ResponseWriter, r *http.Request){
   params := mux.Vars(r)
   blockid := parseID(params["id"])
-  context, err := goTezosServer.GetBlockHeaderContext(params["id"])
+  context, err := goTezosServer.GetBlockHeaderContext(blockid)
   if err != nil {
     respondWithError(w, http.StatusInternalServerError, err.Error())
     return
@@ -294,7 +294,7 @@ func GetBlockContext(w http.ResponseWriter, r *http.Request){
 func GetBlockPriority(w http.ResponseWriter, r *http.Request){
   params := mux.Vars(r)
   blockid := parseID(params["id"])
-  priority, err := goTezosServer.GetBlockHeaderPriority(params["id"])
+  priority, err := goTezosServer.GetBlockHeaderPriority(blockid)
   if err != nil {
     respondWithError(w, http.StatusInternalServerError, err.Error())
     return
