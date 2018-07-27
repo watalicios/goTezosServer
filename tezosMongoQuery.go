@@ -609,9 +609,9 @@ func BlockCheck(arg interface{}) (Block, error){
   return block, nil
 }
 
-func GetBlockByOp(opHash string) Block, err{
+func GetBlockByOp(opHash string) (Block, error) {
   result := Block{}
-  err := Collection.Find(bson.M{{"operations":{$elemMatch:{$elemMatch:{"hash":opHash}}}}}).One(&result)
+  err := Collection.Find(bson.M{{"operations":{`$`elemMatch:{`$`elemMatch:{"hash":opHash}}}}}).One(&result)
   if (err != nil) {
 		return result, err
 	}
