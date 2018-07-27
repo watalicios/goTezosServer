@@ -277,22 +277,6 @@ func GetBlockMetadataMaxOperationListLength(arg interface{}) ([]StructMaxOperati
   return maxOperationListLength, nil
 }
 
-// func GetBlockMetadataMaxOperationDataLengthMaxSize(arg interface{}) (int, error) {
-//   block, err := GetBlock(arg)
-//   if (err != nil){
-//     return 0, err
-//   }
-//   return block.Metadata.MaxOperationListLength.MaxSize, nil
-// }
-//
-// func GetBlockMetadataMaxOperationDataLengthMaxOp(arg interface{}) (int, error) {
-//   block, err := GetBlock(arg)
-//   if (err != nil){
-//     return 0, err
-//   }
-//   return block.Metadata.MaxOperationListLength.MaxOP, nil
-// }
-
 func GetBlockMetadataBaker(arg interface{}) (string, error) {
   block, err := BlockCheck(arg)
   if (err != nil){
@@ -420,54 +404,6 @@ func GetBlockMetadataBalanceUpdates(arg interface{}) ([]StructBalanceUpdates, er
   return balanceUpdates, nil
 }
 
-// func GetBlockMetadataBalanceUpdatesKind(arg interface{}) (string, error) {
-//   block, err := GetBlock(arg)
-//   if (err != nil){
-//     return "", err
-//   }
-//   return block.Metadata.BalanceUpdates.Kind, nil
-// }
-//
-// func GetBlockMetadataBalanceUpdatesContract(arg interface{}) (string, error) {
-//   block, err := GetBlock(arg)
-//   if (err != nil){
-//     return "", err
-//   }
-//   return block.Metadata.BalanceUpdates.Contract, nil
-// }
-//
-// func GetBlockMetadataBalanceUpdatesChange(arg interface{}) (string, error) {
-//   block, err := GetBlock(arg)
-//   if (err != nil){
-//     return "", err
-//   }
-//   return block.Metadata.BalanceUpdates.Change, nil
-// }
-//
-// func GetBlockMetadataBalanceUpdatesCategory(arg interface{}) (string, error) {
-//   block, err := GetBlock(arg)
-//   if (err != nil){
-//     return "", err
-//   }
-//   return block.Metadata.BalanceUpdates.Category, nil
-// }
-//
-// func GetBlockMetadataBalanceUpdatesDelegate(arg interface{}) (string, error) {
-//   block, err := GetBlock(arg)
-//   if (err != nil){
-//     return "", err
-//   }
-//   return block.Metadata.BalanceUpdates.Delegate, nil
-// }
-//
-// func GetBlockMetadataBalanceUpdatesLevel(arg interface{}) (int, error) {
-//   block, err := GetBlock(arg)
-//   if (err != nil){
-//     return 0, err
-//   }
-//   return block.Metadata.BalanceUpdates.Level, nil
-// }
-
 func GetBlockOperations(arg interface{}) ([]StructOperations, error){
   var operations []StructOperations
   block, err := BlockCheck(arg)
@@ -528,73 +464,46 @@ func GetBlockOperationProtocol(opHash string) (string, error){
   return operation.Protocol, nil
 }
 
-// func GetBlockOperationsHash(arg interface{}) (string, error){
-//
-// }
-//
-// func GetBlockOperationsBranch(arg interface{}) (string, error){
-//
-// }
+func GetBlockOperationsBranch(opHash string) (string, error){
+  operation, err := GetBlockOperation(opHash)
+  if (err != nil){
+    return "", err
+  }
+  return operation.Branch, nil
+}
 
-// func GetBlockOperationsContents(arg interface{}) ([]Contents, error){
-//   var contents []Contents
-//   block, err := BlockCheck(arg)
-//   if (err != nil){
-//     return contents, err
-//   }
-// }
+func GetBlockOperationsContents(opHash string) ([]StructContents, error){
+  operation, err := GetBlockOperation(opHash)
+  if (err != nil){
+    return operation, err
+  }
 
-// func GetBlockOperationsContentsKind(arg interface{}) (string, error){
-//
-// }
-//
-// func GetBlockOperationsContentsLevel(arg interface{}) (int, error){
-//
-// }
+  return operation.Contents, nil
+}
 
-// func GetBlockOperationsContentsMetadata(arg interface{}) (Block.Operations.Contents.Metadata, error){
-//
-// }
-//
-// func GetBlockOperationsContentsMetadataBalanceUpdates(arg interface{}) ([]Block.Operations.Contents.Metadata.BalanceUpdates, error){
-//
-// }
+func GetBlockOperationsByKind(arg interface{}, kind string) ([]StructOperations, error){
+  operations, err := GetBlockOperations(arg)
+  if (err != nil){
+    return operations, err
+  }
+  var ops []StructOperations
+  for _, op := range operations{
+    if (op.Contents.Kind == kind){
+      ops = append(ops, op)
+    }
+  }
 
-// func GetBlockOperationsContentsMetadataBalanceUpdatesKind(arg interface{}) (string, error){
-//
-// }
-//
-// func GetBlockOperationsContentsMetadataBalanceUpdatesContract(arg interface{}) (string, error){
-//
-// }
-//
-// func GetBlockOperationsContentsMetadataBalanceUpdatesChange(arg interface{}) (string, error){
-//
-// }
-//
-// func GetBlockOperationsContentsMetadataBalanceUpdatesCategory(arg interface{}) (string, error){
-//
-// }
-//
-// func GetBlockOperationsContentsMetadataBalanceUpdatesDelegate(arg interface{}) (string, error){
-//
-// }
-//
-// func GetBlockOperationsContentsMetadataBalanceUpdatesLevel(arg interface{}) (string, error){
-//
-// }
-//
-// func GetBlockOperationsContentsMetadataDelegate(arg interface{}) (string, error){
-//
-// }
-//
-// func GetBlockOperationsContentsMetadataSlots(arg interface{}) ([]int, error){
-//
-// }
+  return ops, nil
+}
 
-// func GetBlockOperationsSignature(arg interface{}) (string, error){
-//
-// }
+func GetBlockOperationsSignature(opHash string) (string, error){
+  operation, err := GetBlockOperation(opHash)
+  if (err != nil){
+    return "", err
+  }
+
+  return operation.Signature, nil
+}
 
 func BlockCheck(arg interface{}) (Block, error){
   var block Block

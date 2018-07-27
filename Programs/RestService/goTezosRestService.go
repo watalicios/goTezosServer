@@ -51,7 +51,12 @@ func main(){
   r.HandleFunc("/block/metadata/balance_updates/{id}", GetBlockMetadataBalanceUpdates).Methods("GET")
   r.HandleFunc("/block/operations/{id}", GetBlockOperations).Methods("GET")
   r.HandleFunc("/block/operation/{id}", GetBlockOperation).Methods("GET")
-  r.HandleFunc("/block/operation/Protocol/{id}", GetBlockOperationProtocol).Methods("GET")
+  r.HandleFunc("/block/operation/protocol/{id}", GetBlockOperationProtocol).Methods("GET")
+  r.HandleFunc("/block/operation/branch/{id}", GetBlockOperationProtocol).Methods("GET")
+  r.HandleFunc("/block/operation/contents/{id}", GetBlockOperationsContents).Methods("GET")
+  r.HandleFunc("/block/operation/signature/{id}", GetBlockOperationsContents).Methods("GET")
+
+
 	if err := http.ListenAndServe(":3000", r); err != nil {
 		log.Fatal(err)
 	}
@@ -927,6 +932,45 @@ func GetBlockOperationProtocol(w http.ResponseWriter, r *http.Request){
   rtnOperationProtocol = operation
 
   respondWithJson(w, http.StatusOK, rtnOperationProtocol)
+}
+
+func GetBlockOperationsBranch(w http.ResponseWriter, r *http.Request){
+  var rtnOperationBranch string
+  params := mux.Vars(r)
+  operation, err := goTezosServer.GetBlockOperationsBranch(params["id"])
+  if err != nil {
+    respondWithError(w, http.StatusInternalServerError, err.Error())
+    return
+  }
+  rtnOperationBranch = operation
+
+  respondWithJson(w, http.StatusOK, rtnOperationBranch)
+}
+
+func GetBlockOperationsContents(w http.ResponseWriter, r *http.Request){
+  var rtnOperationContents []StructContents
+  params := mux.Vars(r)
+  operation, err := goTezosServer.GetBlockOperationsContents(params["id"])
+  if err != nil {
+    respondWithError(w, http.StatusInternalServerError, err.Error())
+    return
+  }
+  rtnOperationContents = operation
+
+  respondWithJson(w, http.StatusOK, rtnOperationContents)
+}
+
+func GetBlockOperationsSignature(w http.ResponseWriter, r *http.Request){
+  var rtnOperationSig string
+  params := mux.Vars(r)
+  operation, err := goTezosServer.GetBlockOperationsContents(params["id"])
+  if err != nil {
+    respondWithError(w, http.StatusInternalServerError, err.Error())
+    return
+  }
+  rtnOperationSig = operation
+
+  respondWithJson(w, http.StatusOK, rtnOperationSig)
 }
 
 // func CheckType(v interface{}) (int, error) {
