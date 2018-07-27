@@ -4,6 +4,7 @@ import (
   "errors"
   "time"
   "gopkg.in/mgo.v2/bson"
+  "fmt"
 )
 
 func GetBlock(arg interface{}) (Block, error){
@@ -483,6 +484,7 @@ func GetBlockOperations(arg interface{}) ([]StructOperations, error){
       branch := field.Branch
       var contents []StructContents
       for _,cont := range field.Contents{
+        fmt.Println(cont)
         contents = append(contents, cont)
       }
       signature := field.Signature
