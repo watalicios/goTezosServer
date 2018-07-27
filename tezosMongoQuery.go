@@ -493,9 +493,12 @@ func GetBlockOperations(arg interface{}) ([]StructOperations, error){
   return operations, nil
 }
 
-func GetBlockOperation(string opHash) (StructOperations, error){
+func GetBlockOperation(opHash string) (StructOperations, error){
   var op StructOperations
-  block := GetBlockByOp(opHash)
+  block, err := GetBlockByOp(opHash)
+  if (err != nil){
+    return op, nil
+  }
 
   for _, operation := range block.Operations{
     for _, field := range operation{
@@ -606,7 +609,7 @@ func BlockCheck(arg interface{}) (Block, error){
   return block, nil
 }
 
-func GetBlockByOp(opHash string){
+func GetBlockByOp(opHash string) Block, err{
   result := Block{}
   err := Collection.Find(bson.M{{"operations":{$elemMatch:{$elemMatch:{"hash":opHash}}}}}).One(&result)
   if (err != nil) {
