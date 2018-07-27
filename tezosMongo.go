@@ -47,15 +47,13 @@ func init() {
 }
 
 func SetDatabaseConnection(connection ,database, collection string){
-  Session, errs = mgo.Dial(connection)
-  if (errs != nil){
-    fmt.Println(errs)
+  Session, err := mgo.Dial(connection)
+  if (err != nil){
+    fmt.Println(err)
     os.Exit(1)
   }
   Collection = Session.DB(database).C(collection)
 }
-
-
 
 func InitSynchronizeTezosMongo(){
   err := MongoGetAllBlocks()
