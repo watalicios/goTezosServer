@@ -1,92 +1,62 @@
 # goTezosServer: A Tezos Query Library Backed by MongoDB
 
-The purpose of the goTezosServer is to build server applications around the tezos blockchain's data. In the
-process of developing this library, I will create a usable server using this lib.
+The purpose of the goTezosServer is to build server applications around the information exposed in the Tezos protocol RPC. This library is used to create the `goTezosRestService`, which is a ReSTful server that exposes all block information in the Tezos network into a ReST API. The library is also used to create the `goTezosServer` which is a program that updates and synchronizes a MongoDB database with Tezos block information. These two programs are to be used in conjunction, because the rest service depends on the database. 
 
-If you would like to send me some coffee money:
-```
-tz1hyaA2mLUQLqQo3TVk6cQHXDc7xoKcBSbN
-```
-
-If you would like to delegate to me to show your support (5% dynamic fee):
-```
-tz1SUgyRB8T5jXgXAwS33pgRHAKrafyg87Yc
-```
-
-
-More robust documentation will come soon.
+A special thank you to Raleigh, Tingham and XTZ.com for supporting and funding the development of goTezosServer. XTZ.com is an upcoming Tezos brand dedicated to providing the Tezos community with future tools and resources. If you have questions, please feel free to reach out to us on riot, and send the XTZ.com team some love. 
 
 ## Installation
-You will first need to install MongoDB and configure it to your preferences. Currently the library assumes there is no auth configuration for MongoDB. I will add this soon.
+You will first need to install [MongoDB](https://www.mongodb.com/) and configure it to your preferences. 
 
-If you want to use the most recent database you can import it, and skip the creation part. [Download](https://www.dropbox.com/s/hq14v696ed99997/tezosdb-block-34046.json?dl=0).
+Second you will need to setup the database that the goTezosServer Library will use. If you would like to prefill your databse with block information you can download the exported version [tezosdb-block-34046.json](https://www.dropbox.com/s/hq14v696ed99997/tezosdb-block-34046.json?dl=0)
+
+First get the MD5 checksum of the database and check to make sure the import file is authentic.
 ```
-sudo mongoimport --db TEZOS --collection blocks --file tezosdb-block-34046.json
-
 Checksum
 MD5 (tezosdb-block-34046.json) = 448b06b76e33449de97c7dce0efd5deb
 ```
 
+After verifying the checksum, import the database into database `TEZOS` and collection `blocks`. You can change the names to your preferences, but those are the defaults for the `goTezosRestService`, and `goTezosServer`.
 
-Create a database called `TEZOS` and a collection called `blocks`.
+```
+sudo mongoimport --db TEZOS --collection blocks --file tezosdb-block-34046.json
+```
+
+If you want to start from scratch, create the database and collection like below.
 ```
 mongo
 use TEZOS
 db.createCollection("blocks")
 ```
 
-
-Then install the goTezosServer:
+To install the library please download first the `mgo` dependency, and then the library itself. 
 ```
 go get gopkg.in/mgo.v2
 go get github.com/DefinitelyNotAGoat/goTezosServer
 
 ```
 
-Connection to the database is hardcoded for now. You can find it in tezosMongo.go
-```
-func SynchronizeTezosMongo(){
-  blocks, err := GetAllBlocks()
-  if (err != nil){
-    fmt.Println(err)
-  }
-
-  session, err := mgo.Dial("127.0.0.1")
-  c := session.DB("TEZOS").C("blocks")
-
-
-  for _, block := range blocks{
-  //  fmt.Println(block)
-    err = c.Insert(block)
-    if (err != nil){
-      fmt.Println(err)
-    }
-  }
-}
-```
-
-
-## goTezosServer Lib Documentation
-The goTezosServer requires the use of an env variable called TEZOSPATH.
-
-
-Example:
-
+## Quick Start
+The goTezosServer library requires the use of an env variable called TEZOSPATH.
 ```
 export TEZOSPATH=/home/tezosuser/tezos/
 ```
 
-I will create a wiki shortly describing the functions available.
-
-
-## Server Application
-
-See the application [README.md](https://github.com/DefinitelyNotAGoat/goTezosServer/blob/dev/Programs/README.md) for more information.
-
+Import the library into your program. 
 ```
-go build goTezosServer.go
-./goTezosServer
+import "github.com/DefinitelyNotAGoat/goTezosServer"
 ```
+
+Initialize the connection to your database. 
+```
+goTezosServer.SetDatabaseConnection(database_connection_uri, database, collection)
+```
+
+## goTezosServer
+Please see the goTezosServer Application [README.md](https://github.com/DefinitelyNotAGoat/goTezosServer/tree/master/Programs/dataBaseSync).
+
+## goTezosRestService Application
+
+Please see the goTezosRestService Application [README.md](https://github.com/DefinitelyNotAGoat/goTezosServer/tree/master/Programs/RestService).
 
 ## Authors
 
