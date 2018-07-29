@@ -83,13 +83,24 @@ type StructOperations struct {
 
 type StructContents struct {
   Kind     string             `json:"kind"`
-  Level    int                `json:"level"`
+  Source   string             `json:"source,omitempty"`
+  Fee      string             `json:"fee,omitempty"`
+  Counter  string             `json:"counter,omitempty"`
+  GasLimit  string            `json:"gas_limit,omitempty"`
+  StorageLimit string         `json:"storage_limit,omitempty"`
+  Amount string               `json:"amount,omitempty"`
+  Destination string          `json:"destination,omitempty"`
+  Delegate string             `json:"delegate,omitempty"`
+  Phk      string             `json:"phk,omitempty"`
+  Secret   string             `json:"secret,omitempty"`
+  Level    int                `json:"level,omitempty"`
+  ManagerPublicKey string     `json:"managerPubkey,omitempty"`
+  Balance string              `json:"balance,omitempty"`
   Metadata ContentsMetadata   `json:"metadata"`
 }
 
 type ContentsMetadata struct {
   BalanceUpdates []StructBalanceUpdates `json:"balance_updates"`
-  Delegate string                       `json:"delegate"`
   Slots    []int                        `json:"slots"`
 }
 

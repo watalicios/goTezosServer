@@ -107,6 +107,15 @@ func MongoGetAllBlocks() error{
     if (err != nil){
       return err
     }
+    // for _, op := range block.Operations{
+    //   for _, operation := range op{
+    //     for _, content := range op.Contents{
+    //       if (content.Kind == "delegation"){
+    //
+    //       }
+    //     }
+    //   }
+    // }
     err = Collection.Insert(block)
     if (err != nil){
       fmt.Println(err)
