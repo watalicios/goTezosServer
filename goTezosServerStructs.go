@@ -93,6 +93,24 @@ type ContentsMetadata struct {
   Slots    []int                        `json:"slots"`
 }
 
+type StructDelegate struct{
+  Balance string  `json:"balance"`
+  FrozenBalance string `json:"frozen_balance"`
+  FrozenBalanceByCycle []StructFrozenBalanceByCycle `json:"frozen_balance_by_cycle"`
+  StakingBalance string `json:"staking_balance"`
+  DelegateContracts []string  `json:"delegated_contracts"`
+  DelegatedBalance string `json:"delegated_balance"`
+  Deactivated bool  `json:"deactivated"`
+  GracePeriod int `json:"grace_period"`
+}
+
+type StructFrozenBalanceByCycle struct{
+  Cycle int `json:"cycle"`
+  Deposit string `json:"deposit"`
+  Fees string `json:"fees"`
+  Rewards string `json:"rewards"`
+}
+
 type SnapShot struct {
   Cycle int
   RandomSeed string

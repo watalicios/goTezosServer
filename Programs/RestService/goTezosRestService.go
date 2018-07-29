@@ -12,9 +12,16 @@ import (
   "net/http"
   "log"
   "flag"
+  "fmt"
+  "strings"
   "encoding/json"
   "github.com/gorilla/mux"
   "github.com/DefinitelyNotAGoat/goTezosServer"
+)
+
+var (
+  httpP string
+  httpsP string
 )
 
 func main(){
@@ -23,6 +30,10 @@ func main(){
   collection := flag.String("collection", "blocks", "Use the blocks collection")
   user := flag.String("user", "", "If using authentication, set the user")
   pass := flag.String("pass", "", "If using authentication, set the password")
+  httpPort := flag.String("httpport", "3000", "The HTTP port to listen on, will be redirected to HTTPS")
+  httpsPort := flag.String("httpsport", "3001", "The HTTPs port to listen on")
+  cert := flag.String("cert", "./cert.pem", "TLS certificate.")
+  key := flag.String("key", "./key.pem", "TLS key.")
 
   flag.Parse()
 
@@ -35,6 +46,11 @@ func main(){
   }
 
   goTezosServer.SetDatabaseConnection(dbCon, *db, *collection)
+
+  httpP = ":" + *httpPort
+  httpsP = ":" + *httpsPort
+
+  go http.ListenAndServe(httpP, http.HandlerFunc(redirect))
 
   r := mux.NewRouter()
 	r.HandleFunc("/head/", GetBlockHead).Methods("GET")
@@ -126,9 +142,11 @@ func main(){
   r.HandleFunc("/block/operation/{id}/contents", GetBlockOperationsContents).Methods("GET")
   r.HandleFunc("/block/operation/{id}/signature", GetBlockOperationsContents).Methods("GET")
   r.HandleFunc("/block/{id}/operations/kind/{kind}", GetBlockOperationsByKind).Methods("GET")
-	if err := http.ListenAndServe(":3000", r); err != nil {
-		log.Fatal(err)
-	}
+
+  err := http.ListenAndServeTLS(":3001", *cert, *key, r)
+  if (err != nil){
+    fmt.Println(err)
+  }
 }
 
 func parseID(id string) interface{}{
@@ -507,4 +525,19 @@ func respondWithJson(w http.ResponseWriter, code int, payload interface{}) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(code)
 	w.Write(response)
+}
+
+func redirect(w http.ResponseWriter, req *http.Request) {
+    // remove/add not default ports from req.Host
+    oldhost := req.Host
+    newhost := strings.Replace(oldhost, httpP, httpsP, -1)
+
+    target := "https://" + newhost + req.URL.Path
+    if len(req.URL.RawQuery) > 0 {
+        target += "?" + req.URL.RawQuery
+    }
+    log.Printf("redirect to: %s", target)
+    http.Redirect(w, req, target,
+            // see @andreiavrammsd comment: often 307 > 301
+            http.StatusTemporaryRedirect)
 }
