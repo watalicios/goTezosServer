@@ -35,6 +35,7 @@ func GetBlock(arg interface{}) (Block, error){
   		return result, err
   	}
   }
+  //fmt.Println(result)
 
   return result, nil
 }
@@ -49,6 +50,7 @@ func GetBlockHead() (Block, error){  //db.blocks.find().skip(db.blocks.count() -
   if (err != nil) {
 		return result, err
 	}
+  //fmt.Println(result.Operations)
   return result, nil
 }
 
