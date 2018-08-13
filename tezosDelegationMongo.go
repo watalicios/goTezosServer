@@ -8,7 +8,9 @@ License: MIT
 */
 
 import (
+	"encoding/json"
 	"errors"
+	"fmt"
 	"strconv"
 	"strings"
 )
@@ -39,6 +41,36 @@ func GetSnapShot(cycle int) (SnapShot, error) {
 	snapShot.AssociatedBlock = ((cycle - 7) * 4096) + (number+1)*256
 
 	return snapShot, nil
+}
+
+func GetDelegate(delegateAddr string) (StructDelegate, error) {
+	var delegate StructDelegate
+	get := "chains/main/blocks/head/context/delegates/" + delegateAddr
+	s, err := TezosRPCGet(get)
+	if err != nil {
+		return delegate, errors.New("Could not get delegate " + delegateAddr)
+	}
+
+	delegate = ConvertBytestoDelegate(s)
+	delegate.Address = delegateAddr
+
+	fmt.Println(PrettyReport(delegate))
+
+	return delegate, nil
+}
+
+/*
+Description: Takes an  array of interface (struct in our case), jsonifies it, and allows a much neater print.
+Param v (interface{}): Array of an interface
+*/
+func ConvertBytestoDelegate(v []byte) StructDelegate {
+	var delegate StructDelegate
+	err := json.Unmarshal(v, &delegate)
+	if err != nil {
+		panic(err)
+	}
+
+	return delegate
 }
 
 /*

@@ -110,11 +110,11 @@ type StructDelegate struct {
 	FrozenBalanceByCycle []StructFrozenBalanceByCycle `json:"frozen_balance_by_cycle"`
 	StakingBalance       string                       `json:"staking_balance"`
 	DelegateContracts    []string                     `json:"delegated_contracts"`
-	ContractsByCycle     []StructContractsByCycle     `json:"contracts_by_cycle"`
 	DelegatedBalance     string                       `json:"delegated_balance"`
 	Deactivated          bool                         `json:"deactivated"`
 	GracePeriod          int                          `json:"grace_period"`
 	Address              string                       `json:"address"`
+	ContractsByCycle     []StructContractsByCycle     `json:"contracts_by_cycle"`
 }
 
 type StructContractsByCycle struct {
