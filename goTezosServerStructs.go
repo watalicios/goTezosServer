@@ -114,6 +114,7 @@ type StructDelegate struct {
 	DelegatedBalance     string                       `json:"delegated_balance"`
 	Deactivated          bool                         `json:"deactivated"`
 	GracePeriod          int                          `json:"grace_period"`
+	Address              string                       `json:"address"`
 }
 
 type StructContractsByCycle struct {
