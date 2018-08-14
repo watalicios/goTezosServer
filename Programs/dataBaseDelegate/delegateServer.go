@@ -8,16 +8,10 @@ License: MIT
 */
 
 import (
-	"fmt"
-
 	"github.com/DefinitelyNotAGoat/goTezosServer"
 )
 
 func main() {
-	goTezosServer.GetDelegate("tz1SUgyRB8T5jXgXAwS33pgRHAKrafyg87Yc")
-	snap, err := goTezosServer.GetSnapShot(9)
-	if err != nil {
-		fmt.Println(err)
-	}
-	goTezosServer.PrettyReport(snap)
+	goTezosServer.SetDatabaseConnection("127.0.0.1", "TEZOS", "delegates")
+	goTezosServer.InitDelegateDB()
 }

@@ -114,10 +114,10 @@ type StructDelegate struct {
 	Deactivated          bool                         `json:"deactivated"`
 	GracePeriod          int                          `json:"grace_period"`
 	Address              string                       `json:"address"`
-	ContractsByCycle     []StructContractsByCycle     `json:"contracts_by_cycle"`
+	ContractsBySnapShot  []StructContractsBySnapShot  `json:"contracts_by_snapshot"`
 }
 
-type StructContractsByCycle struct {
+type StructContractsBySnapShot struct {
 	Cycle             int                       `json:"cycle"`
 	DelegateContracts []StructDelegateContracts `json:"delegate_contracts"`
 }
