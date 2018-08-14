@@ -71,7 +71,7 @@ func ComputeDelegateServiceReport(rate float64, delegateAddr string, cycles stri
 			if err != nil {
 				return report, errors.New("Could not find delegate in database.")
 			}
-			rewards += fRewards
+			rewards += (fRewards / 1000000)
 			fRewards = fRewards / 1000000
 			cycle.Cycle = contractsBySnapshot.Cycle
 			for _, contracts := range contractsBySnapshot.DelegateContracts {
