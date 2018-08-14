@@ -114,17 +114,19 @@ type StructDelegate struct {
 	Deactivated          bool                         `json:"deactivated"`
 	GracePeriod          int                          `json:"grace_period"`
 	Address              string                       `json:"address"`
-	ContractsBySnapShot  []StructContractsBySnapShot  `json:"contracts_by_snapshot"`
+	ContractsBySnapShot  []StructContractsBySnapShot  `json:"contracts_by_snapshot,omitempty"`
 }
 
 type StructContractsBySnapShot struct {
 	Cycle             int                       `json:"cycle"`
+	Rewards           string                    `json:"rewards"`
 	DelegateContracts []StructDelegateContracts `json:"delegate_contracts"`
 }
 
 type StructDelegateContracts struct {
-	ContractAddress string `json:"contract_address"`
-	Balance         int    `json:"balance"`
+	ContractAddress string  `json:"contract_address"`
+	Balance         int     `json:"balance"`
+	Share           float64 `json:"share"`
 }
 
 type StructFrozenBalanceByCycle struct {
@@ -151,5 +153,6 @@ AssociatedBlock: The block number the snapshot reference, only available if snap
 type SnapShot struct {
 	Cycle           int
 	Number          int
+	AssociatedHash  string
 	AssociatedBlock int
 }

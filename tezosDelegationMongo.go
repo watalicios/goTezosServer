@@ -11,9 +11,19 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"regexp"
 	"strconv"
 	"strings"
+	"time"
+
+	"gopkg.in/cheggaaa/pb.v1"
 )
+
+var (
+	reRewards = regexp.MustCompile(`"rewards": "([0-9]+)"`)
+	reStake   = regexp.MustCompile(`"([0-9]+)"`)
+)
+var snapShot []SnapShot
 
 func GetSnapShot(cycle int) (SnapShot, error) {
 	var snapShot SnapShot
@@ -39,21 +49,41 @@ func GetSnapShot(cycle int) (SnapShot, error) {
 	number, _ := strconv.Atoi(regRollSnapShot[1])
 	snapShot.Number = number
 	snapShot.AssociatedBlock = ((cycle - 7) * 4096) + (number+1)*256
+	snapShot.AssociatedHash, _ = GetBlockLevelHash(snapShot.AssociatedBlock)
 
 	return snapShot, nil
 }
 
-func InitDelegateDB() {
+func InitDelegateDB() error {
 	list, err := GetAllDelegates()
 	if err != nil {
 		fmt.Println(err)
 	}
-	for _, del := range list {
-		GetDelegate(del)
+
+	curCycle, err := GetCurrentCycle()
+	if err != nil {
+		return errors.New("Could not get contracts for cycles: " + string(curCycle))
 	}
+
+	lCycle := curCycle + 5
+	for i := 0; i <= lCycle; i++ {
+		tmpSnapShot, err := GetSnapShot(i)
+		if err == nil {
+			snapShot = append(snapShot, tmpSnapShot)
+		}
+	}
+	count := len(list)
+	bar := pb.StartNew(count)
+	for _, del := range list {
+		GetDelegate(del, lCycle)
+		bar.Increment()
+		time.Sleep(time.Millisecond)
+	}
+	bar.FinishPrint("The End!")
+	return nil
 }
 
-func GetDelegate(delegateAddr string) error {
+func GetDelegate(delegateAddr string, cycle int) error {
 	var delegate StructDelegate
 	get := "chains/main/blocks/head/context/delegates/" + delegateAddr
 	s, err := TezosRPCGet(get)
@@ -64,48 +94,85 @@ func GetDelegate(delegateAddr string) error {
 	delegate = ConvertBytestoDelegate(s)
 	delegate.Address = delegateAddr
 
-	contractsByCycle, err := GetContractsBySnapshot(delegateAddr)
-	if err != nil {
-		return errors.New("Could not get delegate " + delegateAddr)
+	bal, _ := strconv.Atoi(delegate.DelegatedBalance)
+	if bal != 0 {
+		contractsByCycle, err := GetContractsBySnapshot(delegateAddr, cycle)
+		if err != nil {
+			return errors.New("Could not get delegate " + delegateAddr)
+		}
+		delegate.ContractsBySnapShot = contractsByCycle
 	}
-	delegate.ContractsBySnapShot = contractsByCycle
 
 	err = Collection.Insert(delegate)
 
 	return nil
 }
 
-func GetContractsBySnapshot(delegateAddr string) ([]StructContractsBySnapShot, error) {
+func GetContractsBySnapshot(delegateAddr string, cycle int) ([]StructContractsBySnapShot, error) {
 	var contractsBySnapShot []StructContractsBySnapShot
-	curCycle, err := GetCurrentCycle()
-	if err != nil {
-		return contractsBySnapShot, errors.New("Could not get contracts by cycle: " + string(curCycle))
-	}
+	for _, shot := range snapShot {
 
-	lCycle := curCycle + 5
-
-	for i := 0; i <= lCycle; i++ {
-		snapShot, err := GetSnapShot(i)
+		contracts, err := GetDelegatedContractsForCycle(shot.AssociatedHash, delegateAddr)
 		if err == nil {
-			hash, _ := GetBlockLevelHash(snapShot.AssociatedBlock)
-			contracts, err := GetDelegatedContractsForCycle(i, delegateAddr)
-			if err == nil {
-				var delegateContracts []StructDelegateContracts
-				if len(contracts) > 0 {
-					for _, contract := range contracts {
-						balance, err := GetAccountBalanceAtBlock(contract, hash)
-						if err != nil {
-							return contractsBySnapShot, errors.New("Could not get contracts by cycle!")
-						}
-						delegateContracts = append(delegateContracts, StructDelegateContracts{ContractAddress: contract, Balance: balance})
+			strStake := strings.TrimSpace(GetStakingBalanceAtCycle(shot.Cycle, delegateAddr))
+			stake, err := strconv.Atoi(strStake)
+			if err != nil {
+				return contractsBySnapShot, errors.New("Could not get contracts by cycle!")
+			}
+			var delegateContracts []StructDelegateContracts
+			if len(contracts) > 0 {
+				for _, contract := range contracts {
+					balance, err := GetAccountBalanceAtBlock(contract, shot.AssociatedHash)
+					if err != nil {
+						return contractsBySnapShot, errors.New("Could not get contracts by cycle!")
 					}
-					contractsBySnapShot = append(contractsBySnapShot, StructContractsBySnapShot{Cycle: i, DelegateContracts: delegateContracts})
+
+					share := float64(balance) / float64(stake)
+					delegateContracts = append(delegateContracts, StructDelegateContracts{ContractAddress: contract, Balance: balance, Share: share})
 				}
+				rewards := GetRewardsForCycle(shot.Cycle, delegateAddr)
+				contractsBySnapShot = append(contractsBySnapShot, StructContractsBySnapShot{Cycle: shot.Cycle, Rewards: rewards, DelegateContracts: delegateContracts})
 			}
 		}
 	}
-
 	return contractsBySnapShot, nil
+}
+
+func GetStakingBalanceAtCycle(cycle int, delegateAddr string) string {
+
+	var hash string
+	for _, shot := range snapShot {
+		if shot.Cycle == cycle {
+			hash = shot.AssociatedHash
+		}
+	}
+	get := "/chains/main/blocks/" + hash + "/context/delegates/" + delegateAddr + "/staking_balance"
+	s, err := TezosRPCGet(get)
+	if err != nil {
+		return ""
+	}
+
+	match := reStake.FindStringSubmatch(string(s[:]))
+	if match == nil {
+		return ""
+	}
+	return match[1]
+}
+
+func GetRewardsForCycle(cycle int, delegateAddr string) string {
+
+	get := "/chains/main/blocks/head/context/raw/json/contracts/index/" + delegateAddr + "/frozen_balance/" + strconv.Itoa(cycle) + "/"
+	s, err := TezosRPCGet(get)
+	if err != nil {
+		return ""
+	}
+	res := string(s[:])
+	match := reRewards.FindStringSubmatch(res)
+	if match == nil {
+		return ""
+	}
+
+	return match[1]
 }
 
 func GetCurrentCycle() (int, error) {
@@ -228,28 +295,18 @@ Param SnapShot: A SnapShot object describing the desired snap shot.
 Param delegateAddr: A string that represents a delegators tz address.
 Returns []string: An array of contracts delegated to the delegator during the snap shot
 */
-func GetDelegatedContractsForCycle(cycle int, delegateAddr string) ([]string, error) {
+func GetDelegatedContractsForCycle(hash string, delegateAddr string) ([]string, error) {
 	var rtnString []string
-	snapShot, err := GetSnapShot(cycle)
-	// fmt.Println(snapShot)
-	if err != nil {
-		return rtnString, errors.New("Could not get delegated contracts for cycle " + strconv.Itoa(cycle) + ": GetSnapShot(cycle int) failed: " + err.Error())
-	}
-	hash, err := GetBlockLevelHash(snapShot.AssociatedBlock)
-	if err != nil {
-		return rtnString, errors.New("Could not get delegated contracts for cycle " + strconv.Itoa(cycle) + ": GetBlockLevelHash(level int) failed: " + err.Error())
-	}
-	// fmt.Println(hash)
 	getDelegatedContracts := "/chains/main/blocks/" + hash + "/context/delegates/" + delegateAddr + "/delegated_contracts"
 
 	s, err := TezosRPCGet(getDelegatedContracts)
 	if err != nil {
-		return rtnString, errors.New("Could not get delegated contracts for cycle " + strconv.Itoa(cycle) + ": TezosRPCGet(arg string) failed: " + err.Error())
+		return rtnString, errors.New("Could not get delegated contracts!")
 	}
 
 	DelegatedContracts := reDelegatedContracts.FindAllStringSubmatch(string(s[:]), -1)
 	if DelegatedContracts == nil {
-		return rtnString, errors.New("Could not get delegated contracts for cycle " + strconv.Itoa(cycle) + ": You have no contracts.")
+		return rtnString, errors.New("Could not get delegated contracts!")
 	}
 	rtnString = addressesToArray(DelegatedContracts)
 	return rtnString, nil
