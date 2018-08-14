@@ -31,8 +31,8 @@ func main() {
 	collection := flag.String("collection", "delegates", "Use the blocks collection")
 	user := flag.String("user", "", "If using authentication, set the user")
 	pass := flag.String("pass", "", "If using authentication, set the password")
-	httpPort := flag.String("httpport", "3000", "The HTTP port to listen on, will be redirected to HTTPS")
-	httpsPort := flag.String("httpsport", "3001", "The HTTPs port to listen on")
+	httpPort := flag.String("httpport", "4000", "The HTTP port to listen on, will be redirected to HTTPS")
+	httpsPort := flag.String("httpsport", "4001", "The HTTPs port to listen on")
 	cert := flag.String("cert", "./cert.pem", "TLS certificate.")
 	key := flag.String("key", "./key.pem", "TLS key.")
 
