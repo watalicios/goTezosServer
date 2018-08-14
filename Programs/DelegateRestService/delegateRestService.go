@@ -59,7 +59,7 @@ func main() {
 	r.HandleFunc("/delegate/{id}/report/rate/{rate}/cycles/{cycles}/", GetDelegateReport).Methods("GET")
 	r.HandleFunc("/delegate/{id}/report/rate/{rate}/cycles/{cycles}", GetDelegateReport).Methods("GET")
 
-	err := http.ListenAndServeTLS(":3001", *cert, *key, r)
+	err := http.ListenAndServeTLS(httpsP, *cert, *key, r)
 	if err != nil {
 		fmt.Println(err)
 	}
